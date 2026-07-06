@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-07-06T09:30:18.456Z",
-  "tier": "high",
+  "generatedAt": "2026-07-06T19:10:02.445Z",
+  "tier": "all",
   "dryRun": false,
-  "selectedCount": 8,
-  "selectedWatchUrlCount": 21,
+  "selectedCount": 25,
+  "selectedWatchUrlCount": 68,
   "requestWatchTerms": 0,
   "byPriority": {
     "daily-high": 8,
-    "daily-medium": 15,
+    "daily-medium": 16,
     "weekday": 1,
     "weekly-support": 1,
     "later-moderated": 1
@@ -92,12 +92,182 @@
       "officialUrl": "https://www.jp.square-enix.com/goods/",
       "cadenceJa": "1日1回。飲食コラボ発表週は朝/夕",
       "cadenceEn": "Daily. Morning/evening during food-collab announcement weeks"
+    },
+    {
+      "id": "anime-adaptation-events",
+      "titleJa": "アニメ化/イベント/展示",
+      "titleEn": "Anime adaptations, events, and exhibitions",
+      "priority": "daily-medium",
+      "watchUrlCount": 3,
+      "officialUrl": "https://frieren-anime.jp/",
+      "cadenceJa": "1日1回。イベント前は締切通知",
+      "cadenceEn": "Daily. Deadline reminders before events"
+    },
+    {
+      "id": "bandai-spirits-prize",
+      "titleJa": "バンプレスト/プライズ公式",
+      "titleEn": "Banpresto and prize official",
+      "priority": "daily-medium",
+      "watchUrlCount": 2,
+      "officialUrl": "https://bsp-prize.jp/",
+      "cadenceJa": "1日1回。月末/月初と投入週は強め",
+      "cadenceEn": "Daily. Heavier at month end/start and deployment weeks"
+    },
+    {
+      "id": "capcom-store-cafe-amusement",
+      "titleJa": "カプコンストア/カフェ/AM",
+      "titleEn": "Capcom store, cafe, and amusement",
+      "priority": "daily-medium",
+      "watchUrlCount": 4,
+      "officialUrl": "https://www.capcom.co.jp/amusement/game/shop/",
+      "cadenceJa": "1日1回。大型コラボ/カフェ発表週は朝夕",
+      "cadenceEn": "Daily. Morning/evening during major collab or cafe announcement weeks"
+    },
+    {
+      "id": "convenience-retail-anime-shops",
+      "titleJa": "コンビニ/小売/アニメショップ",
+      "titleEn": "Convenience, retail, and anime shops",
+      "priority": "daily-medium",
+      "watchUrlCount": 5,
+      "officialUrl": "https://www.family.co.jp/campaign.html",
+      "cadenceJa": "朝/昼/夜の確認候補",
+      "cadenceEn": "Morning/noon/night candidates"
+    },
+    {
+      "id": "frieren-official",
+      "titleJa": "葬送のフリーレン公式",
+      "titleEn": "Frieren official",
+      "priority": "daily-medium",
+      "watchUrlCount": 2,
+      "officialUrl": "https://frieren-anime.jp/",
+      "cadenceJa": "1日1回。イベント/物販発表週は朝/夕",
+      "cadenceEn": "Daily. Morning/evening when event or merch news appears"
+    },
+    {
+      "id": "gashapon-official",
+      "titleJa": "ガシャポン公式",
+      "titleEn": "Gashapon official",
+      "priority": "daily-medium",
+      "watchUrlCount": 2,
+      "officialUrl": "https://www.gashapon.jp/",
+      "cadenceJa": "1日1回。月末/月初は強め",
+      "cadenceEn": "Daily. Heavier at month end/start"
+    },
+    {
+      "id": "gigo-arcade-campaigns",
+      "titleJa": "GiGOキャンペーン",
+      "titleEn": "GiGO campaigns",
+      "priority": "daily-medium",
+      "watchUrlCount": 1,
+      "officialUrl": "https://tempo.gendagigo.jp/cp/",
+      "cadenceJa": "1日1回。開始前後は朝/夕",
+      "cadenceEn": "Daily. Morning/evening around launches"
+    },
+    {
+      "id": "initiald-official-events",
+      "titleJa": "頭文字D公式/イベント",
+      "titleEn": "Initial D official and events",
+      "priority": "daily-medium",
+      "watchUrlCount": 2,
+      "officialUrl": "https://initiald-portal.com/",
+      "cadenceJa": "1日1回。イベント前は朝/夕",
+      "cadenceEn": "Daily. Morning/evening before events"
+    },
+    {
+      "id": "namco-arcade-campaigns",
+      "titleJa": "namco/バンナムAMキャンペーン",
+      "titleEn": "namco and Bandai Namco AM campaigns",
+      "priority": "daily-medium",
+      "watchUrlCount": 2,
+      "officialUrl": "https://bandainamco-am.co.jp/",
+      "cadenceJa": "1日1回。キャンペーン開始週は朝/夕",
+      "cadenceEn": "Daily. Morning/evening during campaign launch weeks"
+    },
+    {
+      "id": "publishers-kodansha-shogakukan",
+      "titleJa": "講談社/小学館/新刊",
+      "titleEn": "Kodansha, Shogakukan, and new volumes",
+      "priority": "daily-medium",
+      "watchUrlCount": 3,
+      "officialUrl": "https://kc.kodansha.co.jp/",
+      "cadenceJa": "1日1回。月初と発売週は強め",
+      "cadenceEn": "Daily. Heavier checks at month start and release weeks"
+    },
+    {
+      "id": "publishers-shueisha-jump",
+      "titleJa": "集英社/ジャンプ/新刊",
+      "titleEn": "Shueisha, Jump, and new volumes",
+      "priority": "daily-medium",
+      "watchUrlCount": 2,
+      "officialUrl": "https://www.shueisha.co.jp/books/",
+      "cadenceJa": "1日1回。月初と発売週は強め",
+      "cadenceEn": "Daily. Heavier checks at month start and release weeks"
+    },
+    {
+      "id": "restaurant-chain-collabs",
+      "titleJa": "外食チェーンコラボ",
+      "titleEn": "Restaurant chain collabs",
+      "priority": "daily-medium",
+      "watchUrlCount": 5,
+      "officialUrl": "https://www.mcdonalds.co.jp/campaign/",
+      "cadenceJa": "1日1回。開始初日は昼も確認",
+      "cadenceEn": "Daily. Add a noon check on launch day"
+    },
+    {
+      "id": "sanrio-official-goods",
+      "titleJa": "サンリオ公式グッズ/コラボ",
+      "titleEn": "Sanrio official goods and collabs",
+      "priority": "daily-medium",
+      "watchUrlCount": 3,
+      "officialUrl": "https://www.sanrio.co.jp/news/goods/",
+      "cadenceJa": "1日1回。大型コラボ週は朝/夕",
+      "cadenceEn": "Daily. Morning/evening on major collab weeks"
+    },
+    {
+      "id": "sega-plaza-prize",
+      "titleJa": "セガプラザ/プライズ",
+      "titleEn": "Sega Plaza prize",
+      "priority": "daily-medium",
+      "watchUrlCount": 2,
+      "officialUrl": "https://segaplaza.jp/prize/",
+      "cadenceJa": "1日1回。月初/月末は強め",
+      "cadenceEn": "Daily. Heavier at month start/end"
+    },
+    {
+      "id": "taito-prize-official",
+      "titleJa": "タイトープライズ公式",
+      "titleEn": "Taito prize official",
+      "priority": "daily-medium",
+      "watchUrlCount": 2,
+      "officialUrl": "https://www.taito.co.jp/prize",
+      "cadenceJa": "1日1回。投入週は朝/夕",
+      "cadenceEn": "Daily. Morning/evening during deployment weeks"
+    },
+    {
+      "id": "tamashii-nations-official",
+      "titleJa": "魂ウェブ/フィギュア",
+      "titleEn": "Tamashii Nations figures",
+      "priority": "daily-medium",
+      "watchUrlCount": 3,
+      "officialUrl": "https://tamashiiweb.com/",
+      "cadenceJa": "1日1回。予約開始/イベント週は朝/夕",
+      "cadenceEn": "Daily. Morning/evening during preorder or event weeks"
+    },
+    {
+      "id": "figure-makers-preorder",
+      "titleJa": "フィギュアメーカー/予約開始",
+      "titleEn": "Figure makers and preorder starts",
+      "priority": "weekday",
+      "watchUrlCount": 4,
+      "officialUrl": "https://www.goodsmile.info/",
+      "cadenceJa": "平日朝/夕",
+      "cadenceEn": "Weekday morning/evening"
     }
   ],
   "commands": {
-    "dryRun": "npm run monitor:plan -- --tier=high --dry-run",
-    "localSample": "npm run monitor:run -- --from-sample --tier=high --source=bandai-hobby-gunpla,bandai-spirits-products,dragonball-official,hololive-official,ichiban-kuji-official,pokemon-card-tcg,pokemon-goods-center,square-enix-dragonquest-goods",
-    "production": "npm run monitor:run -- --tier=high --source=bandai-hobby-gunpla,bandai-spirits-products,dragonball-official,hololive-official,ichiban-kuji-official,pokemon-card-tcg,pokemon-goods-center,square-enix-dragonquest-goods"
+    "dryRun": "npm run monitor:plan -- --tier=all --dry-run",
+    "localSample": "npm run monitor:run -- --from-sample --tier=all --source=bandai-hobby-gunpla,bandai-spirits-products,dragonball-official,hololive-official,ichiban-kuji-official,pokemon-card-tcg,pokemon-goods-center,square-enix-dragonquest-goods,anime-adaptation-events,bandai-spirits-prize,capcom-store-cafe-amusement,convenience-retail-anime-shops,frieren-official,gashapon-official,gigo-arcade-campaigns,initiald-official-events,namco-arcade-campaigns,publishers-kodansha-shogakukan,publishers-shueisha-jump,restaurant-chain-collabs,sanrio-official-goods,sega-plaza-prize,taito-prize-official,tamashii-nations-official,figure-makers-preorder",
+    "production": "npm run monitor:run -- --tier=all --source=bandai-hobby-gunpla,bandai-spirits-products,dragonball-official,hololive-official,ichiban-kuji-official,pokemon-card-tcg,pokemon-goods-center,square-enix-dragonquest-goods,anime-adaptation-events,bandai-spirits-prize,capcom-store-cafe-amusement,convenience-retail-anime-shops,frieren-official,gashapon-official,gigo-arcade-campaigns,initiald-official-events,namco-arcade-campaigns,publishers-kodansha-shogakukan,publishers-shueisha-jump,restaurant-chain-collabs,sanrio-official-goods,sega-plaza-prize,taito-prize-official,tamashii-nations-official,figure-makers-preorder"
   },
   "note": "Monitor plan only. It does not publish cards. Official links still enter intake and require admin verification."
 }

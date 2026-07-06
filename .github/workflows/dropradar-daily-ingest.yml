@@ -12,7 +12,7 @@ on:
         default: false
         type: boolean
       source_ids:
-        description: "Optional comma-separated source IDs. Empty uses the daily-high plan."
+        description: "Optional comma-separated source IDs. Empty uses the daily plan."
         required: false
         default: ""
         type: string
@@ -38,8 +38,8 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Build daily high-priority plan
-        run: npm run monitor:plan -- --tier=high --limit=8
+      - name: Build daily official-source plan
+        run: npm run monitor:plan -- --tier=all
 
       - name: Trigger Supabase ingest
         env:

@@ -1171,6 +1171,58 @@
     ]
   },
   {
+    "id": "capcom-store-cafe-amusement",
+    "icon": "i-pin",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "カプコンストア/カフェ/AM",
+    "titleEn": "Capcom store, cafe, and amusement",
+    "officialUrl": "https://www.capcom.co.jp/amusement/game/shop/",
+    "url": "https://www.capcom.co.jp/amusement/game/shop/",
+    "sourceJa": "カプコン公式店舗、カフェ、カプくじ、カプセルトイ導線",
+    "sourceEn": "Capcom official stores, cafe, online lottery, and capsule-toy paths",
+    "methodJa": "店舗・カフェ・景品/くじ導線を候補化。ゲーム画像や商品画像は転載しない。",
+    "methodEn": "Queue store, cafe, prize, and lottery paths. Do not rehost game or product images.",
+    "cadenceJa": "1日1回。大型コラボ/カフェ発表週は朝夕",
+    "cadenceEn": "Daily. Morning/evening during major collab or cafe announcement weeks",
+    "fieldsJa": [
+      "店舗",
+      "カフェ",
+      "くじ",
+      "カプセルトイ"
+    ],
+    "fieldsEn": [
+      "Stores",
+      "Cafe",
+      "Lottery",
+      "Capsule toys"
+    ],
+    "cautionJa": "店舗イベントと現地在庫は分ける。公式ページへの導線を必ず残す。",
+    "cautionEn": "Separate store events from local stock. Keep links to official pages prominent.",
+    "watchUrls": [
+      "https://www.capcom.co.jp/amusement/game/shop/",
+      "https://www.capcom.co.jp/amusement/capcomcafe/",
+      "https://www.capcom.co.jp/amusement/",
+      "https://www.capcom-games.com/ja-jp/goods/"
+    ],
+    "discoveryKeywordsJa": [
+      "カプコン",
+      "カプコンカフェ",
+      "カプくじ",
+      "カプセルトイ",
+      "キャンペーン"
+    ],
+    "discoveryKeywordsEn": [
+      "Capcom",
+      "Capcom Cafe",
+      "lottery",
+      "capsule toy",
+      "campaign"
+    ]
+  },
+  {
     "id": "local-tourism-pilgrimage",
     "icon": "i-map",
     "mode": "manual",

@@ -146,19 +146,19 @@ Then push to `main`. The Pages workflow publishes the static app to GitHub Pages
 Build the next monitor plan without fetching pages:
 
 ```powershell
-npm run monitor:plan -- --tier=high --limit=8
+npm run monitor:plan -- --tier=all
 ```
 
 Preview the full monitor flow without fetching official pages:
 
 ```powershell
-npm run monitor:dry -- --tier=high --limit=8 --from-sample
+npm run monitor:dry -- --tier=all --from-sample
 ```
 
-Run the high-priority daily batch from the project folder:
+Run the daily priority batch from the project folder:
 
 ```powershell
-npm run monitor:daily-high -- --from-sample
+npm run monitor:run -- --tier=all --from-sample
 ```
 
 Run all selected monitor steps from the project folder:
@@ -344,19 +344,22 @@ For hands-off monitoring, the first-choice path is GitHub Actions:
 ```
 
 It runs once per day at `17 22 * * *`, which is 07:17 JST, builds the
-high-priority source plan, and calls the Supabase Edge Function with
+daily official-source plan for all automation-ready source groups, and calls the Supabase Edge Function with
 `dryRun=false`. It writes only to `source_checks`, `ingest_runs`, and
 `intake_candidates`; public drops still require admin review.
 
 Each run also writes a human-readable GitHub Actions step summary and uploads
 `artifacts/ingest-report.json` as the `dropradar-ingest-report` artifact. The
 workflow fails only for hard operational failures such as no sources checked or
-all sources failing/skipping; partial source failures are surfaced as warnings so
-one official site outage does not break the whole daily guard.
+all sources failing/skipping. Partial source failures and source IDs that were
+planned locally but missing from Supabase `official_sources` are surfaced as
+warnings, so one official site outage or seed gap does not hide in a green run.
 
 In the app, admin mode reads the latest `ingest_runs` row and shows it in the
-production connection panel as `Daily ingest`. This is the quick check before
-opening GitHub Actions or Supabase.
+production connection panel as `Daily ingest`. The official-source panel also
+shows ingest health by source: DB registration, last check, link delta, and
+planned-but-unchecked gaps. This is the quick check before opening GitHub
+Actions or Supabase.
 
 Add these GitHub repository secrets before enabling the schedule:
 
@@ -375,7 +378,7 @@ be stored in GitHub.
 Before pushing, check the workflow and source plan:
 
 ```powershell
-npm run monitor:plan -- --tier=high --limit=8
+npm run monitor:plan -- --tier=all
 npm run github:preflight
 ```
 
@@ -386,7 +389,7 @@ testing is also available:
 $env:DROPRADAR_SUPABASE_URL="https://YOUR_PROJECT_ID.supabase.co"
 $env:DROPRADAR_SUPABASE_ANON_KEY="YOUR_SUPABASE_ANON_KEY"
 $env:DROPRADAR_INGEST_SECRET="YOUR_LONG_RANDOM_SECRET"
-npm run monitor:plan -- --tier=high --limit=8
+npm run monitor:plan -- --tier=all
 npm run function:trigger:dry
 ```
 

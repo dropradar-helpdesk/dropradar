@@ -3203,6 +3203,92 @@
       background: #edf5f3;
       border-color: rgba(0,125,115,.13);
     }
+    .source-health-panel {
+      border: 1px solid rgba(23,25,28,.1);
+      border-radius: 8px;
+      background: rgba(255,255,255,.92);
+      padding: 9px;
+      margin-bottom: 9px;
+      display: grid;
+      gap: 8px;
+    }
+    .source-health-panel[hidden] {
+      display: none;
+    }
+    .source-health-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .source-health-head strong {
+      display: block;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+    .source-health-head span {
+      color: var(--muted);
+      display: block;
+      font-size: 10.5px;
+      line-height: 1.35;
+      margin-top: 3px;
+    }
+    .source-health-list {
+      display: grid;
+      gap: 6px;
+    }
+    .source-health-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      border: 1px solid rgba(23,25,28,.08);
+      border-radius: 7px;
+      background: #f8faf9;
+      padding: 7px;
+    }
+    .source-health-row.warn {
+      background: #fffaf0;
+      border-color: rgba(141,93,5,.18);
+    }
+    .source-health-row.error {
+      background: #fff3ef;
+      border-color: rgba(179,58,47,.18);
+    }
+    .source-health-main {
+      min-width: 0;
+      display: grid;
+      gap: 3px;
+    }
+    .source-health-main strong {
+      font-size: 12px;
+      line-height: 1.25;
+    }
+    .source-health-main span {
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.3;
+    }
+    .source-health-badge {
+      align-self: start;
+      height: 23px;
+      padding: 0 7px;
+      border-radius: 999px;
+      background: #edf5f3;
+      color: #007d73;
+      display: inline-flex;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .source-health-badge.warn {
+      background: #fff4dd;
+      color: #8d5d05;
+    }
+    .source-health-badge.error {
+      background: #ffe5dc;
+      color: #9a3429;
+    }
     .source-fields {
       display: flex;
       gap: 5px;
@@ -4552,6 +4638,7 @@
             <span data-i18n="sourceSub">更新の土台</span>
           </div>
           <div class="source-summary" id="sourceSummary"></div>
+          <div class="source-health-panel" id="sourceHealthPanel" hidden></div>
           <div class="source-list" id="sourceList"></div>
         </div>
         <div class="source-panel">
@@ -4666,6 +4753,8 @@
       sourceChecks: 0,
       ingestRuns: 0,
       latestIngest: null,
+      officialSourceRows: [],
+      sourceCheckRows: [],
       intakeCandidates: 0,
       messageJa: "ローカル生成候補",
       messageEn: "Local generated queue"
@@ -4904,7 +4993,8 @@
         candidateCount: Number(row.candidate_count || 0),
         startedAt: row.started_at || "",
         finishedAt: row.finished_at || "",
-        error: row.error || ""
+        error: row.error || "",
+        metaJson: row.meta_json && typeof row.meta_json === "object" ? row.meta_json : {}
       };
     }
     function ingestRunStatusLabel(run) {
@@ -4931,6 +5021,8 @@
           source: "local",
           ingestRuns: 0,
           latestIngest: null,
+          officialSourceRows: [],
+          sourceCheckRows: [],
           messageJa: "管理DB未接続。ローカル生成候補を表示",
           messageEn: "Admin DB not connected. Showing local generated queue"
         };
@@ -4938,6 +5030,13 @@
       }
       const headers = supabaseHeaders(flags.token);
       try {
+        const officialSourcesResponse = await fetch(supabaseRestUrl("official_sources", "select=id,name,check_mode,robots_checked_at,updated_at&order=id.asc&limit=200"), {
+          headers,
+          cache: "no-store"
+        });
+        if (!officialSourcesResponse.ok) throw new Error(`official_sources HTTP ${officialSourcesResponse.status}`);
+        const officialSourceRows = await officialSourcesResponse.json();
+
         const checksResponse = await fetch(supabaseRestUrl("source_checks", "select=*&order=checked_at.desc&limit=80"), {
           headers,
           cache: "no-store"
@@ -4962,7 +5061,7 @@
         if (Array.isArray(intake) && intake.length) {
           generatedIntakeQueue = intake.map(remoteIntakeCandidateToGenerated);
         }
-        const ingestResponse = await fetch(supabaseRestUrl("ingest_runs", "select=id,status,dry_run,source_count,candidate_count,started_at,finished_at,error&order=started_at.desc&limit=5"), {
+        const ingestResponse = await fetch(supabaseRestUrl("ingest_runs", "select=id,status,dry_run,source_count,candidate_count,started_at,finished_at,error,meta_json&order=started_at.desc&limit=5"), {
           headers,
           cache: "no-store"
         });
@@ -4974,6 +5073,8 @@
           sourceChecks: Array.isArray(checks) ? checks.length : 0,
           ingestRuns: Array.isArray(ingestRuns) ? ingestRuns.length : 0,
           latestIngest,
+          officialSourceRows: Array.isArray(officialSourceRows) ? officialSourceRows : [],
+          sourceCheckRows: Array.isArray(checks) ? checks : [],
           intakeCandidates: Array.isArray(intake) ? intake.length : 0,
           messageJa: `Supabase管理DB (${Array.isArray(intake) ? intake.length : 0}候補)`,
           messageEn: `Supabase admin DB (${Array.isArray(intake) ? intake.length : 0} candidates)`
@@ -4991,6 +5092,8 @@
           source: "fallback",
           ingestRuns: 0,
           latestIngest: null,
+          officialSourceRows: [],
+          sourceCheckRows: [],
           messageJa: migrationHintJa,
           messageEn: migrationHintEn
         };
@@ -5079,6 +5182,13 @@
         creatorSub: "絵柄ファンも逃さない",
         sourceTitle: "公式監視ソース",
         sourceSub: "更新の土台",
+        sourceHealthTitle: "巡回ヘルス",
+        sourceHealthSub: "DB登録・最終巡回・増減",
+        sourceHealthOk: "巡回済み",
+        sourceHealthWarn: "要確認",
+        sourceHealthMissing: "DB未登録",
+        sourceHealthUnseen: "未巡回",
+        sourceHealthNoAdmin: "管理モードで確認できます。",
         intakeTitle: "自動取込キュー",
         intakeSub: "公式差分とリクエストを軽く確認",
         storageTitle: "保存基盤",
@@ -5348,6 +5458,13 @@
         creatorSub: "For art-style fans too",
         sourceTitle: "Official watch sources",
         sourceSub: "Update base",
+        sourceHealthTitle: "Ingest health",
+        sourceHealthSub: "DB registration, last check, and diffs",
+        sourceHealthOk: "Checked",
+        sourceHealthWarn: "Review",
+        sourceHealthMissing: "Missing DB",
+        sourceHealthUnseen: "Not checked",
+        sourceHealthNoAdmin: "Available in admin mode.",
         intakeTitle: "Auto intake queue",
         intakeSub: "Light review for official diffs and requests",
         storageTitle: "Storage base",
@@ -10496,6 +10613,119 @@
       `;
     }
 
+    function plannedSourceIds() {
+      return new Set(Array.isArray(monitorPlan?.selectedSources)
+        ? monitorPlan.selectedSources.map((source) => source.id).filter(Boolean)
+        : []);
+    }
+
+    function latestIngestResultMap() {
+      const results = Array.isArray(adminBackendData.latestIngest?.metaJson?.results)
+        ? adminBackendData.latestIngest.metaJson.results
+        : [];
+      return new Map(results.map((item) => [item.sourceId || item.source_id || "", item]).filter(([id]) => id));
+    }
+
+    function sourceHealthItems() {
+      const sources = officialSources().filter((source) => source.mode === "auto");
+      const planned = plannedSourceIds();
+      const ingestResults = latestIngestResultMap();
+      const officialRows = Array.isArray(adminBackendData.officialSourceRows) ? adminBackendData.officialSourceRows : [];
+      const dbById = new Map(officialRows.map((row) => [row.id, row]));
+      return sources.map((source) => {
+        const diff = sourceDiffs[source.id] || null;
+        const dbRow = dbById.get(source.id) || null;
+        const ingestResult = ingestResults.get(source.id) || null;
+        const missingDb = adminBackendData.source === "supabase" && !dbRow;
+        const selected = planned.size ? planned.has(source.id) : true;
+        const unseen = selected && adminBackendData.latestIngest && !ingestResult;
+        const hasError = diff?.statusCode === "partial" || (Array.isArray(diff?.errors) && diff.errors.length);
+        const added = Number(diff?.addedCount || ingestResult?.addedLinks || 0);
+        const removed = Number(diff?.removedCount || ingestResult?.removedLinks || 0);
+        const current = Number(diff?.currentLinkCount || ingestResult?.currentLinks || 0);
+        let status = "ok";
+        if (missingDb) status = "missing";
+        else if (unseen) status = "unseen";
+        else if (hasError || added || removed) status = "warn";
+        return {
+          id: source.id,
+          title: state.lang === "ja" ? source.titleJa : source.titleEn,
+          status,
+          selected,
+          dbRow,
+          checkedAt: diff?.checkedAt || dbRow?.updated_at || "",
+          added,
+          removed,
+          current,
+          watchCount: Array.isArray(source.watchUrls) ? source.watchUrls.length : source.url ? 1 : 0
+        };
+      });
+    }
+
+    function renderSourceHealthPanel(items) {
+      const panel = $("#sourceHealthPanel");
+      if (!panel) return;
+      panel.hidden = !state.adminMode;
+      if (!state.adminMode) {
+        panel.innerHTML = "";
+        return;
+      }
+      const healthItems = items || sourceHealthItems();
+      const missing = healthItems.filter((item) => item.status === "missing").length;
+      const unseen = healthItems.filter((item) => item.status === "unseen").length;
+      const warn = healthItems.filter((item) => item.status === "warn").length;
+      const enabledDbRows = Array.isArray(adminBackendData.officialSourceRows)
+        ? adminBackendData.officialSourceRows.filter((row) => row.check_mode !== "disabled")
+        : [];
+      const latest = adminBackendData.latestIngest;
+      const statusCopy = latest
+        ? `${ingestRunStatusLabel(latest)} / ${ingestRunNote(latest)}`
+        : (state.lang === "ja" ? "本番巡回は未読込" : "Production ingest not loaded");
+      const badgeClass = missing || unseen ? "error" : warn ? "warn" : "ready";
+      const badgeText = missing || unseen || warn ? text("sourceHealthWarn") : text("sourceHealthOk");
+      const rows = healthItems
+        .slice()
+        .sort((a, b) => {
+          const weights = { missing: 0, unseen: 1, warn: 2, ok: 3 };
+          return (weights[a.status] ?? 9) - (weights[b.status] ?? 9) || a.id.localeCompare(b.id);
+        })
+        .slice(0, 12);
+      const statusLabel = (status) => {
+        if (status === "missing") return text("sourceHealthMissing");
+        if (status === "unseen") return text("sourceHealthUnseen");
+        if (status === "warn") return text("sourceHealthWarn");
+        return text("sourceHealthOk");
+      };
+      panel.innerHTML = `
+        <div class="source-health-head">
+          <span>
+            <strong>${text("sourceHealthTitle")}</strong>
+            <span>${escapeHtml(statusCopy)}</span>
+          </span>
+          <span class="backend-badge ${badgeClass}">${escapeHtml(badgeText)}</span>
+        </div>
+        <div class="source-summary">
+          ${[
+            { value: healthItems.length, label: state.lang === "ja" ? "自動ソース" : "auto sources" },
+            { value: enabledDbRows.length, label: state.lang === "ja" ? "DB有効" : "DB enabled" },
+            { value: `${missing}/${unseen}/${warn}`, label: state.lang === "ja" ? "未登録/未巡回/変化" : "missing/unseen/diff" }
+          ].map((item) => `<div class="source-stat"><strong>${escapeHtml(item.value)}</strong><span>${escapeHtml(item.label)}</span></div>`).join("")}
+        </div>
+        <div class="source-health-list">
+          ${rows.map((item) => `
+            <div class="source-health-row ${item.status === "ok" ? "" : item.status === "warn" ? "warn" : "error"}">
+              <span class="source-health-main">
+                <strong>${escapeHtml(item.title || item.id)}</strong>
+                <span>${escapeHtml(item.id)} / ${state.lang === "ja" ? "監視先" : "watch"} ${item.watchCount}${state.lang === "ja" ? "件" : ""} / +${item.added} -${item.removed} / ${state.lang === "ja" ? "リンク" : "links"} ${item.current}</span>
+                <span>${state.lang === "ja" ? "最終" : "Last"} ${escapeHtml(formatCheckTime(item.checkedAt))}</span>
+              </span>
+              <span class="source-health-badge ${item.status === "ok" ? "" : item.status === "warn" ? "warn" : "error"}">${escapeHtml(statusLabel(item.status))}</span>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
     function renderSourceRegistry() {
       const sources = officialSources();
       const autoCount = sources.filter((item) => item.mode === "auto").length;
@@ -10535,6 +10765,7 @@
           <span>${state.lang === "ja" ? item.labelJa : item.labelEn}</span>
         </div>
       `).join("");
+      renderSourceHealthPanel();
       $("#sourceList").innerHTML = sources.map((item) => {
         const title = state.lang === "ja" ? item.titleJa : item.titleEn;
         const source = state.lang === "ja" ? item.sourceJa : item.sourceEn;

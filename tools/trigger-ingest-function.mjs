@@ -113,6 +113,8 @@ function buildReport({
 }) {
   const results = Array.isArray(runJson?.results) ? runJson.results.map(compactResult) : [];
   const summary = summarizeResults(results);
+  const returnedSourceIds = new Set(results.map((result) => result.sourceId).filter(Boolean));
+  const missingSourceIds = sourceIds.filter((sourceId) => !returnedSourceIds.has(sourceId));
   const fatal = [];
   const warnings = [];
 
@@ -120,6 +122,9 @@ function buildReport({
   if (!runJson?.runId && !errorMessage) fatal.push("Ingest function did not return a runId.");
   if (!errorMessage && Number(runJson?.sourceCount || 0) < 1) fatal.push("No official sources were checked.");
   if (!errorMessage && summary.total > 0 && summary.successful < 1) fatal.push("All official-source checks failed or were skipped.");
+  if (!errorMessage && missingSourceIds.length) {
+    warnings.push(`Requested source IDs were not checked by Supabase: ${missingSourceIds.join(", ")}`);
+  }
   if (summary.partial > 0) warnings.push(`${summary.partial} source check(s) were partial.`);
   if (summary.failed > 0) warnings.push(`${summary.failed} source check(s) failed.`);
   if (summary.skipped > 0) warnings.push(`${summary.skipped} source check(s) were skipped.`);
@@ -146,6 +151,7 @@ function buildReport({
       candidateCount: Number(runJson.candidateCount || 0)
     } : null,
     summary,
+    missingSourceIds,
     results,
     warnings,
     fatal
@@ -159,7 +165,7 @@ function reportMarkdown(report) {
     "",
     `- Mode: ${report.mode}`,
     `- Run ID: ${run.id || "not created"}`,
-    `- Sources: ${run.sourceCount ?? 0} checked / ok ${report.summary.ok} / partial ${report.summary.partial} / failed ${report.summary.failed} / skipped ${report.summary.skipped}`,
+    `- Sources: ${run.sourceCount ?? 0} checked / requested ${report.sourceIds.length || "all"} / ok ${report.summary.ok} / partial ${report.summary.partial} / failed ${report.summary.failed} / skipped ${report.summary.skipped}`,
     `- New intake candidates: ${run.candidateCount ?? 0}`,
     "- Public drops: unchanged; admin review is still required.",
     ""

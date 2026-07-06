@@ -103,6 +103,8 @@ npm run github:preflight
      or candidate counts look unusual.
    - In the app, admin mode shows the latest `Daily ingest` status from
      `ingest_runs`; use that as the quick daily glance.
+   - In the app, open `追跡・回収メモ` and check `巡回ヘルス` for DB未登録,
+     未巡回, and link deltas before manually hunting through GitHub logs.
 6. After no more local Supabase CLI deploy work is needed, revoke the temporary Supabase CLI access token.
 
 ## Reset / Recovery Rules

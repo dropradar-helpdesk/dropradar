@@ -59,8 +59,13 @@ if (missingFromEnv.length) {
   console.log("This is OK before GitHub setup. Add them as GitHub repository secrets before enabling the scheduled run.");
 }
 
-if (selectedSources.length !== 8) {
-  console.error("Expected 8 daily-high sources in monitor-plan.json. Run npm run monitor:plan -- --tier=high --limit=8.");
+if (plan?.tier !== "all" || selectedSources.length < 1) {
+  console.error("Expected an all-source daily monitor plan. Run npm run monitor:plan -- --tier=all.");
+  process.exitCode = 1;
+}
+
+if (!workflow.includes("--tier=all")) {
+  console.error("Workflow should build the daily all-source plan with --tier=all.");
   process.exitCode = 1;
 }
 

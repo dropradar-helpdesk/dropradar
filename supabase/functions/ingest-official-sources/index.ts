@@ -168,8 +168,7 @@ async function handleRequest(req: Request) {
       const fetchErrors: Array<Record<string, unknown>> = [];
       const candidateMap = new Map<string, CandidateLink>();
 
-      for (const watchUrl of watchUrls) {
-        try {
+      const pageAttempts = await Promise.allSettled(watchUrls.map(async (watchUrl) => {
           const response = await fetch(watchUrl, {
             headers: {
               "User-Agent": "DropRadar/0.1 official-source-check; contact=dropradar.helpdesk@gmail.com"
@@ -186,13 +185,14 @@ async function handleRequest(req: Request) {
             hash: pageHash,
             candidate_links: pageLinks.length
           });
-        } catch (error) {
-          fetchErrors.push({
-            source_url: watchUrl,
-            error: error instanceof Error ? error.message : String(error)
-          });
-        }
-      }
+        }));
+      pageAttempts.forEach((attempt, index) => {
+        if (attempt.status === "fulfilled") return;
+        fetchErrors.push({
+          source_url: watchUrls[index],
+          error: attempt.reason instanceof Error ? attempt.reason.message : String(attempt.reason)
+        });
+      });
 
       const links = [...candidateMap.values()].sort((a, b) => a.url.localeCompare(b.url)).slice(0, 300);
       const linkUrls = links.map((link) => link.url);
