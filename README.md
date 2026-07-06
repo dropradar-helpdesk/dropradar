@@ -48,6 +48,7 @@ Official-announcement-first prototype for tracking hobby drops, limited goods, c
 - `spot_locations` is planned for public pilgrimage / detour / local-collab coordinates; user GPS location is intentionally not part of the storage model.
 - PWA metadata is managed in `manifest.webmanifest`; offline shell caching is managed in `sw.js`.
 - Manual official-source check scripts are in `tools/`.
+- Account roles, non-secret IDs, GitHub/Supabase confusion points, and recovery steps are managed in `ops/account-runbook.md`. Passwords and private keys are intentionally not stored in the repo.
 
 ## How To Run
 
@@ -98,6 +99,8 @@ Run the local server, then open `http://127.0.0.1:8765/` from a browser that can
 |-- .github/
 |   `-- workflows/
 |       `-- dropradar-daily-ingest.yml
+|-- ops/
+|   `-- account-runbook.md
 |-- .env.github-actions.example
 |-- supabase/
 |   |-- SETUP.md
