@@ -132,6 +132,9 @@ create table public.tracking_requests (
   normalized_term text not null unique,
   status text not null default 'pending' check (status in ('pending', 'approved', 'rejected', 'quarantined')),
   official_url text,
+  matched_source_id text references public.official_sources(id) on delete set null,
+  tracking_keywords text[] not null default '{}',
+  watch_strategy text not null default 'unassigned' check (watch_strategy in ('unassigned', 'reuse_source', 'new_source', 'manual_only')),
   hidden boolean not null default false,
   search_count integer not null default 0 check (search_count >= 0),
   merged_into_id uuid references public.tracking_requests(id),
@@ -268,6 +271,9 @@ select
   tr.normalized_term,
   tr.status,
   tr.official_url,
+  tr.matched_source_id,
+  tr.tracking_keywords,
+  tr.watch_strategy,
   tr.search_count,
   coalesce(count(rv.id) filter (where rv.vote_type = 'candidate'), 0)::integer as candidate_votes,
   coalesce(count(rv.id) filter (where rv.vote_type = 'problem'), 0)::integer as problem_votes,
@@ -287,6 +293,9 @@ returns table (
   normalized_term text,
   status text,
   official_url text,
+  matched_source_id text,
+  tracking_keywords text[],
+  watch_strategy text,
   search_count integer,
   candidate_votes integer,
   problem_votes integer,
@@ -350,6 +359,9 @@ begin
       feed.normalized_term,
       feed.status,
       feed.official_url,
+      feed.matched_source_id,
+      feed.tracking_keywords,
+      feed.watch_strategy,
       feed.search_count,
       feed.candidate_votes,
       feed.problem_votes,
@@ -366,6 +378,9 @@ returns table (
   normalized_term text,
   status text,
   official_url text,
+  matched_source_id text,
+  tracking_keywords text[],
+  watch_strategy text,
   search_count integer,
   candidate_votes integer,
   problem_votes integer,
@@ -418,6 +433,9 @@ begin
       feed.normalized_term,
       feed.status,
       feed.official_url,
+      feed.matched_source_id,
+      feed.tracking_keywords,
+      feed.watch_strategy,
       feed.search_count,
       feed.candidate_votes,
       feed.problem_votes,
@@ -433,6 +451,9 @@ create or replace function public.admin_set_tracking_request(
   p_hidden boolean default null,
   p_official_url text default null,
   p_admin_note text default null,
+  p_matched_source_id text default null,
+  p_tracking_keywords text[] default null,
+  p_watch_strategy text default null,
   p_merged_into_id uuid default null
 )
 returns public.tracking_requests
@@ -466,6 +487,25 @@ begin
     hidden = coalesce(p_hidden, hidden),
     official_url = nullif(trim(coalesce(p_official_url, official_url, '')), ''),
     admin_note = nullif(trim(coalesce(p_admin_note, admin_note, '')), ''),
+    matched_source_id = case
+      when p_matched_source_id is null then matched_source_id
+      when nullif(trim(p_matched_source_id), '') is null then null
+      else p_matched_source_id
+    end,
+    tracking_keywords = case
+      when p_tracking_keywords is null then tracking_keywords
+      else coalesce(array(
+        select distinct trim(value)
+        from unnest(p_tracking_keywords) as keyword(value)
+        where nullif(trim(value), '') is not null
+        limit 12
+      ), '{}'::text[])
+    end,
+    watch_strategy = case
+      when coalesce(p_watch_strategy, watch_strategy, 'unassigned') in ('unassigned', 'reuse_source', 'new_source', 'manual_only')
+        then coalesce(p_watch_strategy, watch_strategy, 'unassigned')
+      else watch_strategy
+    end,
     merged_into_id = p_merged_into_id,
     updated_at = now()
   where id = p_request_id
@@ -654,7 +694,7 @@ grant select, insert on public.moderation_notes to service_role;
 grant usage, select on all sequences in schema public to service_role;
 grant execute on function public.submit_tracking_request(text, text) to anon, authenticated;
 grant execute on function public.vote_tracking_request(uuid, text, text) to anon, authenticated;
-grant execute on function public.admin_set_tracking_request(uuid, text, boolean, text, text, uuid) to authenticated;
+grant execute on function public.admin_set_tracking_request(uuid, text, boolean, text, text, text, text[], text, uuid) to authenticated;
 
 comment on view public.tracking_request_feed is
   'Public aggregate view for no-login tracking requests. Raw vote rows and anonymous hashes stay hidden.';

@@ -2439,6 +2439,49 @@
       font-size: 11px;
       line-height: 1.35;
     }
+    .request-source-plan {
+      border: 1px solid rgba(23,25,28,.1);
+      border-radius: 8px;
+      background: #f8faf7;
+      padding: 8px;
+      display: grid;
+      gap: 5px;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+    .request-source-plan.warn {
+      background: #fff8e9;
+      border-color: rgba(201,135,16,.24);
+    }
+    .request-source-plan.block {
+      background: #fff0ea;
+      border-color: rgba(154,52,41,.2);
+    }
+    .request-source-plan strong {
+      color: var(--ink);
+      font-size: 11.5px;
+      line-height: 1.25;
+    }
+    .request-source-plan span {
+      color: var(--muted);
+    }
+    .request-source-plan b {
+      width: fit-content;
+      border-radius: 999px;
+      background: #e8f4ef;
+      color: #08745f;
+      padding: 3px 7px;
+      font-size: 10px;
+      line-height: 1;
+    }
+    .request-source-plan.warn b {
+      background: #fff0cf;
+      color: #8d5d05;
+    }
+    .request-source-plan.block b {
+      background: #ffe2d9;
+      color: #9a3429;
+    }
     .request-admin-field {
       display: grid;
       gap: 4px;
@@ -5376,6 +5419,16 @@
         requestAdminNotePlaceholder: "却下理由・重複・公式確認メモ",
         requestOfficialUrl: "公式URL",
         requestOfficialUrlPlaceholder: "https://official.example.jp/...",
+        requestMatchedSource: "既存ソース",
+        requestMatchedSourceNone: "未紐づけ",
+        requestTrackingKeywords: "追跡語",
+        requestTrackingKeywordsPlaceholder: "例: ガンダム, ドラゴンボール",
+        requestUseInferredSource: "推定ソースに紐づけ",
+        requestWatchPlanReuse: "既存ソース内",
+        requestWatchPlanNew: "新規ソース候補",
+        requestWatchPlanWait: "需要集計のみ",
+        requestWatchPlanBlock: "巡回しない",
+        requestWatchNoExtraUrl: "巡回URL増加なし",
         requestOpenOfficial: "公式リンク",
         requestPromote: "正式登録へ",
         promoTitle: "正式登録フォーム",
@@ -5653,6 +5706,16 @@
         requestAdminNotePlaceholder: "Reject reason, duplicate, official-source note",
         requestOfficialUrl: "Official URL",
         requestOfficialUrlPlaceholder: "https://official.example.jp/...",
+        requestMatchedSource: "Existing source",
+        requestMatchedSourceNone: "Unassigned",
+        requestTrackingKeywords: "Tracking terms",
+        requestTrackingKeywordsPlaceholder: "Example: Gundam, Dragon Ball",
+        requestUseInferredSource: "Use inferred source",
+        requestWatchPlanReuse: "Inside existing source",
+        requestWatchPlanNew: "New source candidate",
+        requestWatchPlanWait: "Demand only",
+        requestWatchPlanBlock: "Do not crawl",
+        requestWatchNoExtraUrl: "No extra watch URL",
         requestOpenOfficial: "Official link",
         requestPromote: "Create card",
         promoTitle: "Official card form",
@@ -5995,6 +6058,13 @@
             hidden: Boolean(item.hidden),
             adminNote: String(item.adminNote || "").slice(0, 240),
             officialUrl: normalizeOfficialUrl(item.officialUrl || ""),
+            matchedSourceId: String(item.matchedSourceId || item.matched_source_id || ""),
+            trackingKeywords: Array.isArray(item.trackingKeywords || item.tracking_keywords)
+              ? (item.trackingKeywords || item.tracking_keywords).map((keyword) => String(keyword || "").trim()).filter(Boolean).slice(0, 12)
+              : String(item.trackingKeywords || item.tracking_keywords || "").replace(/\u3001/g, ",").split(/[,\n]/).map((keyword) => keyword.trim()).filter(Boolean).slice(0, 12),
+            watchStrategy: ["unassigned", "reuse_source", "new_source", "manual_only"].includes(item.watchStrategy || item.watch_strategy)
+              ? (item.watchStrategy || item.watch_strategy)
+              : "unassigned",
             createdAt: validDateString(item.createdAt) ? item.createdAt : APP_TODAY,
             lastSeen: validDateString(item.lastSeen) ? item.lastSeen : APP_TODAY
           }))
@@ -8133,6 +8203,13 @@
         hidden: Boolean(item.hidden) || status === "quarantined",
         adminNote: "",
         officialUrl: normalizeOfficialUrl(item.official_url || item.officialUrl || ""),
+        matchedSourceId: String(item.matched_source_id || item.matchedSourceId || ""),
+        trackingKeywords: Array.isArray(item.tracking_keywords || item.trackingKeywords)
+          ? (item.tracking_keywords || item.trackingKeywords).map((keyword) => String(keyword || "").trim()).filter(Boolean).slice(0, 12)
+          : [],
+        watchStrategy: ["unassigned", "reuse_source", "new_source", "manual_only"].includes(item.watch_strategy || item.watchStrategy)
+          ? (item.watch_strategy || item.watchStrategy)
+          : "unassigned",
         createdAt: dateOnly(item.created_at || item.createdAt),
         lastSeen: dateOnly(item.last_seen_at || item.lastSeen)
       };
@@ -8151,6 +8228,9 @@
           problemVotes: normalized.problemVotes,
           hidden: normalized.hidden,
           officialUrl: normalized.officialUrl || existing.officialUrl || "",
+          matchedSourceId: normalized.matchedSourceId || existing.matchedSourceId || "",
+          trackingKeywords: normalized.trackingKeywords.length ? normalized.trackingKeywords : (existing.trackingKeywords || []),
+          watchStrategy: normalized.watchStrategy || existing.watchStrategy || "unassigned",
           createdAt: normalized.createdAt,
           lastSeen: normalized.lastSeen
         });
@@ -8238,6 +8318,9 @@
           p_hidden: typeof patch.hidden === "boolean" ? patch.hidden : request.hidden,
           p_official_url: patch.officialUrl ?? request.officialUrl ?? "",
           p_admin_note: patch.adminNote ?? request.adminNote ?? "",
+          p_matched_source_id: patch.matchedSourceId ?? request.matchedSourceId ?? "",
+          p_tracking_keywords: patch.trackingKeywords ?? request.trackingKeywords ?? [],
+          p_watch_strategy: patch.watchStrategy ?? request.watchStrategy ?? "unassigned",
           p_merged_into_id: patch.mergedIntoId || null
         })
       });
@@ -8986,7 +9069,8 @@
 
     function parsePromoTags(value, fallbackTerm, options = {}) {
       const parts = String(value || "")
-        .split(/[,\n、]/)
+        .replace(/\u3001/g, ",")
+        .split(/[,\n]/)
         .map((tag) => tag.trim())
         .filter(Boolean);
       const merged = [
@@ -9556,6 +9640,16 @@
           copyEn: "Excluded from watch."
         };
       }
+      if (request.watchStrategy === "manual_only") {
+        return {
+          id: "block",
+          className: "block",
+          labelJa: "巡回しない",
+          labelEn: "Do not crawl",
+          copyJa: "管理者判断で需要集計のみ。巡回URLには流さない。",
+          copyEn: "Admin marked it as demand only."
+        };
+      }
       if ((request.problemVotes || 0) > demandSensorRules.maxProblemVotes) {
         return {
           id: "hold",
@@ -9566,14 +9660,20 @@
           copyEn: "Issue flagged. Do not watch until reviewed."
         };
       }
-      if (request.status === "approved" || request.officialUrl || (request.candidateVotes || 0) >= demandSensorRules.minCandidateVotes || (request.count || 0) >= demandSensorRules.minSearchCount) {
+      const sourceHit = requestSourceHit(request);
+      if (request.status === "approved"
+        || request.officialUrl
+        || request.matchedSourceId
+        || request.watchStrategy === "reuse_source"
+        || (request.candidateVotes || 0) >= demandSensorRules.minCandidateVotes
+        || (request.count || 0) >= demandSensorRules.minSearchCount) {
         return {
           id: "watch",
           className: "",
-          labelJa: request.officialUrl ? "公式URL優先" : "監視対象",
-          labelEn: request.officialUrl ? "Official URL" : "Watch",
-          copyJa: "公式ソース内のキーワード照合へ回す。",
-          copyEn: "Match inside official sources."
+          labelJa: sourceHit?.sourceId ? "既存ソース内" : request.officialUrl ? "公式URL優先" : "監視対象",
+          labelEn: sourceHit?.sourceId ? "Existing source" : request.officialUrl ? "Official URL" : "Watch",
+          copyJa: sourceHit?.sourceId ? "巡回URLを増やさず、既存ソース内の追跡語として扱う。" : "公式ソース内のキーワード照合へ回す。",
+          copyEn: sourceHit?.sourceId ? "Reuse an existing source with extra tracking terms." : "Match inside official sources."
         };
       }
       return {
@@ -9609,7 +9709,97 @@
       return [...sourceBits, ...diffBits].filter(Boolean).join(" ");
     }
 
+    function sourceById(id) {
+      const clean = String(id || "").trim();
+      return clean ? officialSources().find((source) => source.id === clean) || null : null;
+    }
+
+    function sourceUrlPool(source) {
+      return [
+        source?.officialUrl,
+        source?.url,
+        ...(Array.isArray(source?.watchUrls) ? source.watchUrls : [])
+      ].map((url) => normalizeOfficialUrl(url)).filter(Boolean);
+    }
+
+    function urlHost(value) {
+      const normalized = normalizeOfficialUrl(value);
+      if (!normalized) return "";
+      try {
+        return new URL(normalized).hostname.replace(/^www\./, "");
+      } catch (error) {
+        return "";
+      }
+    }
+
+    function sourceMatchesUrl(source, value) {
+      const normalized = normalizeOfficialUrl(value);
+      const host = urlHost(normalized);
+      if (!source || !normalized || !host) return false;
+      return sourceUrlPool(source).some((sourceUrl) => {
+        const sourceHost = urlHost(sourceUrl);
+        if (!sourceHost) return false;
+        return host === sourceHost
+          || host.endsWith(`.${sourceHost}`)
+          || sourceHost.endsWith(`.${host}`)
+          || normalized.startsWith(sourceUrl)
+          || sourceUrl.startsWith(normalized);
+      });
+    }
+
+    function sourceForOfficialUrl(value) {
+      return officialSources().find((source) => sourceMatchesUrl(source, value)) || null;
+    }
+
+    function requestSourceHit(request, options = {}) {
+      if (!options.ignoreExplicit && request.matchedSourceId) {
+        const explicitSource = sourceById(request.matchedSourceId);
+        if (explicitSource) {
+          const diff = sourceDiffs[explicitSource.id];
+          return {
+            type: "source",
+            explicit: true,
+            labelJa: "既存ソース指定",
+            labelEn: "Assigned source",
+            url: diff?.sourceUrl || explicitSource.officialUrl || explicitSource.url || "",
+            sourceId: explicitSource.id
+          };
+        }
+      }
+
+      const officialUrl = normalizeOfficialUrl(request.officialUrl);
+      const urlSource = officialUrl ? sourceForOfficialUrl(officialUrl) : null;
+      if (urlSource) {
+        return {
+          type: "source",
+          explicit: false,
+          labelJa: "公式URLが既存ソース内",
+          labelEn: "URL inside existing source",
+          url: officialUrl,
+          sourceId: urlSource.id
+        };
+      }
+
+      for (const source of officialSources()) {
+        const diff = sourceDiffs[source.id];
+        if (requestMatchesText(request, sourceTextForRequestMatch(source, diff))) {
+          return {
+            type: "source",
+            explicit: false,
+            labelJa: "既存ソース推定",
+            labelEn: "Inferred source",
+            url: diff?.sourceUrl || source.officialUrl || source.url || "",
+            sourceId: source.id
+          };
+        }
+      }
+
+      return null;
+    }
+
     function requestOfficialHit(request) {
+      const sourceHit = requestSourceHit(request);
+      if (sourceHit) return sourceHit;
       const officialUrl = normalizeOfficialUrl(request.officialUrl);
       if (officialUrl) {
         return {
@@ -9620,19 +9810,51 @@
           sourceId: ""
         };
       }
-      for (const source of officialSources()) {
-        const diff = sourceDiffs[source.id];
-        if (requestMatchesText(request, sourceTextForRequestMatch(source, diff))) {
-          return {
-            type: "source",
-            labelJa: "公式ソース一致",
-            labelEn: "Official match",
-            url: diff?.sourceUrl || source.officialUrl || source.url || "",
-            sourceId: source.id
-          };
-        }
-      }
       return null;
+    }
+
+    function requestWatchPlan(request) {
+      const hit = requestOfficialHit(request);
+      const sourceItem = hit?.sourceId ? sourceById(hit.sourceId) : null;
+      if (request.hidden || request.status === "rejected" || request.status === "quarantined" || request.watchStrategy === "manual_only") {
+        return {
+          className: "block",
+          label: text("requestWatchPlanBlock"),
+          badge: text("requestWatchPlanBlock"),
+          detailJa: "隔離/却下中。需要だけ残し、巡回には流さない。",
+          detailEn: "Hidden or rejected. Keep the signal out of crawling."
+        };
+      }
+      if (sourceItem) {
+        const title = state.lang === "ja" ? sourceItem.titleJa : sourceItem.titleEn;
+        const keywords = (request.trackingKeywords?.length ? request.trackingKeywords : [request.term]).join(", ");
+        return {
+          className: "",
+          label: text("requestWatchPlanReuse"),
+          badge: text("requestWatchNoExtraUrl"),
+          sourceItem,
+          hit,
+          detailJa: `${title} に追跡語「${keywords}」を追加。巡回URLは増やさない。`,
+          detailEn: `Attach "${keywords}" to ${title}. No extra crawl URL.`
+        };
+      }
+      if (hit?.type === "url" || request.watchStrategy === "new_source") {
+        return {
+          className: "warn",
+          label: text("requestWatchPlanNew"),
+          badge: state.lang === "ja" ? "URL確認" : "Check URL",
+          hit,
+          detailJa: "既存ソース外の可能性。需要が集まるまで新規巡回化は管理者判断。",
+          detailEn: "Possibly outside existing sources. Admin decides before adding a new crawler."
+        };
+      }
+      return {
+        className: "warn",
+        label: text("requestWatchPlanWait"),
+        badge: state.lang === "ja" ? "票待ち" : "Demand",
+        detailJa: "まだ巡回化しない。同じリクエストと候補票を集計する。",
+        detailEn: "Do not crawl yet. Collect repeated requests and votes."
+      };
     }
 
     function demandSensorRows(items = state.trackingRequests) {
@@ -9689,6 +9911,9 @@
           hidden: false,
           adminNote: "",
           officialUrl: "",
+          matchedSourceId: "",
+          trackingKeywords: [clean],
+          watchStrategy: "unassigned",
           createdAt: APP_TODAY,
           lastSeen: APP_TODAY
         });
@@ -9841,6 +10066,22 @@
       if (field === "officialUrl") {
         request.officialUrl = normalizeOfficialUrl(value);
       }
+      if (field === "matchedSourceId") {
+        const sourceId = String(value || "").trim();
+        request.matchedSourceId = officialSources().some((source) => source.id === sourceId) ? sourceId : "";
+        request.watchStrategy = request.matchedSourceId ? "reuse_source" : (request.watchStrategy === "reuse_source" ? "unassigned" : request.watchStrategy || "unassigned");
+      }
+      if (field === "trackingKeywords") {
+        request.trackingKeywords = String(value || "")
+          .replace(/\u3001/g, ",")
+          .split(/[,\n]/)
+          .map((keyword) => keyword.trim())
+          .filter(Boolean)
+          .slice(0, 12);
+      }
+      if (field === "watchStrategy") {
+        request.watchStrategy = ["unassigned", "reuse_source", "new_source", "manual_only"].includes(value) ? value : "unassigned";
+      }
       request.lastSeen = APP_TODAY;
       saveTrackingRequests();
       return request;
@@ -9859,7 +10100,10 @@
           render();
           await adminSetRemoteTrackingRequest(updated, {
             officialUrl: updated.officialUrl,
-            adminNote: updated.adminNote
+            adminNote: updated.adminNote,
+            matchedSourceId: updated.matchedSourceId,
+            trackingKeywords: updated.trackingKeywords,
+            watchStrategy: updated.watchStrategy
           });
           await fetchRemoteTrackingRequests();
           setRequestSyncStatus("ok", "管理メモ/公式URLをSupabaseへ反映しました", "Admin note / official URL saved to Supabase");
@@ -9867,6 +10111,37 @@
           return;
         } catch (error) {
           setRequestSyncStatus("error", `管理メタ情報のSupabase反映に失敗。端末内に保存: ${error.message}`, `Admin metadata update failed. Saved locally: ${error.message}`);
+        }
+      }
+      render();
+    }
+
+    async function applyInferredRequestSource(term) {
+      const request = trackingRequestFor(term);
+      if (!request) return;
+      const hit = requestSourceHit(request, { ignoreExplicit: true });
+      if (!hit?.sourceId) return;
+      const keywords = request.trackingKeywords?.length ? request.trackingKeywords : [request.term];
+      updateTrackingRequestMetaLocal(request.term, "matchedSourceId", hit.sourceId);
+      updateTrackingRequestMetaLocal(request.term, "trackingKeywords", keywords.join(", "));
+      updateTrackingRequestMetaLocal(request.term, "watchStrategy", "reuse_source");
+      const updated = trackingRequestFor(term);
+      const flags = adminSyncFlags();
+      if (flags.write && updated?.id) {
+        try {
+          setRequestSyncStatus("loading", "既存ソースへの紐づけをSupabaseへ送信中", "Sending source assignment to Supabase");
+          render();
+          await adminSetRemoteTrackingRequest(updated, {
+            matchedSourceId: updated.matchedSourceId,
+            trackingKeywords: updated.trackingKeywords,
+            watchStrategy: updated.watchStrategy
+          });
+          await fetchRemoteTrackingRequests();
+          setRequestSyncStatus("ok", "既存ソースへの紐づけを保存しました", "Source assignment saved");
+          render();
+          return;
+        } catch (error) {
+          setRequestSyncStatus("error", `既存ソース紐づけのSupabase反映に失敗。端末内に保存: ${error.message}`, `Source assignment failed. Saved locally: ${error.message}`);
         }
       }
       render();
@@ -9929,6 +10204,9 @@
       if (source.status === "approved" || target.status === "approved") target.status = "approved";
       else if (target.status === "pending") target.status = source.status || "pending";
       if (!target.officialUrl && source.officialUrl) target.officialUrl = source.officialUrl;
+      if (!target.matchedSourceId && source.matchedSourceId) target.matchedSourceId = source.matchedSourceId;
+      target.trackingKeywords = [...new Set([...(target.trackingKeywords || []), ...(source.trackingKeywords || [])])].slice(0, 12);
+      if (!target.watchStrategy || target.watchStrategy === "unassigned") target.watchStrategy = source.watchStrategy || "unassigned";
       const mergedNote = [
         target.adminNote,
         source.adminNote,
@@ -9959,6 +10237,9 @@
             hidden: source.hidden,
             officialUrl: source.officialUrl,
             adminNote: appendAdminNote(source, `${state.lang === "ja" ? "統合" : "Merged"}: ${target.term}`),
+            matchedSourceId: source.matchedSourceId,
+            trackingKeywords: source.trackingKeywords,
+            watchStrategy: source.watchStrategy,
             mergedIntoId: target.id
           });
           mergeTrackingRequestLocal(term, targetTerm);
@@ -12946,11 +13227,13 @@
       const counts = rows.reduce((acc, row) => {
         acc[row.stateInfo.id] = (acc[row.stateInfo.id] || 0) + 1;
         if (row.hit) acc.hit += 1;
+        if (row.hit?.sourceId) acc.reuse += 1;
+        else if (row.hit) acc.new += 1;
         return acc;
-      }, { watch: 0, wait: 0, hold: 0, block: 0, hit: 0 });
+      }, { watch: 0, wait: 0, hold: 0, block: 0, hit: 0, reuse: 0, new: 0 });
       const stats = [
-        { value: counts.watch || 0, labelJa: "監視対象", labelEn: "Watching" },
-        { value: counts.hit || 0, labelJa: "公式ヒット", labelEn: "Official hits" },
+        { value: counts.reuse || 0, labelJa: "既存内", labelEn: "Reuse" },
+        { value: counts.new || 0, labelJa: "新規候補", labelEn: "New source" },
         { value: counts.wait || 0, labelJa: "票待ち", labelEn: "Waiting" },
         { value: (counts.hold || 0) + (counts.block || 0), labelJa: "保留/隔離", labelEn: "Hold/block" }
       ];
@@ -12987,6 +13270,39 @@
               <b class="request-sensor-badge ${stateInfo.className}">${state.lang === "ja" ? stateInfo.labelJa : stateInfo.labelEn}</b>
             </div>
           `).join("") : `<div class="request-sensor-row"><span><strong>${state.lang === "ja" ? "まだ需要なし" : "No demand yet"}</strong><span>${state.lang === "ja" ? "同じリクエストが集まるまで待機。" : "Wait until requests cluster."}</span></span><b class="request-sensor-badge wait">${state.lang === "ja" ? "待機" : "Wait"}</b></div>`}
+        </div>
+      `;
+    }
+
+    function requestSourceOptionsHtml(selectedId = "") {
+      const selected = String(selectedId || "");
+      return [
+        `<option value="">${escapeHtml(text("requestMatchedSourceNone"))}</option>`,
+        ...officialSources().map((source) => {
+          const title = state.lang === "ja" ? source.titleJa : source.titleEn;
+          const label = `${title || source.name || source.id} / ${source.id}`;
+          return `<option value="${escapeHtml(source.id)}" ${source.id === selected ? "selected" : ""}>${escapeHtml(label)}</option>`;
+        })
+      ].join("");
+    }
+
+    function requestWatchPlanHtml(item, adminMode) {
+      const plan = requestWatchPlan(item);
+      const sourceItem = plan.sourceItem || (plan.hit?.sourceId ? sourceById(plan.hit.sourceId) : null);
+      const sourceTitle = sourceItem ? (state.lang === "ja" ? sourceItem.titleJa : sourceItem.titleEn) : "";
+      const inferred = !item.matchedSourceId ? requestSourceHit(item, { ignoreExplicit: true }) : null;
+      const inferredSource = inferred?.sourceId ? sourceById(inferred.sourceId) : null;
+      return `
+        <div class="request-source-plan ${plan.className || ""}">
+          <b>${escapeHtml(plan.badge || plan.label)}</b>
+          <strong>${escapeHtml(plan.label)}</strong>
+          <span>${escapeHtml(state.lang === "ja" ? plan.detailJa : plan.detailEn)}</span>
+          <span>${escapeHtml(text("requestMatchedSource"))}: ${sourceItem ? escapeHtml(`${sourceTitle} / ${sourceItem.id}`) : escapeHtml(text("requestMatchedSourceNone"))}</span>
+          ${adminMode && inferredSource ? `
+            <div class="budget-controls">
+              <button class="budget-step" data-request-inferred-source="${escapeHtml(item.term)}">${text("requestUseInferredSource")}</button>
+            </div>
+          ` : ""}
         </div>
       `;
     }
@@ -13062,6 +13378,7 @@
             </div>
             <p>${state.lang === "ja" ? "検索" : "Searches"} ${item.count} / ${state.lang === "ja" ? "初回" : "First"} ${fmtDate(item.createdAt)} / ${state.lang === "ja" ? "最終" : "Last"} ${fmtDate(item.lastSeen)}</p>
             <p>${text("requestVotes")}: ${requestVoteText(item)} / ${text("requestYourVote")}: ${requestVoteLabel(vote)}</p>
+            ${requestWatchPlanHtml(item, adminMode)}
             <div class="budget-controls">
               <button class="budget-step ${vote === "candidate" ? "primary" : ""}" data-request-vote="candidate" data-request-vote-term="${escapeHtml(item.term)}">${text("requestCandidateVote")}</button>
               <button class="budget-step danger ${vote === "problem" ? "primary" : ""}" data-request-vote="problem" data-request-vote-term="${escapeHtml(item.term)}">${text("requestProblemVote")}</button>
@@ -13085,6 +13402,25 @@
               <input type="url" value="${escapeHtml(item.officialUrl || "")}" placeholder="${text("requestOfficialUrlPlaceholder")}" data-request-url="${escapeHtml(item.term)}">
             </label>
             ${officialUrlAssistHtml(item)}
+            <label class="request-admin-field">
+              <span>${text("requestMatchedSource")}</span>
+              <select data-request-source="${escapeHtml(item.term)}">
+                ${requestSourceOptionsHtml(item.matchedSourceId || "")}
+              </select>
+            </label>
+            <label class="request-admin-field">
+              <span>${text("requestTrackingKeywords")}</span>
+              <input type="text" value="${escapeHtml((item.trackingKeywords?.length ? item.trackingKeywords : [item.term]).join(", "))}" placeholder="${text("requestTrackingKeywordsPlaceholder")}" data-request-keywords="${escapeHtml(item.term)}">
+            </label>
+            <label class="request-admin-field">
+              <span>${state.lang === "ja" ? "巡回方針" : "Watch plan"}</span>
+              <select data-request-watch-strategy="${escapeHtml(item.term)}">
+                <option value="unassigned" ${(!item.watchStrategy || item.watchStrategy === "unassigned") ? "selected" : ""}>${text("requestWatchPlanWait")}</option>
+                <option value="reuse_source" ${item.watchStrategy === "reuse_source" ? "selected" : ""}>${text("requestWatchPlanReuse")}</option>
+                <option value="new_source" ${item.watchStrategy === "new_source" ? "selected" : ""}>${text("requestWatchPlanNew")}</option>
+                <option value="manual_only" ${item.watchStrategy === "manual_only" ? "selected" : ""}>${text("requestWatchPlanBlock")}</option>
+              </select>
+            </label>
             <label class="request-admin-field">
               <span>${text("requestAdminNote")}</span>
               <textarea placeholder="${text("requestAdminNotePlaceholder")}" data-request-note="${escapeHtml(item.term)}">${escapeHtml(item.adminNote || "")}</textarea>
@@ -13124,6 +13460,19 @@
       });
       $$("[data-request-url-suggestion]", $("#requestAdminList")).forEach((button) => {
         button.addEventListener("click", () => applyOfficialUrlSuggestion(button.dataset.requestUrlTerm, button.dataset.requestUrlSuggestion));
+      });
+      $$("[data-request-inferred-source]", $("#requestAdminList")).forEach((button) => {
+        button.addEventListener("click", () => applyInferredRequestSource(button.dataset.requestInferredSource));
+      });
+      $$("[data-request-source]", $("#requestAdminList")).forEach((field) => {
+        field.addEventListener("change", () => updateTrackingRequestMeta(field.dataset.requestSource, "matchedSourceId", field.value));
+      });
+      $$("[data-request-keywords]", $("#requestAdminList")).forEach((field) => {
+        field.addEventListener("input", () => updateTrackingRequestMeta(field.dataset.requestKeywords, "trackingKeywords", field.value, false));
+        field.addEventListener("blur", () => updateTrackingRequestMeta(field.dataset.requestKeywords, "trackingKeywords", field.value));
+      });
+      $$("[data-request-watch-strategy]", $("#requestAdminList")).forEach((field) => {
+        field.addEventListener("change", () => updateTrackingRequestMeta(field.dataset.requestWatchStrategy, "watchStrategy", field.value));
       });
       $$("[data-request-merge]", $("#requestAdminList")).forEach((button) => button.addEventListener("click", () => {
         const row = button.closest(".request-admin-row");
