@@ -1,5 +1,5 @@
 -- Generated from data/drops.json. Review before running in Supabase SQL Editor.
--- Generated at 2026-07-06T08:12:44.726Z.
+-- Generated at 2026-07-06T23:33:56.036Z.
 
 alter table public.drops add column if not exists method text not null default 'official';
 alter table public.drops add column if not exists status_ja text;
@@ -38,25 +38,25 @@ insert into public.drops (
 values
 (
     'holo-yoshinoya',
-    '吉野家 ドラクエ/アニメ系コラボキャンペーン監視',
-    'Yoshinoya Dragon Quest and anime collab campaign watch',
+    '吉野家×ドラクエウォーク 冒険者応援キャンペーン',
+    'Yoshinoya x Dragon Quest Walk adventurer support campaign',
     '吉野家',
     '飲食コラボ',
     '店頭',
     'store',
-    '告知監視',
-    'Notice watch',
-    'https://www.yoshinoya.com/campaign/',
-    '吉野家公式（監視対象）',
-    null,
-    null,
+    '実施中',
+    'Live',
+    'https://www.yoshinoya.com/special/dragonquestwalk_202607/',
+    '吉野家公式',
+    '2026-07-02',
+    '2026-08-26',
     '全国の対象店舗',
     'Participating stores in Japan',
-    '未確認。配布条件・数量・対象店舗は公式ページで確認',
-    'Unconfirmed. Check official pages for bonus rules, quantity, and stores',
-    '公式キャンペーンページで作品名、開催期間、対象店舗、配布条件が確認できたものだけ公開カード化。',
-    'Publish only after official pages confirm title, period, stores, and bonus rules.',
-    array['吉野家', 'ドラクエ', '飲食コラボ', '外食', '店頭', '数量限定', '公式確認', '未確認']::text[],
+    'ドラクエウォークセットは1日の数量限定、1来店1食。第1弾7/2-7/15、第2弾7/16-7/29。特典交換期限9/4。',
+    'Dragon Quest Walk set is daily limited, one meal per visit. Phase 1 Jul 2-15, phase 2 Jul 16-29. Reward exchange ends Sep 4.',
+    '吉野家公式特設ページで期間、販売制限、数量限定、特典交換期限を確認。対象店舗と在庫は公式ページで確認。',
+    'Confirmed period, purchase limit, daily limited quantity, and reward exchange deadline on Yoshinoya official page. Check official page for stores and stock.',
+    array['吉野家', 'ドラクエ', '飲食コラボ', 'ドラクエウォーク', '外食', '店頭', '数量限定', '実施中', '公式確認']::text[],
     'i-ticket',
     '#e85c4f',
     '#f6d37a',

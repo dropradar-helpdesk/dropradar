@@ -298,6 +298,17 @@
       background: rgba(255,253,248,.78);
       border-radius: var(--radius);
       padding: 10px;
+      color: var(--ink);
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease, background .18s ease;
+    }
+    .stat.active {
+      border-color: rgba(23,25,28,.42);
+      background: #17191c;
+      color: #fff;
+      box-shadow: 0 9px 18px rgba(23,25,28,.18);
     }
     .stat strong {
       display: block;
@@ -310,6 +321,9 @@
       color: var(--muted);
       font-size: 11px;
       line-height: 1.25;
+    }
+    .stat.active span {
+      color: rgba(255,255,255,.72);
     }
 
     .tabs {
@@ -4016,12 +4030,18 @@
       white-space: nowrap;
     }
     .priority-empty {
-      padding: 12px;
+      padding: 14px;
       background: rgba(255,255,252,.92);
-      color: var(--muted);
+      color: rgba(23,25,28,.72);
+      display: grid;
+      gap: 3px;
       font-size: 12px;
-      font-weight: 750;
+      line-height: 1.45;
       text-align: center;
+    }
+    .priority-empty strong {
+      color: #17191c;
+      font-size: 13px;
     }
     .quick-stats {
       gap: 7px;
@@ -4640,18 +4660,18 @@
       </section>
 
       <section class="quick-stats" aria-label="summary">
-        <div class="stat">
+        <button class="stat" type="button" data-summary-filter="open" aria-pressed="false">
           <strong id="countOpen">0</strong>
           <span data-i18n="statOpen">抽選・予約中</span>
-        </div>
-        <div class="stat">
+        </button>
+        <button class="stat" type="button" data-summary-filter="week" aria-pressed="false">
           <strong id="countWeek">0</strong>
           <span data-i18n="statWeek">今週発売/開始</span>
-        </div>
-        <div class="stat">
+        </button>
+        <button class="stat" type="button" data-summary-filter="risk" aria-pressed="false">
           <strong id="countLimit">0</strong>
           <span data-i18n="statLimit">購入制限あり</span>
-        </div>
+        </button>
       </section>
 
       <div class="tabs" aria-label="status filters">
@@ -4939,6 +4959,7 @@
     let backendProbe = { status: "idle", messageJa: "", messageEn: "" };
     let dropDataSource = { type: "local", messageJa: "ローカルJSON", messageEn: "Local JSON" };
     let adminAuthSession = null;
+    const curatedDropOverrideIds = new Set(["holo-yoshinoya"]);
     function refreshDrops() {
       drops = [...baseDrops, ...state.promotedDrops];
     }
@@ -4951,8 +4972,10 @@
       dropDataSource = source;
       refreshDrops();
     }
-    function mergeLocalSafetyOverride(drop, localOverride) {
-      if (!localOverride || localOverride.dateVerified !== false) return drop;
+    function mergeLocalDropOverride(drop, localOverride) {
+      if (!localOverride) return drop;
+      const shouldOverride = localOverride.dateVerified === false || curatedDropOverrideIds.has(drop.id);
+      if (!shouldOverride) return drop;
       return {
         ...drop,
         ...localOverride,
@@ -4997,15 +5020,15 @@
         artA: row.art_a || "#2f8f7f",
         artB: row.art_b || "#f2c879"
       };
-      return mergeLocalSafetyOverride(normalized, localOverride);
+      return mergeLocalDropOverride(normalized, localOverride);
     }
-    async function loadLocalDropSafetyOverrides() {
+    async function loadLocalDropOverrides() {
       try {
         const response = await fetch("data/drops.json", { cache: "no-store" });
         if (!response.ok) return new Map();
         const data = await response.json();
         if (!Array.isArray(data)) return new Map();
-        return new Map(data.filter((drop) => drop?.id && drop.dateVerified === false).map((drop) => [drop.id, drop]));
+        return new Map(data.filter((drop) => drop?.id && (drop.dateVerified === false || curatedDropOverrideIds.has(drop.id))).map((drop) => [drop.id, drop]));
       } catch {
         return new Map();
       }
@@ -5019,8 +5042,8 @@
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
       if (!Array.isArray(data)) throw new Error("drops returned non-array data");
-      const localSafety = await loadLocalDropSafetyOverrides();
-      const normalized = data.map((row) => normalizeRemoteDrop(row, localSafety.get(String(row.id)))).filter(Boolean);
+      const localOverrides = await loadLocalDropOverrides();
+      const normalized = data.map((row) => normalizeRemoteDrop(row, localOverrides.get(String(row.id)))).filter(Boolean);
       if (!normalized.length) throw new Error("drops returned no published rows");
       baseDrops = normalized;
       dropDataSource = {
@@ -5387,6 +5410,8 @@
         sourceHealthUnseen: "未巡回",
         sourceHealthSkipped: "robots未確認",
         sourceHealthNoAdmin: "管理モードで確認できます。",
+        priorityEmptyTitle: "今すぐ対応する確定締切はありません",
+        priorityEmptyCopy: "調査中の告知は新商品一覧で確認できます。",
         intakeTitle: "自動取込キュー",
         intakeSub: "公式差分とリクエストを軽く確認",
         storageTitle: "保存基盤",
@@ -5675,6 +5700,8 @@
         sourceHealthUnseen: "Not checked",
         sourceHealthSkipped: "Robots pending",
         sourceHealthNoAdmin: "Available in admin mode.",
+        priorityEmptyTitle: "No confirmed urgent deadlines",
+        priorityEmptyCopy: "Pending notices stay in the normal new-items list.",
         intakeTitle: "Auto intake queue",
         intakeSub: "Light review for official diffs and requests",
         storageTitle: "Storage base",
@@ -5951,7 +5978,20 @@
     };
     const rankOptions = ["S", "A", "B", "C"];
     const tripModeIds = ["hunt", "balanced", "companion", "rain"];
-    const APP_TODAY = "2026-07-06";
+    function todayInJst() {
+      const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Tokyo",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).formatToParts(new Date()).reduce((acc, part) => {
+        if (part.type !== "literal") acc[part.type] = part.value;
+        return acc;
+      }, {});
+      return `${parts.year}-${parts.month}-${parts.day}`;
+    }
+
+    const APP_TODAY = todayInJst();
     const DAY_MS = 24 * 60 * 60 * 1000;
     const userStatusOptions = [
       { id: "unchecked", labelJa: "未確認", labelEn: "Unchecked" },
@@ -10746,6 +10786,15 @@
     function actionDefinitions() {
       return [
         {
+          id: "open",
+          labelJa: "抽選・予約中",
+          labelEn: "Open now",
+          copyJa: "応募・予約の対象",
+          copyEn: "Applications and preorders",
+          match: (drop) => ["lottery", "online"].includes(drop.state),
+          sort: (a, b) => dropDateSortValue(a, "deadline").localeCompare(dropDateSortValue(b, "deadline"))
+        },
+        {
           id: "due48",
           labelJa: "締切48h",
           labelEn: "48h due",
@@ -10969,7 +11018,11 @@
     }
 
     function renderPriority() {
-      const items = drops.filter(matchesFilter).sort((a, b) => dropDateSortValue(a, "deadline").localeCompare(dropDateSortValue(b, "deadline"))).slice(0, 3);
+      const items = drops
+        .filter(matchesFilter)
+        .filter((drop) => dropDateVerified(drop, "deadline") && !drop.deadlineNotRequired && withinDays(drop.deadline, 0, 14))
+        .sort((a, b) => dropDateSortValue(a, "deadline").localeCompare(dropDateSortValue(b, "deadline")))
+        .slice(0, 3);
       $("#priorityList").innerHTML = items.length ? items.map((drop) => {
         const title = state.lang === "ja" ? drop.titleJa : drop.titleEn;
         const area = state.lang === "ja" ? drop.areaJa : drop.areaEn;
@@ -10981,7 +11034,7 @@
             <span class="priority-status">${status}</span>
           </button>
         `;
-      }).join("") : `<div class="priority-empty">${text("empty")}</div>`;
+      }).join("") : `<div class="priority-empty"><strong>${text("priorityEmptyTitle")}</strong><span>${text("priorityEmptyCopy")}</span></div>`;
     }
 
     function trackingRequestEmptyHtml(query) {
@@ -12418,9 +12471,14 @@
     }
 
     function renderStats() {
-      $("#countOpen").textContent = drops.filter((d) => ["lottery", "online"].includes(d.state)).length;
-      $("#countWeek").textContent = drops.filter((d) => dropDateVerified(d, "date") && withinDays(d.date, 0, 7)).length;
-      $("#countLimit").textContent = drops.filter((d) => d.limitJa.includes("制限") || d.limitJa.includes("数量") || d.limitJa.includes("整理券") || d.limitJa.includes("売り切れ")).length;
+      const actions = actionDefinitions();
+      const actionCount = (id) => {
+        const definition = actions.find((item) => item.id === id);
+        return definition ? drops.filter(definition.match).length : 0;
+      };
+      $("#countOpen").textContent = actionCount("open");
+      $("#countWeek").textContent = actionCount("week");
+      $("#countLimit").textContent = actionCount("risk");
     }
 
     function renderCalendar() {
@@ -14033,6 +14091,11 @@
       renderEvents();
       renderMap();
       renderSaved();
+      $$("[data-summary-filter]").forEach((button) => {
+        const active = state.actionFilter === button.dataset.summaryFilter;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
       $$(".tab").forEach((button) => button.classList.toggle("active", button.dataset.viewFilter === state.viewFilter));
       $$(".tab").forEach((button) => button.setAttribute("aria-pressed", button.dataset.viewFilter === state.viewFilter));
       $$("svg").forEach((icon) => {
@@ -14045,6 +14108,13 @@
       button.addEventListener("click", () => {
         state.viewFilter = button.dataset.viewFilter;
         state.actionFilter = "none";
+        render();
+      });
+    });
+    $$("[data-summary-filter]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.viewFilter = "all";
+        state.actionFilter = state.actionFilter === button.dataset.summaryFilter ? "none" : button.dataset.summaryFilter;
         render();
       });
     });
