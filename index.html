@@ -1906,6 +1906,14 @@
       gap: 6px;
       margin-top: 2px;
     }
+    .favorite-remove-row {
+      padding-top: 2px;
+    }
+    .favorite-remove-row .budget-step {
+      min-height: 32px;
+      padding: 4px 10px;
+      font-size: 11px;
+    }
     .budget-step {
       min-height: 32px;
       border: 1px solid rgba(23,25,28,.1);
@@ -13129,6 +13137,9 @@
                 <button class="budget-step" data-rank-move="-1" data-rank-id="${drop.id}">${state.lang === "ja" ? "上" : "Up"}</button>
                 <button class="budget-step" data-rank-move="1" data-rank-id="${drop.id}">${state.lang === "ja" ? "下" : "Down"}</button>
               </span>
+              <span class="budget-controls favorite-remove-row">
+                <button class="budget-step danger" data-remove-favorite="${drop.id}">${state.lang === "ja" ? "お気に入りから外す" : "Remove favorite"}</button>
+              </span>
               <span class="budget-controls">
                 <button class="budget-step" data-budget-step="-500" data-budget-id="${drop.id}">-500</button>
                 <button class="budget-step" data-budget-step="500" data-budget-id="${drop.id}">+500</button>
@@ -13139,7 +13150,6 @@
                 <button class="budget-step primary" data-open="${drop.id}">${state.lang === "ja" ? "詳細" : "Details"}</button>
                 <a class="budget-step" href="${mapUrl(drop)}" target="_blank" rel="noreferrer">${state.lang === "ja" ? "地図" : "Map"}</a>
                 <a class="budget-step" href="${drop.link}" target="_blank" rel="noreferrer">${state.lang === "ja" ? "公式" : "Official"}</a>
-                <button class="budget-step danger" data-remove-favorite="${drop.id}">${state.lang === "ja" ? "外す" : "Remove"}</button>
               </span>
             </span>
           </article>
