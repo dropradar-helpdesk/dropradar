@@ -5188,6 +5188,7 @@
         sourceHealthWarn: "要確認",
         sourceHealthMissing: "DB未登録",
         sourceHealthUnseen: "未巡回",
+        sourceHealthSkipped: "robots未確認",
         sourceHealthNoAdmin: "管理モードで確認できます。",
         intakeTitle: "自動取込キュー",
         intakeSub: "公式差分とリクエストを軽く確認",
@@ -5464,6 +5465,7 @@
         sourceHealthWarn: "Review",
         sourceHealthMissing: "Missing DB",
         sourceHealthUnseen: "Not checked",
+        sourceHealthSkipped: "Robots pending",
         sourceHealthNoAdmin: "Available in admin mode.",
         intakeTitle: "Auto intake queue",
         intakeSub: "Light review for official diffs and requests",
@@ -10639,12 +10641,14 @@
         const missingDb = adminBackendData.source === "supabase" && !dbRow;
         const selected = planned.size ? planned.has(source.id) : true;
         const unseen = selected && adminBackendData.latestIngest && !ingestResult;
+        const skipped = Boolean(ingestResult?.skipped);
         const hasError = diff?.statusCode === "partial" || (Array.isArray(diff?.errors) && diff.errors.length);
         const added = Number(diff?.addedCount || ingestResult?.addedLinks || 0);
         const removed = Number(diff?.removedCount || ingestResult?.removedLinks || 0);
         const current = Number(diff?.currentLinkCount || ingestResult?.currentLinks || 0);
         let status = "ok";
         if (missingDb) status = "missing";
+        else if (skipped) status = "skipped";
         else if (unseen) status = "unseen";
         else if (hasError || added || removed) status = "warn";
         return {
@@ -10657,6 +10661,7 @@
           added,
           removed,
           current,
+          reason: ingestResult?.reason || "",
           watchCount: Array.isArray(source.watchUrls) ? source.watchUrls.length : source.url ? 1 : 0
         };
       });
@@ -10672,6 +10677,7 @@
       }
       const healthItems = items || sourceHealthItems();
       const missing = healthItems.filter((item) => item.status === "missing").length;
+      const skipped = healthItems.filter((item) => item.status === "skipped").length;
       const unseen = healthItems.filter((item) => item.status === "unseen").length;
       const warn = healthItems.filter((item) => item.status === "warn").length;
       const enabledDbRows = Array.isArray(adminBackendData.officialSourceRows)
@@ -10681,21 +10687,23 @@
       const statusCopy = latest
         ? `${ingestRunStatusLabel(latest)} / ${ingestRunNote(latest)}`
         : (state.lang === "ja" ? "本番巡回は未読込" : "Production ingest not loaded");
-      const badgeClass = missing || unseen ? "error" : warn ? "warn" : "ready";
-      const badgeText = missing || unseen || warn ? text("sourceHealthWarn") : text("sourceHealthOk");
+      const badgeClass = missing || unseen ? "error" : skipped || warn ? "warn" : "ready";
+      const badgeText = missing || unseen || skipped || warn ? text("sourceHealthWarn") : text("sourceHealthOk");
       const rows = healthItems
         .slice()
         .sort((a, b) => {
-          const weights = { missing: 0, unseen: 1, warn: 2, ok: 3 };
+          const weights = { missing: 0, skipped: 1, unseen: 2, warn: 3, ok: 4 };
           return (weights[a.status] ?? 9) - (weights[b.status] ?? 9) || a.id.localeCompare(b.id);
         })
         .slice(0, 12);
       const statusLabel = (status) => {
         if (status === "missing") return text("sourceHealthMissing");
+        if (status === "skipped") return text("sourceHealthSkipped");
         if (status === "unseen") return text("sourceHealthUnseen");
         if (status === "warn") return text("sourceHealthWarn");
         return text("sourceHealthOk");
       };
+      const statusTone = (status) => status === "ok" ? "" : status === "warn" || status === "skipped" ? "warn" : "error";
       panel.innerHTML = `
         <div class="source-health-head">
           <span>
@@ -10708,18 +10716,18 @@
           ${[
             { value: healthItems.length, label: state.lang === "ja" ? "自動ソース" : "auto sources" },
             { value: enabledDbRows.length, label: state.lang === "ja" ? "DB有効" : "DB enabled" },
-            { value: `${missing}/${unseen}/${warn}`, label: state.lang === "ja" ? "未登録/未巡回/変化" : "missing/unseen/diff" }
+            { value: `${missing}/${skipped}/${unseen}`, label: state.lang === "ja" ? "未登録/停止/未巡回" : "missing/skipped/unseen" }
           ].map((item) => `<div class="source-stat"><strong>${escapeHtml(item.value)}</strong><span>${escapeHtml(item.label)}</span></div>`).join("")}
         </div>
         <div class="source-health-list">
           ${rows.map((item) => `
-            <div class="source-health-row ${item.status === "ok" ? "" : item.status === "warn" ? "warn" : "error"}">
+            <div class="source-health-row ${statusTone(item.status)}">
               <span class="source-health-main">
                 <strong>${escapeHtml(item.title || item.id)}</strong>
                 <span>${escapeHtml(item.id)} / ${state.lang === "ja" ? "監視先" : "watch"} ${item.watchCount}${state.lang === "ja" ? "件" : ""} / +${item.added} -${item.removed} / ${state.lang === "ja" ? "リンク" : "links"} ${item.current}</span>
-                <span>${state.lang === "ja" ? "最終" : "Last"} ${escapeHtml(formatCheckTime(item.checkedAt))}</span>
+                <span>${state.lang === "ja" ? "最終" : "Last"} ${escapeHtml(formatCheckTime(item.checkedAt))}${item.reason ? ` / ${escapeHtml(item.reason)}` : ""}</span>
               </span>
-              <span class="source-health-badge ${item.status === "ok" ? "" : item.status === "warn" ? "warn" : "error"}">${escapeHtml(statusLabel(item.status))}</span>
+              <span class="source-health-badge ${statusTone(item.status)}">${escapeHtml(statusLabel(item.status))}</span>
             </div>
           `).join("")}
         </div>

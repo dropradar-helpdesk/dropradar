@@ -150,5 +150,61 @@
     "scope": "Tourism, pilgrimage, local-collab, map/manhole link diff only. No map screenshot copying, location scraping beyond official links, or exact GPS storage.",
     "robotsSummary": "initiald-portal.com and mlit.go.jp robots returned 404; animetourism88.com returned nonstandard robots response; no disallow-all observed. Keep watch URLs narrow.",
     "termsSummary": "Treat this as subcontent. Link to official tourism/maps for details; DropRadar must not store user GPS and must write original summaries."
+  },
+  {
+    "sourceId": "square-enix-dragonquest-goods",
+    "enabledAt": "2026-07-07",
+    "decision": "enabled",
+    "scope": "Square Enix and Dragon Quest official goods/collab link diff only. No product images, screenshots, copied campaign text, or character art.",
+    "robotsSummary": "www.jp.square-enix.com robots endpoint returned 404; dragonquest.jp robots parsed with no disallow-all. Keep watch URLs narrow and daily only.",
+    "termsSummary": "Public cards must use original summaries and official links. Product images, details, and campaign conditions stay on official pages."
+  },
+  {
+    "sourceId": "taito-prize-official",
+    "enabledAt": "2026-07-07",
+    "decision": "enabled",
+    "scope": "Taito prize/news official link diff only. No prize images, copied product descriptions, local-stock claims, or campaign image copying.",
+    "robotsSummary": "taito.co.jp robots parsed with no disallow-all.",
+    "termsSummary": "Deployment details and prize visuals stay on official pages. DropRadar queues link changes for original admin summaries."
+  },
+  {
+    "sourceId": "sega-plaza-prize",
+    "enabledAt": "2026-07-07",
+    "decision": "enabled",
+    "scope": "SEGA Plaza prize and campaign official link diff only. No prize images, copied descriptions, or location-stock claims.",
+    "robotsSummary": "segaplaza.jp robots endpoint returned 404; no disallow-all observed in audit. Keep watch URLs narrow and daily only.",
+    "termsSummary": "Prize details, visuals, and campaign rules stay on official pages. DropRadar uses original summaries and official links only."
+  },
+  {
+    "sourceId": "sanrio-official-goods",
+    "enabledAt": "2026-07-07",
+    "decision": "enabled",
+    "scope": "Sanrio official goods/news/shop link diff only. No character images, product photos, copied descriptions, or campaign asset copying.",
+    "robotsSummary": "sanrio.co.jp robots parsed with no disallow-all; shop.sanrio.co.jp robots returned 404. Keep watch URLs narrow.",
+    "termsSummary": "Character art, product photos, and sales conditions remain on official pages. Public cards must be original summaries plus official links."
+  },
+  {
+    "sourceId": "frieren-official",
+    "enabledAt": "2026-07-07",
+    "decision": "enabled",
+    "scope": "Frieren official news/goods/event link diff only. No key visuals, screenshots, copied article text, or character art.",
+    "robotsSummary": "frieren-anime.jp robots parsed with no disallow-all.",
+    "termsSummary": "Visuals, article copy, and detailed product text stay on official pages. DropRadar may show original summaries and official links."
+  },
+  {
+    "sourceId": "initiald-official-events",
+    "enabledAt": "2026-07-07",
+    "decision": "enabled",
+    "scope": "Initial D official portal, goods, event, and pilgrimage-related link diff only. No manga/anime images, copied event text, or map screenshot copying.",
+    "robotsSummary": "initiald-portal.com robots endpoint returned 404; no disallow-all observed in audit. Keep watch URLs narrow and daily only.",
+    "termsSummary": "Event rules, shop details, and location information stay linked to official pages. DropRadar uses original summaries and no copied visuals."
+  },
+  {
+    "sourceId": "capcom-store-cafe-amusement",
+    "enabledAt": "2026-07-07",
+    "decision": "enabled",
+    "scope": "Capcom Store, Capcom Cafe, Capcom amusement, and official campaign link diff only. No product/cafe images, copied menu text, screenshots, or character art.",
+    "robotsSummary": "capcom.co.jp robots returned 404 and capcom-games.com robots returned 403/nonstandard; no disallow-all observed. Keep watch URLs narrow and daily only.",
+    "termsSummary": "Menus, goods photos, collaboration visuals, and campaign rules stay on official pages. DropRadar queues official-link changes for original admin summaries."
   }
 ]

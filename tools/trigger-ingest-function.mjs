@@ -186,7 +186,7 @@ function reportMarkdown(report) {
     lines.push("### Source results");
     lines.push("| Source | Status | Added | Removed | Links | Errors |");
     lines.push("|---|---:|---:|---:|---:|---:|");
-    for (const result of report.results.slice(0, 20)) {
+    for (const result of report.results) {
       lines.push(`| ${result.sourceId} | ${result.status} | ${result.addedLinks} | ${result.removedLinks} | ${result.currentLinks} | ${result.errorCount} |`);
     }
     lines.push("");
