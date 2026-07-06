@@ -17,6 +17,7 @@ Ready enough for a controlled public web preview:
 - Contact inbox is configured as `dropradar.helpdesk@gmail.com`.
 - Public policy/contact draft is available at `legal.html`.
 - Daily official ingest workflow exists and is scheduled once per day.
+- Approved tracking requests are read by daily ingest, matched against their source lane, and inserted into `intake_candidates` with `request_id`.
 
 ## Do Not Launch as a Store App Until These Are Done
 
@@ -27,7 +28,6 @@ Ready enough for a controlled public web preview:
 - Final app store description clearly saying unofficial.
 - Accessibility pass on keyboard, screen reader labels, contrast, text zoom, and dialog focus.
 - Takedown process test using the public Gmail.
-- Ingest request-routing connection: approved tracking requests should be read by daily ingest and linked to `intake_candidates` by `request_id`.
 
 ## Operational Boundaries
 
@@ -39,12 +39,12 @@ Ready enough for a controlled public web preview:
 
 ## Next Practical Step
 
-For the app to become useful beyond a static preview, connect approved tracking requests to the daily ingest engine:
+The monitoring loop is now implementation-ready, but it still needs an operational smoke test after every Edge Function deploy:
 
-1. Read `tracking_request_feed` rows with `watch_strategy = 'reuse_source'` and `matched_source_id`.
-2. Group tracking keywords by `matched_source_id`.
-3. Check crawled official links/text against those keywords.
-4. Insert matching rows into `intake_candidates` with `request_id`.
-5. Show unmatched approved requests as "not detected yet" in admin mode.
+1. Deploy `supabase/functions/ingest-official-sources`.
+2. Run `npm run function:smoke`.
+3. Approve a harmless tracking request that reuses an existing source lane.
+4. Run the daily ingest manually once.
+5. Confirm the request-linked candidate appears in `intake_candidates` and remains unpublished until admin review.
 
-This is the next engineering step before calling the monitoring loop production-ready.
+This keeps DropRadar as a daily self-growing app without letting unreviewed or unsafe requests become public automatically.

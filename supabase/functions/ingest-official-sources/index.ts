@@ -24,6 +24,40 @@ type CandidateLink = {
   sourceUrl: string;
 };
 
+type TrackingRequestFeedRow = {
+  id: string;
+  term: string;
+  status: string;
+  official_url: string | null;
+  matched_source_id: string | null;
+  tracking_keywords: string[] | null;
+  watch_strategy: string | null;
+  search_count: number | null;
+  candidate_votes: number | null;
+  problem_votes: number | null;
+};
+
+type RequestWatchTarget = {
+  requestId: string;
+  term: string;
+  officialUrl: string;
+  keywords: string[];
+  searchCount: number;
+  candidateVotes: number;
+  problemVotes: number;
+};
+
+type RequestLinkMatch = CandidateLink & {
+  requestId: string;
+  term: string;
+  officialUrl: string;
+  keywords: string[];
+  matchedKeyword: string;
+  searchCount: number;
+  candidateVotes: number;
+  problemVotes: number;
+};
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-ingest-secret",
@@ -106,6 +140,75 @@ function riskLevelForLink(link: CandidateLink) {
   return "review";
 }
 
+function compactMatchText(value: string) {
+  return String(value || "").toLowerCase().replace(/\s+/g, "");
+}
+
+function trackingKeywords(row: TrackingRequestFeedRow) {
+  const values = [
+    ...(Array.isArray(row.tracking_keywords) ? row.tracking_keywords : []),
+    row.term
+  ].map((keyword) => String(keyword || "").trim()).filter((keyword) => keyword.length >= 2);
+  return [...new Set(values)].slice(0, 12);
+}
+
+function requestWatchTarget(row: TrackingRequestFeedRow): RequestWatchTarget | null {
+  const keywords = trackingKeywords(row);
+  if (!row.id || !row.term || !keywords.length) return null;
+  if (row.status !== "approved" || row.watch_strategy !== "reuse_source" || !row.matched_source_id) return null;
+  return {
+    requestId: row.id,
+    term: row.term,
+    officialUrl: row.official_url || "",
+    keywords,
+    searchCount: Number(row.search_count || 0),
+    candidateVotes: Number(row.candidate_votes || 0),
+    problemVotes: Number(row.problem_votes || 0)
+  };
+}
+
+function linkMatchesRequest(link: CandidateLink, request: RequestWatchTarget) {
+  const haystack = compactMatchText(`${link.url} ${link.text}`);
+  for (const keyword of request.keywords) {
+    const needle = compactMatchText(keyword);
+    if (needle.length >= 2 && haystack.includes(needle)) return keyword;
+  }
+  return "";
+}
+
+function requestMatchesForLinks(requests: RequestWatchTarget[], links: CandidateLink[]) {
+  const matches: RequestLinkMatch[] = [];
+  const seen = new Set<string>();
+  for (const request of requests) {
+    let perRequest = 0;
+    for (const link of links) {
+      const matchedKeyword = linkMatchesRequest(link, request);
+      if (!matchedKeyword) continue;
+      const key = `${request.requestId}|${link.url}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      matches.push({
+        ...link,
+        requestId: request.requestId,
+        term: request.term,
+        officialUrl: request.officialUrl,
+        keywords: request.keywords,
+        matchedKeyword,
+        searchCount: request.searchCount,
+        candidateVotes: request.candidateVotes,
+        problemVotes: request.problemVotes
+      });
+      perRequest += 1;
+      if (perRequest >= 5) break;
+    }
+  }
+  return matches;
+}
+
+function requestCandidateKey(match: RequestLinkMatch) {
+  return `${match.requestId}|${match.url}`;
+}
+
 async function handleRequest(req: Request) {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method === "GET") {
@@ -155,6 +258,22 @@ async function handleRequest(req: Request) {
     const { data: sources, error: sourceError } = await sourceQuery;
     if (sourceError) throw sourceError;
 
+    const { data: requestRows, error: requestError } = await supabase
+      .from("tracking_request_feed")
+      .select("id,term,status,official_url,matched_source_id,tracking_keywords,watch_strategy,search_count,candidate_votes,problem_votes")
+      .eq("status", "approved")
+      .eq("watch_strategy", "reuse_source");
+    if (requestError) throw requestError;
+
+    const requestsBySource = new Map<string, RequestWatchTarget[]>();
+    for (const row of (requestRows || []) as TrackingRequestFeedRow[]) {
+      const target = requestWatchTarget(row);
+      if (!target || !row.matched_source_id) continue;
+      const list = requestsBySource.get(row.matched_source_id) || [];
+      list.push(target);
+      requestsBySource.set(row.matched_source_id, list);
+    }
+
     for (const source of (sources || []) as OfficialSource[]) {
       sourceCount += 1;
       if (!source.url || !source.robots_checked_at) {
@@ -163,7 +282,9 @@ async function handleRequest(req: Request) {
       }
 
       const watchUrls = [...new Set([source.url, ...(source.watch_urls || [])].filter(Boolean))];
-      const keywords = source.discovery_keywords || [];
+      const sourceRequests = requestsBySource.get(source.id) || [];
+      const requestKeywords = sourceRequests.flatMap((request) => request.keywords);
+      const keywords = [...new Set([...(source.discovery_keywords || []), ...requestKeywords])];
       const pageResults: Array<Record<string, unknown>> = [];
       const fetchErrors: Array<Record<string, unknown>> = [];
       const candidateMap = new Map<string, CandidateLink>();
@@ -211,6 +332,21 @@ async function handleRequest(req: Request) {
       const firstRun = !previous;
       const addedLinks = firstRun ? [] : links.filter((link) => !previousLinks.has(link.url));
       const removedLinks = firstRun ? [] : [...previousLinks].filter((link) => !currentLinks.has(link));
+      const requestMatches = sourceRequests.length ? requestMatchesForLinks(sourceRequests, links) : [];
+      let existingRequestCandidateKeys = new Set<string>();
+      if (requestMatches.length) {
+        const existing = await supabase
+          .from("intake_candidates")
+          .select("request_id,official_url")
+          .eq("source_id", source.id)
+          .not("request_id", "is", null)
+          .limit(1000);
+        if (existing.error) throw existing.error;
+        existingRequestCandidateKeys = new Set((existing.data || []).map((item) => `${item.request_id}|${item.official_url}`));
+      }
+      const newRequestMatches = requestMatches.filter((match) => !existingRequestCandidateKeys.has(requestCandidateKey(match)));
+      const requestCandidateUrls = new Set(newRequestMatches.map((match) => match.url));
+      const generalAddedLinks = addedLinks.filter((link) => !requestCandidateUrls.has(link.url));
 
       if (!dryRun) {
         const checkInsert = await supabase.from("source_checks").insert({
@@ -221,16 +357,26 @@ async function handleRequest(req: Request) {
           links_json: {
             links: linkUrls,
             candidates: links.map((link) => ({ url: link.url, source_url: link.sourceUrl })),
+            request_matches: requestMatches.map((match) => ({
+              request_id: match.requestId,
+              term: match.term,
+              url: match.url,
+              source_url: match.sourceUrl,
+              keyword: match.matchedKeyword,
+              search_count: match.searchCount,
+              candidate_votes: match.candidateVotes,
+              problem_votes: match.problemVotes
+            })),
             pages: pageResults,
             errors: fetchErrors
           },
-          review_status: addedLinks.length ? "needs_review" : fetchErrors.length ? "partial" : "checked",
+          review_status: addedLinks.length || newRequestMatches.length ? "needs_review" : fetchErrors.length ? "partial" : "checked",
           note: "Generated by ingest-official-sources. Human review is required before publishing. Do not copy official page text into public cards."
         });
         if (checkInsert.error) throw checkInsert.error;
       }
 
-      for (const link of addedLinks) {
+      for (const link of generalAddedLinks) {
         const risk = riskLevelForLink(link);
         candidateCount += 1;
         if (!dryRun) {
@@ -256,6 +402,40 @@ async function handleRequest(req: Request) {
         }
       }
 
+      for (const match of newRequestMatches) {
+        const risk = riskLevelForLink(match);
+        candidateCount += 1;
+        if (!dryRun) {
+          const candidateInsert = await supabase.from("intake_candidates").insert({
+            source_id: source.id,
+            request_id: match.requestId,
+            title: `${source.name}: tracking request match - ${match.term}`,
+            official_url: match.url,
+            risk_level: risk,
+            review_status: risk === "block" ? "quarantined" : "pending",
+            signals_json: {
+              run_id: runId,
+              source_url: match.sourceUrl,
+              link_text_seen: Boolean(match.text),
+              link_text: match.text.slice(0, 180),
+              category: source.category,
+              terms_note: source.terms_note,
+              reason: "tracking_request_match",
+              request_id: match.requestId,
+              request_term: match.term,
+              matched_keyword: match.matchedKeyword,
+              search_count: match.searchCount,
+              candidate_votes: match.candidateVotes,
+              problem_votes: match.problemVotes
+            },
+            moderation_note: risk === "block"
+              ? "Tracking request match was blocked by keyword risk. Admin review required."
+              : "Approved tracking request matched an official-source link. Open the official URL and write an original summary before publishing."
+          });
+          if (candidateInsert.error) throw candidateInsert.error;
+        }
+      }
+
       results.push({
         sourceId: source.id,
         status: fetchErrors.length && pageResults.length ? "partial" : fetchErrors.length ? "failed" : "ok",
@@ -265,7 +445,10 @@ async function handleRequest(req: Request) {
         hashChanged: previous?.hash ? previous.hash !== hash : false,
         currentLinks: linkUrls.length,
         addedLinks: addedLinks.length,
-        removedLinks: removedLinks.length
+        removedLinks: removedLinks.length,
+        trackingRequests: sourceRequests.length,
+        requestMatches: requestMatches.length,
+        requestCandidates: newRequestMatches.length
       });
     }
 

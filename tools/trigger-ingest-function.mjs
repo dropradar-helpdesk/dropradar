@@ -70,12 +70,18 @@ function summarizeResults(results = []) {
     partial: 0,
     failed: 0,
     skipped: 0,
-    errorCount: 0
+    errorCount: 0,
+    trackingRequests: 0,
+    requestMatches: 0,
+    requestCandidates: 0
   };
   for (const result of results) {
     const status = resultStatus(result);
     summary[status] += 1;
     summary.errorCount += resultErrorCount(result);
+    summary.trackingRequests += Number(result.trackingRequests || 0);
+    summary.requestMatches += Number(result.requestMatches || 0);
+    summary.requestCandidates += Number(result.requestCandidates || 0);
   }
   summary.successful = summary.ok + summary.partial;
   return summary;
@@ -89,6 +95,9 @@ function compactResult(result = {}) {
     currentLinks: Number(result.currentLinks || 0),
     addedLinks: Number(result.addedLinks || 0),
     removedLinks: Number(result.removedLinks || 0),
+    trackingRequests: Number(result.trackingRequests || 0),
+    requestMatches: Number(result.requestMatches || 0),
+    requestCandidates: Number(result.requestCandidates || 0),
     firstRun: Boolean(result.firstRun),
     skipped: Boolean(result.skipped),
     reason: result.reason || "",
@@ -167,6 +176,7 @@ function reportMarkdown(report) {
     `- Run ID: ${run.id || "not created"}`,
     `- Sources: ${run.sourceCount ?? 0} checked / requested ${report.sourceIds.length || "all"} / ok ${report.summary.ok} / partial ${report.summary.partial} / failed ${report.summary.failed} / skipped ${report.summary.skipped}`,
     `- New intake candidates: ${run.candidateCount ?? 0}`,
+    `- Request tracking: ${report.summary.requestCandidates} new candidates / ${report.summary.requestMatches} matches / ${report.summary.trackingRequests} watched requests`,
     "- Public drops: unchanged; admin review is still required.",
     ""
   ];
@@ -184,10 +194,10 @@ function reportMarkdown(report) {
 
   if (report.results.length) {
     lines.push("### Source results");
-    lines.push("| Source | Status | Added | Removed | Links | Errors |");
-    lines.push("|---|---:|---:|---:|---:|---:|");
+    lines.push("| Source | Status | Added | Request candidates | Request matches | Links | Errors |");
+    lines.push("|---|---:|---:|---:|---:|---:|---:|");
     for (const result of report.results) {
-      lines.push(`| ${result.sourceId} | ${result.status} | ${result.addedLinks} | ${result.removedLinks} | ${result.currentLinks} | ${result.errorCount} |`);
+      lines.push(`| ${result.sourceId} | ${result.status} | ${result.addedLinks} | ${result.requestCandidates} | ${result.requestMatches} | ${result.currentLinks} | ${result.errorCount} |`);
     }
     lines.push("");
   }

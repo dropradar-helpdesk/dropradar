@@ -13,6 +13,7 @@ Official-announcement-first prototype for tracking hobby drops, limited goods, c
 - Zero-result searches can be saved as visible tracking requests under search, voted on as candidate/problem signals, cleaned up with hide/delete/merge controls, annotated with admin notes and official URLs, and finally reviewed by admin status as pending, candidate, or rejected.
 - Approved tracking requests can be opened as official-card drafts, saved locally, and published as preview cards in the main feed once an official URL is attached.
 - Official-source diffs and risky requests now have an auto-intake queue: generated local candidates, low-risk official candidates, human-review items, and quarantined adult/unsafe requests are separated before anything becomes public.
+- Approved tracking requests are fed back into the daily official ingest: reused source lanes match request keywords, create `request_id`-linked intake candidates, and stay unpublished until admin review.
 - Prototype admin mode now has a cross-source admin review board that combines official diffs and tracking requests, then lets the operator mark each item as candidate, hold, rejected, or quarantine with local review notes before publishing.
 - Official watch sources have been expanded into 26 Supabase-ready official groups, with Bandai/Gunpla/Ichiban Kuji/prize/Tamashii/Gashapon/namco/GiGO/Taito/Sega/Square Enix/Sanrio/Frieren/Initial D split into separate lanes instead of one broad hobby crawler.
 - Official monitoring now has a generated source plan at `data/source-checks/monitor-plan.json`, so the operator can run high-priority daily batches without crawling every source every time.
@@ -41,6 +42,7 @@ Official-announcement-first prototype for tracking hobby drops, limited goods, c
 - Supabase setup guide is in `supabase/SETUP.md`; schema draft is in `supabase/schema.sql`; initial seed data is in `supabase/seed.sql`; scheduled ingest skeleton is in `supabase/functions/ingest-official-sources/`.
 - Edge Function service-role grants for existing projects are in `supabase/service-role-grants.sql`.
 - Scheduled official-source monitoring is set up for GitHub Actions in `.github/workflows/dropradar-daily-ingest.yml`; the Supabase `pg_cron` template remains in `supabase/schedule-ingest-cron-template.sql` as a fallback.
+- Supabase Edge Function deployment is set up for GitHub Actions in `.github/workflows/dropradar-functions.yml`; it deploys `ingest-official-sources` when function code changes.
 - Public static deployment is set up for GitHub Pages in `.github/workflows/dropradar-pages.yml`.
 - Public GitHub Pages config is generated at `data/app-config.public.json`; it contains only the Supabase URL and anon key, never service-role keys, admin JWTs, DB passwords, or ingest secrets.
 - Public-card seed SQL is generated at `supabase/drops.generated.sql` from `data/drops.json`.
@@ -112,6 +114,7 @@ Then push to `main`. The Pages workflow publishes the static app to GitHub Pages
 |-- .github/
 |   `-- workflows/
 |       |-- dropradar-daily-ingest.yml
+|       |-- dropradar-functions.yml
 |       `-- dropradar-pages.yml
 |-- ops/
 |   `-- account-runbook.md
@@ -348,6 +351,13 @@ daily official-source plan for all automation-ready source groups, and calls the
 `dryRun=false`. It writes only to `source_checks`, `ingest_runs`, and
 `intake_candidates`; public drops still require admin review.
 
+Approved tracking requests with `watch_strategy = 'reuse_source'` are also read
+by the Edge Function once per run. Their keywords are matched against the same
+official-source links, then new matches are inserted into `intake_candidates`
+with `request_id`. These candidates do not become public cards until admin
+review, so the app can grow daily without letting unsafe requests publish
+themselves.
+
 Each run also writes a human-readable GitHub Actions step summary and uploads
 `artifacts/ingest-report.json` as the `dropradar-ingest-report` artifact. The
 workflow fails only for hard operational failures such as no sources checked or
@@ -367,10 +377,13 @@ Add these GitHub repository secrets before enabling the schedule:
 DROPRADAR_SUPABASE_URL
 DROPRADAR_SUPABASE_ANON_KEY
 DROPRADAR_INGEST_SECRET
+SUPABASE_ACCESS_TOKEN
 ```
 
 `.env.github-actions.example` lists the same names for copying into GitHub
-Secrets. Do not put real values in that file.
+Secrets. `SUPABASE_ACCESS_TOKEN` is used only by the function deploy workflow;
+the daily ingest workflow uses the DropRadar URL, anon key, and ingest secret.
+Do not put real values in that file.
 
 The service-role key stays inside Supabase Edge Function secrets and should not
 be stored in GitHub.

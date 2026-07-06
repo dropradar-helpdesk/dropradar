@@ -4983,13 +4983,14 @@
       const linksJson = row.links_json && typeof row.links_json === "object" ? row.links_json : {};
       const links = Array.isArray(linksJson.links) ? linksJson.links : [];
       const candidates = Array.isArray(linksJson.candidates) ? linksJson.candidates : [];
+      const requestMatches = Array.isArray(linksJson.request_matches) ? linksJson.request_matches : [];
       const pages = Array.isArray(linksJson.pages) ? linksJson.pages : [];
       const errors = Array.isArray(linksJson.errors) ? linksJson.errors : [];
       const sourceId = row.source_id || row.sourceId || "";
       const sourceItem = officialSources().find((source) => source.id === sourceId);
       return {
         sourceId,
-        sourceUrl: sourceItem?.officialUrl || sourceItem?.url || candidates[0]?.sourceUrl || pages[0]?.source_url || "",
+        sourceUrl: sourceItem?.officialUrl || sourceItem?.url || candidates[0]?.sourceUrl || candidates[0]?.source_url || pages[0]?.source_url || "",
         watchUrls: pages.map((page) => page.source_url).filter(Boolean),
         checkedAt: row.checked_at || row.checkedAt || "",
         previousCheckedAt: null,
@@ -5009,7 +5010,17 @@
           sourceUrl: item.sourceUrl || item.source_url || ""
         })).filter((item) => item.url),
         removedLinks: [],
-        requestMatches: [],
+        requestMatches: requestMatches.map((item) => ({
+          term: item.term || "",
+          requestId: item.request_id || item.requestId || "",
+          candidateUrl: item.url || "",
+          officialUrl: item.url || "",
+          sourceUrl: item.source_url || item.sourceUrl || "",
+          count: Number(item.search_count || item.searchCount || 0),
+          candidateVotes: Number(item.candidate_votes || item.candidateVotes || 0),
+          problemVotes: Number(item.problem_votes || item.problemVotes || 0),
+          matchedKeyword: item.keyword || item.matchedKeyword || ""
+        })).filter((item) => item.term && item.candidateUrl),
         note: row.note || row.review_status || ""
       };
     }
@@ -5022,29 +5033,41 @@
       const officialUrl = normalizeOfficialUrl(item.official_url || signals.official_url || "");
       const sourceUrl = normalizeOfficialUrl(signals.source_url || sourceItem?.officialUrl || sourceItem?.url || officialUrl);
       const title = item.title || signals.link_text || sourceItem?.titleJa || "公式取込候補";
+      const requestId = item.request_id || signals.request_id || "";
+      const requestTerm = signals.request_term || "";
+      const requestDerived = Boolean(requestId || signals.reason === "tracking_request_match");
+      const requestLabel = requestTerm || title;
       return {
         id: item.id || `remote-${item.source_id || "source"}-${item.detected_at || ""}`,
         sourceId: item.source_id || "",
         status: blocked ? "block" : safe ? "safe" : "review",
         titleJa: title,
         titleEn: title,
-        sourceJa: "Supabase取込候補",
-        sourceEn: "Supabase intake",
-        reasonJa: item.moderation_note || `公式監視で検出。状態: ${item.review_status || "pending"} / リスク: ${risk}`,
-        reasonEn: item.moderation_note || `Detected by official monitoring. Status: ${item.review_status || "pending"} / risk: ${risk}`,
+        sourceJa: requestDerived ? "追跡リクエスト + Supabase取込候補" : "Supabase取込候補",
+        sourceEn: requestDerived ? "Tracking request + Supabase intake" : "Supabase intake",
+        reasonJa: item.moderation_note || (requestDerived
+          ? `承認済み追跡リクエスト「${requestLabel}」が公式ソース内で一致。状態: ${item.review_status || "pending"} / リスク: ${risk}`
+          : `公式監視で検出。状態: ${item.review_status || "pending"} / リスク: ${risk}`),
+        reasonEn: item.moderation_note || (requestDerived
+          ? `Approved tracking request "${requestLabel}" matched an official source. Status: ${item.review_status || "pending"} / risk: ${risk}`
+          : `Detected by official monitoring. Status: ${item.review_status || "pending"} / risk: ${risk}`),
         nextJa: blocked ? "隔離確認" : "管理確認",
         nextEn: blocked ? "Quarantine review" : "Admin review",
         detectedAt: formatCheckTime(item.detected_at || item.created_at || ""),
         sourceUrl,
         candidateUrl: officialUrl || sourceUrl,
         officialUrl: officialUrl || sourceUrl,
-        categoryJa: sourceItem?.titleJa || signals.category || "公式差分",
-        categoryEn: sourceItem?.titleEn || signals.category || "Official diff",
+        categoryJa: requestDerived ? "追跡リクエスト" : sourceItem?.titleJa || signals.category || "公式差分",
+        categoryEn: requestDerived ? "Tracking request" : sourceItem?.titleEn || signals.category || "Official diff",
         confidence: risk === "safe" ? "高" : "要確認",
-        fieldsJa: ["Supabase", risk === "safe" ? "低リスク" : "要確認", "画像なし"],
-        fieldsEn: ["Supabase", risk === "safe" ? "Low risk" : "Review", "No images"],
-        checksJa: ["公式URLを開く", "日付/締切/購入条件を確認", "公開してよい候補か判断"],
-        checksEn: ["Open official URL", "Check date, deadline, and purchase rules", "Decide whether it can be published"]
+        fieldsJa: ["Supabase", requestDerived ? "追跡一致" : risk === "safe" ? "低リスク" : "要確認", "画像なし"],
+        fieldsEn: ["Supabase", requestDerived ? "Request match" : risk === "safe" ? "Low risk" : "Review", "No images"],
+        checksJa: requestDerived
+          ? ["追跡語句と公式URLを確認", "日付/締切/購入条件を確認", "公開してよい候補か判断"]
+          : ["公式URLを開く", "日付/締切/購入条件を確認", "公開してよい候補か判断"],
+        checksEn: requestDerived
+          ? ["Check request term and official URL", "Check date, deadline, and purchase rules", "Decide whether it can be published"]
+          : ["Open official URL", "Check date, deadline, and purchase rules", "Decide whether it can be published"]
       };
     }
     function remoteIngestRunSummary(row = {}) {
