@@ -1,0 +1,1254 @@
+[
+  {
+    "id": "pokemon-card-tcg",
+    "icon": "i-card",
+    "mode": "auto",
+    "priority": "daily-high",
+    "statusJa": "毎日優先",
+    "statusEn": "Daily high",
+    "titleJa": "ポケカ/TCG公式商品",
+    "titleEn": "Pokemon Card and TCG official products",
+    "officialUrl": "https://www.pokemon-card.com/products/",
+    "url": "https://www.pokemon-card.com/products/",
+    "sourceJa": "商品情報、イベント、お店検索、抽選リンク",
+    "sourceEn": "Products, events, store search, and lottery links",
+    "methodJa": "商品情報とお店検索を分けて差分確認。抽選先は公式導線から到達したURLだけ保存。",
+    "methodEn": "Diff products and store search separately. Save lottery links only when reached from official paths.",
+    "cadenceJa": "朝/夕。発売週は昼も確認",
+    "cadenceEn": "Morning/evening. Add noon checks on launch weeks",
+    "fieldsJa": [
+      "発売日",
+      "抽選締切",
+      "購入条件",
+      "取扱店"
+    ],
+    "fieldsEn": [
+      "Release",
+      "Lottery due",
+      "Eligibility",
+      "Stores"
+    ],
+    "cautionJa": "ショップごとの条件は公式先で確認。カード画像や商品画像は転載しない。",
+    "cautionEn": "Shop rules stay on official pages. Do not rehost card or product images.",
+    "watchUrls": [
+      "https://www.pokemon-card.com/products/",
+      "https://www.pokemon-card.com/info/",
+      "https://www.pokemon-card.com/event/"
+    ],
+    "discoveryKeywordsJa": [
+      "拡張パック",
+      "抽選",
+      "ポケモンカード",
+      "取扱店"
+    ],
+    "discoveryKeywordsEn": [
+      "booster",
+      "lottery",
+      "Pokemon Card",
+      "store"
+    ]
+  },
+  {
+    "id": "pokemon-goods-center",
+    "icon": "i-star",
+    "mode": "auto",
+    "priority": "daily-high",
+    "statusJa": "毎日優先",
+    "statusEn": "Daily high",
+    "titleJa": "ポケモングッズ/ポケセン",
+    "titleEn": "Pokemon goods and Pokemon Center",
+    "officialUrl": "https://www.pokemon.co.jp/goods/",
+    "url": "https://www.pokemon.co.jp/goods/",
+    "sourceJa": "グッズ一覧、ポケモンセンター、オンライン導線",
+    "sourceEn": "Goods lineup, Pokemon Center, and online-store paths",
+    "methodJa": "グッズカテゴリ、ポケセン限定、オンライン販売の導線を候補化。販売ページの画像は公式で見てもらう。",
+    "methodEn": "Queue goods categories, Pokemon Center exclusives, and online-sale paths. Product images stay on official pages.",
+    "cadenceJa": "1日1回。大型コラボ週は朝/夕",
+    "cadenceEn": "Daily. Morning/evening on major collab weeks",
+    "fieldsJa": [
+      "発売日",
+      "販売場所",
+      "オンライン",
+      "数量限定"
+    ],
+    "fieldsEn": [
+      "Release",
+      "Where",
+      "Online",
+      "Limited quantity"
+    ],
+    "cautionJa": "ポケカと混ぜず、グッズ/雑貨/フード系として別扱い。",
+    "cautionEn": "Keep separate from TCG; treat goods, lifestyle items, and food as their own lane.",
+    "watchUrls": [
+      "https://www.pokemon.co.jp/goods/",
+      "https://www.pokemoncenter-online.com/",
+      "https://www.pokemon.co.jp/ex/"
+    ],
+    "discoveryKeywordsJa": [
+      "ポケモンセンター",
+      "限定",
+      "グッズ",
+      "キャンペーン"
+    ],
+    "discoveryKeywordsEn": [
+      "Pokemon Center",
+      "exclusive",
+      "goods",
+      "campaign"
+    ]
+  },
+  {
+    "id": "bandai-spirits-products",
+    "icon": "i-box",
+    "mode": "auto",
+    "priority": "daily-high",
+    "statusJa": "毎日優先",
+    "statusEn": "Daily high",
+    "titleJa": "BANDAI SPIRITS商品情報",
+    "titleEn": "BANDAI SPIRITS product updates",
+    "officialUrl": "https://www.bandaispirits.co.jp/products/",
+    "url": "https://www.bandaispirits.co.jp/products/",
+    "sourceJa": "BANDAI SPIRITSの商品公開、発売、ブランド横断の更新",
+    "sourceEn": "BANDAI SPIRITS product announcements, releases, and brand-wide updates",
+    "methodJa": "ブランド横断の新着だけ候補化。細かいくじ/ガンプラ/プライズは別ソースで拾う。",
+    "methodEn": "Queue brand-wide new links only. Lottery, Gunpla, and prize lanes are tracked separately.",
+    "cadenceJa": "1日1回。大型商品週は朝/夕",
+    "cadenceEn": "Daily. Morning/evening on major product weeks",
+    "fieldsJa": [
+      "発売月",
+      "ブランド",
+      "通販",
+      "再販"
+    ],
+    "fieldsEn": [
+      "Release month",
+      "Brand",
+      "Online",
+      "Restock"
+    ],
+    "cautionJa": "画像や説明文は転載しない。商品詳細は公式ページで確認させる。",
+    "cautionEn": "Do not reuse images or product copy. Send users to official detail pages.",
+    "watchUrls": [
+      "https://www.bandaispirits.co.jp/products/",
+      "https://www.bandaispirits.co.jp/news/"
+    ],
+    "discoveryKeywordsJa": [
+      "発売",
+      "商品",
+      "再販",
+      "限定"
+    ],
+    "discoveryKeywordsEn": [
+      "release",
+      "product",
+      "restock",
+      "limited"
+    ]
+  },
+  {
+    "id": "bandai-hobby-gunpla",
+    "icon": "i-box",
+    "mode": "auto",
+    "priority": "daily-high",
+    "statusJa": "毎日優先",
+    "statusEn": "Daily high",
+    "titleJa": "ガンプラ/バンダイホビー",
+    "titleEn": "Gunpla and Bandai Hobby",
+    "officialUrl": "https://bandai-hobby.net/",
+    "url": "https://bandai-hobby.net/",
+    "sourceJa": "ガンプラ、出荷予定、再販、ホビー新商品",
+    "sourceEn": "Gunpla, shipment plans, restocks, and hobby product updates",
+    "methodJa": "ガンプラ系だけを分離して差分確認。出荷/再販/新商品を別タグ化。",
+    "methodEn": "Track Gunpla separately. Tag shipment, restock, and new-product updates apart.",
+    "cadenceJa": "1日2回。出荷予定更新週は強め",
+    "cadenceEn": "Twice daily. Heavier checks during shipment-calendar updates",
+    "fieldsJa": [
+      "発売月",
+      "出荷予定",
+      "再販",
+      "店頭/通販"
+    ],
+    "fieldsEn": [
+      "Release month",
+      "Shipment",
+      "Restock",
+      "Store/online"
+    ],
+    "cautionJa": "在庫保証はしない。店舗別販売ルールは公式/店舗告知へ飛ばす。",
+    "cautionEn": "No stock guarantees. Link to official or store notices for local rules.",
+    "watchUrls": [
+      "https://bandai-hobby.net/",
+      "https://bandai-hobby.net/site/schedule.html"
+    ],
+    "discoveryKeywordsJa": [
+      "ガンプラ",
+      "出荷予定",
+      "再販",
+      "新商品"
+    ],
+    "discoveryKeywordsEn": [
+      "Gunpla",
+      "shipment",
+      "restock",
+      "new product"
+    ]
+  },
+  {
+    "id": "ichiban-kuji-official",
+    "icon": "i-ticket",
+    "mode": "auto",
+    "priority": "daily-high",
+    "statusJa": "毎日優先",
+    "statusEn": "Daily high",
+    "titleJa": "一番くじ公式",
+    "titleEn": "Ichiban Kuji official",
+    "officialUrl": "https://1kuji.com/",
+    "url": "https://1kuji.com/",
+    "sourceJa": "一番くじの発売予定、取扱店、オンライン導線",
+    "sourceEn": "Ichiban Kuji release plans, store search, and online links",
+    "methodJa": "くじだけを分離して差分確認。取扱店/発売日/オンライン販売を別フィールドにする。",
+    "methodEn": "Track lottery updates separately. Split store search, release date, and online sales.",
+    "cadenceJa": "1日2回。発売前後は朝昼夜",
+    "cadenceEn": "Twice daily. Morning/noon/night around releases",
+    "fieldsJa": [
+      "発売日",
+      "取扱店",
+      "オンライン",
+      "購入制限"
+    ],
+    "fieldsEn": [
+      "Release",
+      "Stores",
+      "Online",
+      "Purchase limits"
+    ],
+    "cautionJa": "店頭在庫は保証しない。公式の取扱店/商品ページへ必ず飛ばす。",
+    "cautionEn": "No stock guarantees. Always link to official store-search and item pages.",
+    "watchUrls": [
+      "https://1kuji.com/",
+      "https://1kuji.com/products"
+    ],
+    "discoveryKeywordsJa": [
+      "一番くじ",
+      "発売",
+      "取扱店",
+      "オンライン"
+    ],
+    "discoveryKeywordsEn": [
+      "Ichiban Kuji",
+      "release",
+      "store",
+      "online"
+    ]
+  },
+  {
+    "id": "bandai-spirits-prize",
+    "icon": "i-pin",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "バンプレスト/プライズ公式",
+    "titleEn": "Banpresto and prize official",
+    "officialUrl": "https://bsp-prize.jp/",
+    "url": "https://bsp-prize.jp/",
+    "sourceJa": "プライズ景品、投入時期、作品別更新",
+    "sourceEn": "Prize items, deployment timing, and title-based updates",
+    "methodJa": "プライズ投入情報だけを分離。ゲームセンター実在庫とは分けて扱う。",
+    "methodEn": "Track prize deployment info separately from real arcade stock.",
+    "cadenceJa": "1日1回。月末/月初と投入週は強め",
+    "cadenceEn": "Daily. Heavier at month end/start and deployment weeks",
+    "fieldsJa": [
+      "投入時期",
+      "景品",
+      "作品",
+      "店舗検索"
+    ],
+    "fieldsEn": [
+      "Deploy timing",
+      "Prize",
+      "Title",
+      "Store search"
+    ],
+    "cautionJa": "投入予定と現地在庫は別物として表示。画像は公式で見てもらう。",
+    "cautionEn": "Deployment schedule and on-site stock are different. Images stay on official pages.",
+    "watchUrls": [
+      "https://bsp-prize.jp/",
+      "https://bsp-prize.jp/item/"
+    ],
+    "discoveryKeywordsJa": [
+      "プライズ",
+      "投入",
+      "景品",
+      "フィギュア"
+    ],
+    "discoveryKeywordsEn": [
+      "prize",
+      "deployment",
+      "item",
+      "figure"
+    ]
+  },
+  {
+    "id": "tamashii-nations-official",
+    "icon": "i-star",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "魂ウェブ/フィギュア",
+    "titleEn": "Tamashii Nations figures",
+    "officialUrl": "https://tamashiiweb.com/",
+    "url": "https://tamashiiweb.com/",
+    "sourceJa": "魂ウェブ、フィギュア新商品、イベント、販売案内",
+    "sourceEn": "Tamashii Web, figure products, events, and sale notices",
+    "methodJa": "フィギュア系だけを分離して候補化。販売ページとイベントページは別タグ化。",
+    "methodEn": "Track figure updates separately. Tag sales pages and event pages apart.",
+    "cadenceJa": "1日1回。予約開始/イベント週は朝/夕",
+    "cadenceEn": "Daily. Morning/evening during preorder or event weeks",
+    "fieldsJa": [
+      "予約開始",
+      "発売月",
+      "イベント",
+      "通販"
+    ],
+    "fieldsEn": [
+      "Preorder",
+      "Release month",
+      "Event",
+      "Online"
+    ],
+    "cautionJa": "商品写真や展示写真は転載しない。公式ページに誘導する。",
+    "cautionEn": "Do not reuse product or exhibition photos. Link users to official pages.",
+    "watchUrls": [
+      "https://tamashiiweb.com/",
+      "https://tamashiiweb.com/item/",
+      "https://tamashiiweb.com/event/"
+    ],
+    "discoveryKeywordsJa": [
+      "フィギュア",
+      "予約",
+      "イベント",
+      "限定"
+    ],
+    "discoveryKeywordsEn": [
+      "figure",
+      "preorder",
+      "event",
+      "limited"
+    ]
+  },
+  {
+    "id": "dragonball-official",
+    "icon": "i-bell",
+    "mode": "auto",
+    "priority": "daily-high",
+    "statusJa": "毎日優先",
+    "statusEn": "Daily high",
+    "titleJa": "ドラゴンボール公式ニュース",
+    "titleEn": "Dragon Ball official news",
+    "officialUrl": "https://dragon-ball-official.com/news/",
+    "url": "https://dragon-ball-official.com/news/",
+    "sourceJa": "GOODS、FIGURE、CARD、BOOKS、EVENTの公式ニュース",
+    "sourceEn": "Official news across goods, figures, cards, books, and events",
+    "methodJa": "カテゴリ別ニュースを差分確認。海外人気が強いので英語表示向けタグも付与。",
+    "methodEn": "Diff category news. Add English-facing tags because overseas demand is strong.",
+    "cadenceJa": "1日1回。くじ/カード発表週は朝/夕",
+    "cadenceEn": "Daily. Morning/evening on lottery or card announcement weeks",
+    "fieldsJa": [
+      "グッズ",
+      "一番くじ",
+      "カード",
+      "イベント"
+    ],
+    "fieldsEn": [
+      "Goods",
+      "Ichiban Kuji",
+      "Cards",
+      "Events"
+    ],
+    "cautionJa": "作品公式と販売元が分かれるため、商品ページと公式ニュースの両方を残す。",
+    "cautionEn": "Series official and seller pages can differ; keep both official-news and product links.",
+    "watchUrls": [
+      "https://dragon-ball-official.com/news/",
+      "https://p-bandai.jp/chara/c0009/",
+      "https://www.carddass.com/dbh/"
+    ],
+    "discoveryKeywordsJa": [
+      "ドラゴンボール",
+      "フィギュア",
+      "カード",
+      "イベント"
+    ],
+    "discoveryKeywordsEn": [
+      "Dragon Ball",
+      "figure",
+      "card",
+      "event"
+    ]
+  },
+  {
+    "id": "hololive-official",
+    "icon": "i-star",
+    "mode": "auto",
+    "priority": "daily-high",
+    "statusJa": "毎日優先",
+    "statusEn": "Daily high",
+    "titleJa": "ホロライブ公式ニュース/グッズ",
+    "titleEn": "Hololive official news and goods",
+    "officialUrl": "https://hololive.hololivepro.com/news/",
+    "url": "https://hololive.hololivepro.com/news/",
+    "sourceJa": "公式ニュース、イベント、グッズ、店舗フェア",
+    "sourceEn": "Official news, events, goods, and store fairs",
+    "methodJa": "NEWS/GOODS/EVENTSの差分を確認。店舗フェアは対象店舗と購入条件を別フィールドにする。",
+    "methodEn": "Diff NEWS/GOODS/EVENTS. Split store-fair locations from purchase conditions.",
+    "cadenceJa": "1日1回。店舗フェア発表時は昼も確認",
+    "cadenceEn": "Daily. Add noon checks when store fairs are announced",
+    "fieldsJa": [
+      "開始日",
+      "対象店舗",
+      "購入条件",
+      "通販"
+    ],
+    "fieldsEn": [
+      "Start",
+      "Stores",
+      "Purchase rules",
+      "Online"
+    ],
+    "cautionJa": "二次創作や非公式企画は自動掲載しない。公式発表だけ候補化。",
+    "cautionEn": "Do not auto-publish fan or unofficial projects. Queue official announcements only.",
+    "watchUrls": [
+      "https://hololive.hololivepro.com/news/",
+      "https://shop.hololivepro.com/",
+      "https://hololive.hololivepro.com/events/"
+    ],
+    "discoveryKeywordsJa": [
+      "ホロライブ",
+      "グッズ",
+      "コラボ",
+      "フェア"
+    ],
+    "discoveryKeywordsEn": [
+      "Hololive",
+      "goods",
+      "collab",
+      "fair"
+    ]
+  },
+  {
+    "id": "figure-makers-preorder",
+    "icon": "i-star",
+    "mode": "auto",
+    "priority": "weekday",
+    "statusJa": "平日定期",
+    "statusEn": "Weekday",
+    "titleJa": "フィギュアメーカー/予約開始",
+    "titleEn": "Figure makers and preorder starts",
+    "officialUrl": "https://www.goodsmile.info/",
+    "url": "https://www.goodsmile.info/",
+    "sourceJa": "メーカー商品ページ、予約開始、出荷予定",
+    "sourceEn": "Maker pages, preorder starts, and shipping schedules",
+    "methodJa": "メーカー別の新着と出荷予定を保存。販売店リンクは補助扱い。",
+    "methodEn": "Save maker news and shipping schedules. Retail links are secondary.",
+    "cadenceJa": "平日朝/夕",
+    "cadenceEn": "Weekday morning/evening",
+    "fieldsJa": [
+      "予約開始",
+      "発売月",
+      "出荷日",
+      "再販"
+    ],
+    "fieldsEn": [
+      "Preorder",
+      "Release month",
+      "Shipping",
+      "Rerun"
+    ],
+    "cautionJa": "原型写真や商品写真は公式で見てもらう。",
+    "cautionEn": "Let users view sculpt and product photos on official pages.",
+    "watchUrls": [
+      "https://www.goodsmile.info/",
+      "https://www.kotobukiya.co.jp/product/",
+      "https://alter-web.jp/",
+      "https://www.megahobby.jp/"
+    ],
+    "discoveryKeywordsJa": [
+      "予約開始",
+      "出荷",
+      "再販",
+      "フィギュア"
+    ],
+    "discoveryKeywordsEn": [
+      "preorder",
+      "shipping",
+      "rerun",
+      "figure"
+    ]
+  },
+  {
+    "id": "gashapon-official",
+    "icon": "i-pin",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "ガシャポン公式",
+    "titleEn": "Gashapon official",
+    "officialUrl": "https://www.gashapon.jp/",
+    "url": "https://www.gashapon.jp/",
+    "sourceJa": "ガシャポン新商品、発売月、設置店導線",
+    "sourceEn": "Gashapon new items, release month, and location paths",
+    "methodJa": "ガシャポンだけを分離して差分確認。設置店舗検索は公式導線に残す。",
+    "methodEn": "Track Gashapon separately. Keep location search on official paths.",
+    "cadenceJa": "1日1回。月末/月初は強め",
+    "cadenceEn": "Daily. Heavier at month end/start",
+    "fieldsJa": [
+      "発売月",
+      "設置店舗",
+      "商品",
+      "売切れ注意"
+    ],
+    "fieldsEn": [
+      "Release month",
+      "Locations",
+      "Item",
+      "Sellout risk"
+    ],
+    "cautionJa": "設置店情報は変動するため、公式の店舗検索を最終確認にする。",
+    "cautionEn": "Location info changes; users should confirm through official location search.",
+    "watchUrls": [
+      "https://www.gashapon.jp/",
+      "https://www.gashapon.jp/products/"
+    ],
+    "discoveryKeywordsJa": [
+      "ガシャポン",
+      "発売",
+      "設置",
+      "新商品"
+    ],
+    "discoveryKeywordsEn": [
+      "gashapon",
+      "release",
+      "location",
+      "new item"
+    ]
+  },
+  {
+    "id": "namco-arcade-campaigns",
+    "icon": "i-pin",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "namco/バンナムAMキャンペーン",
+    "titleEn": "namco and Bandai Namco AM campaigns",
+    "officialUrl": "https://bandainamco-am.co.jp/",
+    "url": "https://bandainamco-am.co.jp/",
+    "sourceJa": "namco店舗、アミューズメント施設、キャンペーン、景品導線",
+    "sourceEn": "namco stores, amusement facilities, campaigns, and prize paths",
+    "methodJa": "店舗キャンペーンと景品導線を候補化。実店舗在庫とは分ける。",
+    "methodEn": "Queue store campaign and prize paths separately from real-store stock.",
+    "cadenceJa": "1日1回。キャンペーン開始週は朝/夕",
+    "cadenceEn": "Daily. Morning/evening during campaign launch weeks",
+    "fieldsJa": [
+      "開始日",
+      "対象店舗",
+      "景品",
+      "条件"
+    ],
+    "fieldsEn": [
+      "Start",
+      "Stores",
+      "Prize",
+      "Rules"
+    ],
+    "cautionJa": "店舗差が大きいので、対象店舗と現地在庫は別表示にする。",
+    "cautionEn": "Store variance is high; keep participating stores separate from on-site stock.",
+    "watchUrls": [
+      "https://bandainamco-am.co.jp/",
+      "https://bandainamco-am.co.jp/game_center/"
+    ],
+    "discoveryKeywordsJa": [
+      "キャンペーン",
+      "namco",
+      "景品",
+      "対象店舗"
+    ],
+    "discoveryKeywordsEn": [
+      "campaign",
+      "namco",
+      "prize",
+      "participating stores"
+    ]
+  },
+  {
+    "id": "gigo-arcade-campaigns",
+    "icon": "i-pin",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "GiGOキャンペーン",
+    "titleEn": "GiGO campaigns",
+    "officialUrl": "https://tempo.gendagigo.jp/cp/",
+    "url": "https://tempo.gendagigo.jp/cp/",
+    "sourceJa": "GiGO店舗キャンペーン、景品、コラボ、対象店舗",
+    "sourceEn": "GiGO store campaigns, prizes, collabs, and participating locations",
+    "methodJa": "GiGOだけを分離して候補化。対象店舗/期間/景品条件を分ける。",
+    "methodEn": "Track GiGO separately. Split participating stores, period, and prize rules.",
+    "cadenceJa": "1日1回。開始前後は朝/夕",
+    "cadenceEn": "Daily. Morning/evening around launches",
+    "fieldsJa": [
+      "期間",
+      "対象店舗",
+      "景品",
+      "参加条件"
+    ],
+    "fieldsEn": [
+      "Period",
+      "Stores",
+      "Prize",
+      "Rules"
+    ],
+    "cautionJa": "現地在庫や筐体状況は保証しない。公式キャンペーン情報だけ候補化。",
+    "cautionEn": "Do not guarantee local stock or machine status. Queue official campaign facts only.",
+    "watchUrls": [
+      "https://tempo.gendagigo.jp/cp/"
+    ],
+    "discoveryKeywordsJa": [
+      "GiGO",
+      "キャンペーン",
+      "景品",
+      "対象店舗"
+    ],
+    "discoveryKeywordsEn": [
+      "GiGO",
+      "campaign",
+      "prize",
+      "stores"
+    ]
+  },
+  {
+    "id": "restaurant-chain-collabs",
+    "icon": "i-ticket",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "外食チェーンコラボ",
+    "titleEn": "Restaurant chain collabs",
+    "officialUrl": "https://www.mcdonalds.co.jp/campaign/",
+    "url": "https://www.mcdonalds.co.jp/campaign/",
+    "sourceJa": "マクドナルド、吉野家、すき家、ココイチ、ガスト/すかいらーく",
+    "sourceEn": "McDonald's, Yoshinoya, Sukiya, CoCo Ichibanya, and Skylark/Gusto",
+    "methodJa": "キャンペーン/ニュースページを確認。対象店舗と特典条件を分ける。",
+    "methodEn": "Check campaign and news pages. Split participating stores from bonus rules.",
+    "cadenceJa": "1日1回。開始初日は昼も確認",
+    "cadenceEn": "Daily. Add a noon check on launch day",
+    "fieldsJa": [
+      "開始/終了",
+      "対象店舗",
+      "特典条件",
+      "売切れ注意"
+    ],
+    "fieldsEn": [
+      "Start/end",
+      "Stores",
+      "Bonus rules",
+      "Sellout risk"
+    ],
+    "cautionJa": "店舗差が強いので、公式ページへの導線を必ず残す。",
+    "cautionEn": "Store variance is high, so keep official-page links prominent.",
+    "watchUrls": [
+      "https://www.mcdonalds.co.jp/campaign/",
+      "https://www.yoshinoya.com/campaign/",
+      "https://www.sukiya.jp/news/",
+      "https://www.ichibanya.co.jp/cp/",
+      "https://www.skylark.co.jp/campaign/"
+    ],
+    "discoveryKeywordsJa": [
+      "コラボ",
+      "キャンペーン",
+      "特典",
+      "対象店舗"
+    ],
+    "discoveryKeywordsEn": [
+      "collab",
+      "campaign",
+      "bonus",
+      "participating stores"
+    ]
+  },
+  {
+    "id": "convenience-retail-anime-shops",
+    "icon": "i-pin",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "コンビニ/小売/アニメショップ",
+    "titleEn": "Convenience, retail, and anime shops",
+    "officialUrl": "https://www.family.co.jp/campaign.html",
+    "url": "https://www.family.co.jp/campaign.html",
+    "sourceJa": "ローソン、ファミマ、セブン、アニメイト、HMV、タワレコ",
+    "sourceEn": "Lawson, FamilyMart, 7-Eleven, Animate, HMV, and Tower Records",
+    "methodJa": "キャンペーンページと店舗検索を拾い、店舗差分は人間確認。",
+    "methodEn": "Collect campaign pages and store search links; humans review local variance.",
+    "cadenceJa": "朝/昼/夜の確認候補",
+    "cadenceEn": "Morning/noon/night candidates",
+    "fieldsJa": [
+      "店舗検索",
+      "発売時間",
+      "購入制限",
+      "整理券"
+    ],
+    "fieldsEn": [
+      "Store search",
+      "Sale time",
+      "Limits",
+      "Tickets"
+    ],
+    "cautionJa": "在庫や行列は公式情報とユーザー報告を分けて表示。",
+    "cautionEn": "Separate stock and line reports from official facts.",
+    "watchUrls": [
+      "https://www.family.co.jp/campaign.html",
+      "https://www.lawson.co.jp/lab/campaign/",
+      "https://www.sej.co.jp/cmp/",
+      "https://www.animate.co.jp/fair_event/",
+      "https://tower.jp/"
+    ],
+    "discoveryKeywordsJa": [
+      "コラボ",
+      "一番くじ",
+      "クリアファイル",
+      "購入制限"
+    ],
+    "discoveryKeywordsEn": [
+      "collab",
+      "lottery",
+      "clear file",
+      "purchase limit"
+    ]
+  },
+  {
+    "id": "publishers-shueisha-jump",
+    "icon": "i-book",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "集英社/ジャンプ/新刊",
+    "titleEn": "Shueisha, Jump, and new volumes",
+    "officialUrl": "https://www.shueisha.co.jp/books/",
+    "url": "https://www.shueisha.co.jp/books/",
+    "sourceJa": "コミックス新刊、雑誌、ジャンプ系イベント、作者名",
+    "sourceEn": "Comics, magazines, Jump events, and creator names",
+    "methodJa": "作品名だけでなく著者/作画/キャラデザ名でも追跡。特装版と関連イベントを別タグ化。",
+    "methodEn": "Track writer, artist, and character designer names. Tag special editions and related events apart.",
+    "cadenceJa": "1日1回。月初と発売週は強め",
+    "cadenceEn": "Daily. Heavier checks at month start and release weeks",
+    "fieldsJa": [
+      "新刊",
+      "特装版",
+      "新連載",
+      "関連作品"
+    ],
+    "fieldsEn": [
+      "New volume",
+      "Special edition",
+      "New series",
+      "Related works"
+    ],
+    "cautionJa": "あらすじや本文引用は最小限。公式/書店へ誘導。",
+    "cautionEn": "Keep synopsis and excerpts minimal; link to official or bookstore pages.",
+    "watchUrls": [
+      "https://www.shueisha.co.jp/books/",
+      "https://www.shonenjump.com/j/"
+    ],
+    "discoveryKeywordsJa": [
+      "新刊",
+      "特装版",
+      "新連載",
+      "作者"
+    ],
+    "discoveryKeywordsEn": [
+      "new volume",
+      "special edition",
+      "new series",
+      "creator"
+    ]
+  },
+  {
+    "id": "publishers-kodansha-shogakukan",
+    "icon": "i-book",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "講談社/小学館/新刊",
+    "titleEn": "Kodansha, Shogakukan, and new volumes",
+    "officialUrl": "https://kc.kodansha.co.jp/",
+    "url": "https://kc.kodansha.co.jp/",
+    "sourceJa": "コミック新刊、アニメ化、作家新作、フェア",
+    "sourceEn": "Comics, anime adaptations, creator works, and fairs",
+    "methodJa": "出版社ごとの新刊一覧を候補化。作者/作画名でお気に入りに刺さるものを拾う。",
+    "methodEn": "Queue publisher release lists. Catch writer/artist matches for favorites.",
+    "cadenceJa": "1日1回。月初と発売週は強め",
+    "cadenceEn": "Daily. Heavier checks at month start and release weeks",
+    "fieldsJa": [
+      "新刊",
+      "アニメ化",
+      "作者新作",
+      "書店フェア"
+    ],
+    "fieldsEn": [
+      "New volume",
+      "Anime adaptation",
+      "Creator work",
+      "Bookstore fair"
+    ],
+    "cautionJa": "本文・扉絵・誌面画像は使わない。タイトル/日付/公式リンク中心。",
+    "cautionEn": "Do not use pages, panels, or magazine images. Keep title/date/official links central.",
+    "watchUrls": [
+      "https://kc.kodansha.co.jp/",
+      "https://shogakukan-comic.jp/book",
+      "https://www.sunday-webry.com/"
+    ],
+    "discoveryKeywordsJa": [
+      "新刊",
+      "アニメ化",
+      "作家新作",
+      "フェア"
+    ],
+    "discoveryKeywordsEn": [
+      "new volume",
+      "anime adaptation",
+      "creator work",
+      "fair"
+    ]
+  },
+  {
+    "id": "anime-adaptation-events",
+    "icon": "i-bell",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "アニメ化/イベント/展示",
+    "titleEn": "Anime adaptations, events, and exhibitions",
+    "officialUrl": "https://frieren-anime.jp/",
+    "url": "https://frieren-anime.jp/",
+    "sourceJa": "作品公式、アニメ公式、会場告知、チケットページ",
+    "sourceEn": "Series sites, anime sites, venues, and ticket pages",
+    "methodJa": "アニメ化、2期、映画、展示、物販、事後通販を分けて保存。",
+    "methodEn": "Save adaptations, sequels, films, exhibitions, merch, and after-sales separately.",
+    "cadenceJa": "1日1回。イベント前は締切通知",
+    "cadenceEn": "Daily. Deadline reminders before events",
+    "fieldsJa": [
+      "発表日",
+      "開催日",
+      "チケット",
+      "物販"
+    ],
+    "fieldsEn": [
+      "Announcement",
+      "Event date",
+      "Ticket",
+      "Merch"
+    ],
+    "cautionJa": "PVスクショやキービジュアルは使わず、公式リンクで見る。",
+    "cautionEn": "Do not use PV screenshots or key visuals; view them on official links.",
+    "watchUrls": [
+      "https://frieren-anime.jp/",
+      "https://www.aniplex.co.jp/",
+      "https://www.tohoanimation.jp/"
+    ],
+    "discoveryKeywordsJa": [
+      "アニメ化",
+      "2期",
+      "映画",
+      "展示",
+      "物販"
+    ],
+    "discoveryKeywordsEn": [
+      "anime adaptation",
+      "season 2",
+      "film",
+      "exhibition",
+      "merch"
+    ]
+  },
+  {
+    "id": "square-enix-dragonquest-goods",
+    "icon": "i-star",
+    "mode": "auto",
+    "priority": "daily-high",
+    "statusJa": "毎日優先",
+    "statusEn": "Daily high",
+    "titleJa": "スクエニ/ドラクエ グッズ・コラボ",
+    "titleEn": "Square Enix and Dragon Quest goods/collabs",
+    "officialUrl": "https://www.jp.square-enix.com/goods/",
+    "url": "https://www.jp.square-enix.com/goods/",
+    "sourceJa": "スクウェア・エニックス公式グッズ、ドラクエ公式、店舗/飲食コラボ導線",
+    "sourceEn": "Square Enix official goods, Dragon Quest official updates, store and restaurant collab paths",
+    "methodJa": "ドラクエ系の飲食・物販コラボを個別レーン化。作品公式と販売元ページの両方を残す。",
+    "methodEn": "Keep Dragon Quest food and goods collabs in a dedicated lane. Preserve both series-official and seller pages.",
+    "cadenceJa": "1日1回。飲食コラボ発表週は朝/夕",
+    "cadenceEn": "Daily. Morning/evening during food-collab announcement weeks",
+    "fieldsJa": [
+      "開始日",
+      "対象店舗",
+      "特典条件",
+      "通販"
+    ],
+    "fieldsEn": [
+      "Start",
+      "Stores",
+      "Bonus rules",
+      "Online"
+    ],
+    "cautionJa": "ゲーム画像や商品画像は転載しない。公式リンクで見てもらう。",
+    "cautionEn": "Do not rehost game or product images. Send users to official links.",
+    "watchUrls": [
+      "https://www.jp.square-enix.com/goods/",
+      "https://www.dragonquest.jp/news/",
+      "https://www.jp.square-enix.com/cafe/tokyo/"
+    ],
+    "discoveryKeywordsJa": [
+      "ドラゴンクエスト",
+      "ドラクエ",
+      "グッズ",
+      "コラボ",
+      "カフェ"
+    ],
+    "discoveryKeywordsEn": [
+      "Dragon Quest",
+      "goods",
+      "collab",
+      "cafe"
+    ]
+  },
+  {
+    "id": "taito-prize-official",
+    "icon": "i-pin",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "タイトープライズ公式",
+    "titleEn": "Taito prize official",
+    "officialUrl": "https://www.taito.co.jp/prize",
+    "url": "https://www.taito.co.jp/prize",
+    "sourceJa": "タイトー景品、プライズ、店舗キャンペーン",
+    "sourceEn": "Taito prize items and store campaigns",
+    "methodJa": "クレーン景品をタイトー枠で分離。投入予定と実在庫は混ぜない。",
+    "methodEn": "Separate Taito prize schedules from real arcade stock.",
+    "cadenceJa": "1日1回。投入週は朝/夕",
+    "cadenceEn": "Daily. Morning/evening during deployment weeks",
+    "fieldsJa": [
+      "投入時期",
+      "景品",
+      "作品",
+      "対象店舗"
+    ],
+    "fieldsEn": [
+      "Deploy timing",
+      "Prize",
+      "Title",
+      "Stores"
+    ],
+    "cautionJa": "現地在庫は保証しない。公式の景品/キャンペーンページへ誘導。",
+    "cautionEn": "No local stock guarantee. Link to official prize or campaign pages.",
+    "watchUrls": [
+      "https://www.taito.co.jp/prize",
+      "https://www.taito.co.jp/campaign"
+    ],
+    "discoveryKeywordsJa": [
+      "プライズ",
+      "景品",
+      "フィギュア",
+      "キャンペーン"
+    ],
+    "discoveryKeywordsEn": [
+      "prize",
+      "figure",
+      "campaign"
+    ]
+  },
+  {
+    "id": "sega-plaza-prize",
+    "icon": "i-pin",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "セガプラザ/プライズ",
+    "titleEn": "Sega Plaza prize",
+    "officialUrl": "https://segaplaza.jp/prize/",
+    "url": "https://segaplaza.jp/prize/",
+    "sourceJa": "セガプライズ、キャラ景品、キャンペーン",
+    "sourceEn": "Sega prize items and character campaigns",
+    "methodJa": "プライズ景品の新規投入だけを候補化。商品画像は公式で確認。",
+    "methodEn": "Queue new prize deployments only. Product images stay on official pages.",
+    "cadenceJa": "1日1回。月初/月末は強め",
+    "cadenceEn": "Daily. Heavier at month start/end",
+    "fieldsJa": [
+      "投入時期",
+      "景品",
+      "作品",
+      "キャンペーン"
+    ],
+    "fieldsEn": [
+      "Deploy timing",
+      "Prize",
+      "Title",
+      "Campaign"
+    ],
+    "cautionJa": "投入予定と現地在庫を分ける。店舗別状況は公式/店舗確認へ。",
+    "cautionEn": "Separate deployment schedule from on-site stock. Use official/store checks for local status.",
+    "watchUrls": [
+      "https://segaplaza.jp/prize/",
+      "https://segaplaza.jp/event/"
+    ],
+    "discoveryKeywordsJa": [
+      "プライズ",
+      "景品",
+      "フィギュア",
+      "キャンペーン"
+    ],
+    "discoveryKeywordsEn": [
+      "prize",
+      "figure",
+      "campaign"
+    ]
+  },
+  {
+    "id": "sanrio-official-goods",
+    "icon": "i-star",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "サンリオ公式グッズ/コラボ",
+    "titleEn": "Sanrio official goods and collabs",
+    "officialUrl": "https://www.sanrio.co.jp/news/goods/",
+    "url": "https://www.sanrio.co.jp/news/goods/",
+    "sourceJa": "サンリオ公式グッズ、ショップ、コラボニュース",
+    "sourceEn": "Sanrio official goods, shop, and collab news",
+    "methodJa": "女性向け/旅行者向けにも刺さるキャラグッズを候補化。店舗限定は別タグ化。",
+    "methodEn": "Queue character goods that work for women and travelers too. Tag store exclusives separately.",
+    "cadenceJa": "1日1回。大型コラボ週は朝/夕",
+    "cadenceEn": "Daily. Morning/evening on major collab weeks",
+    "fieldsJa": [
+      "発売日",
+      "店舗限定",
+      "オンライン",
+      "コラボ"
+    ],
+    "fieldsEn": [
+      "Release",
+      "Store exclusive",
+      "Online",
+      "Collab"
+    ],
+    "cautionJa": "キャラクター画像は転載しない。公式商品ページへ誘導。",
+    "cautionEn": "Do not rehost character images. Link to official product pages.",
+    "watchUrls": [
+      "https://www.sanrio.co.jp/news/goods/",
+      "https://www.sanrio.co.jp/news/campaign/",
+      "https://shop.sanrio.co.jp/"
+    ],
+    "discoveryKeywordsJa": [
+      "サンリオ",
+      "グッズ",
+      "コラボ",
+      "限定"
+    ],
+    "discoveryKeywordsEn": [
+      "Sanrio",
+      "goods",
+      "collab",
+      "exclusive"
+    ]
+  },
+  {
+    "id": "frieren-official",
+    "icon": "i-bell",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "葬送のフリーレン公式",
+    "titleEn": "Frieren official",
+    "officialUrl": "https://frieren-anime.jp/",
+    "url": "https://frieren-anime.jp/",
+    "sourceJa": "アニメ公式ニュース、グッズ、イベント、展示",
+    "sourceEn": "Anime official news, goods, events, and exhibitions",
+    "methodJa": "海外人気が強い作品として個別追跡。展示/物販/書籍を分ける。",
+    "methodEn": "Track separately because overseas demand is strong. Split exhibitions, merch, and books.",
+    "cadenceJa": "1日1回。イベント/物販発表週は朝/夕",
+    "cadenceEn": "Daily. Morning/evening when event or merch news appears",
+    "fieldsJa": [
+      "ニュース",
+      "物販",
+      "イベント",
+      "書籍"
+    ],
+    "fieldsEn": [
+      "News",
+      "Merch",
+      "Event",
+      "Books"
+    ],
+    "cautionJa": "キービジュアルやPV画像は使わず、公式ページへ飛ばす。",
+    "cautionEn": "Do not use key visuals or PV images. Link users to official pages.",
+    "watchUrls": [
+      "https://frieren-anime.jp/",
+      "https://frieren-anime.jp/news/"
+    ],
+    "discoveryKeywordsJa": [
+      "フリーレン",
+      "グッズ",
+      "イベント",
+      "展示",
+      "物販"
+    ],
+    "discoveryKeywordsEn": [
+      "Frieren",
+      "goods",
+      "event",
+      "exhibition",
+      "merch"
+    ]
+  },
+  {
+    "id": "initiald-official-events",
+    "icon": "i-map",
+    "mode": "auto",
+    "priority": "daily-medium",
+    "statusJa": "毎日通常",
+    "statusEn": "Daily normal",
+    "titleJa": "頭文字D公式/イベント",
+    "titleEn": "Initial D official and events",
+    "officialUrl": "https://initiald-portal.com/",
+    "url": "https://initiald-portal.com/",
+    "sourceJa": "頭文字D公式、イベント、自治体/車関連コラボ導線",
+    "sourceEn": "Initial D official updates, events, and local/car collab paths",
+    "methodJa": "商品・イベントだけを自動候補化。聖地巡礼は近く機能の付加価値として別扱い。",
+    "methodEn": "Auto-queue products and events only. Pilgrimage stays as nearby extra value.",
+    "cadenceJa": "1日1回。イベント前は朝/夕",
+    "cadenceEn": "Daily. Morning/evening before events",
+    "fieldsJa": [
+      "イベント",
+      "グッズ",
+      "開催地",
+      "交通"
+    ],
+    "fieldsEn": [
+      "Event",
+      "Goods",
+      "Venue",
+      "Transit"
+    ],
+    "cautionJa": "非公式オフ会や危険運転につながる情報は自動掲載しない。",
+    "cautionEn": "Do not auto-publish unofficial meetups or anything encouraging unsafe driving.",
+    "watchUrls": [
+      "https://initiald-portal.com/",
+      "https://initiald-portal.com/news/"
+    ],
+    "discoveryKeywordsJa": [
+      "頭文字D",
+      "イベント",
+      "グッズ",
+      "コラボ"
+    ],
+    "discoveryKeywordsEn": [
+      "Initial D",
+      "event",
+      "goods",
+      "collab"
+    ]
+  },
+  {
+    "id": "local-tourism-pilgrimage",
+    "icon": "i-map",
+    "mode": "manual",
+    "priority": "weekly-support",
+    "statusJa": "週次補助",
+    "statusEn": "Weekly support",
+    "titleJa": "自治体/観光/聖地巡礼",
+    "titleEn": "Local governments, tourism, and pilgrimage spots",
+    "officialUrl": "https://initiald-portal.com/",
+    "url": "https://initiald-portal.com/",
+    "sourceJa": "観光協会、自治体コラボ、記念マンホール、公式マップ",
+    "sourceEn": "Tourism pages, city collabs, manholes, and official maps",
+    "methodJa": "商品フィードではなく、近くに来た時の付加価値として表示。",
+    "methodEn": "Show as nearby extra value, not as the primary product feed.",
+    "cadenceJa": "週1回 + 旅行先登録時",
+    "cadenceEn": "Weekly plus when a destination is saved",
+    "fieldsJa": [
+      "場所",
+      "交通",
+      "写真向き",
+      "休館日"
+    ],
+    "fieldsEn": [
+      "Place",
+      "Transit",
+      "Photo value",
+      "Closures"
+    ],
+    "cautionJa": "位置情報は概略優先。詳しい行き方は公式地図へ飛ばす。",
+    "cautionEn": "Use approximate location by default; link to official maps for exact routes.",
+    "watchUrls": [
+      "https://initiald-portal.com/",
+      "https://animetourism88.com/",
+      "https://www.mlit.go.jp/"
+    ],
+    "discoveryKeywordsJa": [
+      "聖地巡礼",
+      "マンホール",
+      "自治体コラボ",
+      "観光マップ"
+    ],
+    "discoveryKeywordsEn": [
+      "pilgrimage",
+      "manhole",
+      "local collab",
+      "tourism map"
+    ]
+  },
+  {
+    "id": "user-reports-local-notes",
+    "icon": "i-list",
+    "mode": "report",
+    "priority": "later-moderated",
+    "statusJa": "将来枠",
+    "statusEn": "Later",
+    "titleJa": "ユーザー報告/現地メモ",
+    "titleEn": "User reports and local notes",
+    "officialUrl": "",
+    "url": "",
+    "sourceJa": "完売、整理券終了、行列、購入制限の目撃情報",
+    "sourceEn": "Sold out, ticket ended, line, and purchase-limit sightings",
+    "methodJa": "構造化投稿だけ。公式情報とは別表示。最初は公開チャットなし。",
+    "methodEn": "Structured reports only. Separate from official facts. No open chat at first.",
+    "cadenceJa": "モデレーション準備後",
+    "cadenceEn": "After moderation is ready",
+    "fieldsJa": [
+      "時刻",
+      "場所",
+      "状況",
+      "信頼度"
+    ],
+    "fieldsEn": [
+      "Time",
+      "Place",
+      "Status",
+      "Confidence"
+    ],
+    "cautionJa": "転売勧誘、個人情報、店員晒し、画像投稿は最初から禁止。",
+    "cautionEn": "Ban resale solicitation, personal data, employee exposure, and image uploads from day one."
+  }
+]

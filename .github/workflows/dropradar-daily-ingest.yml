@@ -1,0 +1,63 @@
+name: DropRadar daily official ingest
+
+on:
+  schedule:
+    # 07:17 JST. DropRadar is a missed-update guard, not a fastest-news crawler.
+    - cron: "17 22 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Run without writing source_checks or intake_candidates"
+        required: true
+        default: false
+        type: boolean
+      source_ids:
+        description: "Optional comma-separated source IDs. Empty uses the daily-high plan."
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dropradar-daily-official-ingest
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Build daily high-priority plan
+        run: npm run monitor:plan -- --tier=high --limit=8
+
+      - name: Trigger Supabase ingest
+        env:
+          DROPRADAR_SUPABASE_URL: ${{ secrets.DROPRADAR_SUPABASE_URL }}
+          DROPRADAR_SUPABASE_ANON_KEY: ${{ secrets.DROPRADAR_SUPABASE_ANON_KEY }}
+          DROPRADAR_INGEST_SECRET: ${{ secrets.DROPRADAR_INGEST_SECRET }}
+          DROPRADAR_MANUAL_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+          DROPRADAR_MANUAL_SOURCE_IDS: ${{ github.event_name == 'workflow_dispatch' && inputs.source_ids || '' }}
+        shell: bash
+        run: |
+          ARGS=("--write" "--plan=data/source-checks/monitor-plan.json")
+
+          if [ "$DROPRADAR_MANUAL_DRY_RUN" = "true" ]; then
+            ARGS=("--dry-run" "--plan=data/source-checks/monitor-plan.json")
+          fi
+
+          if [ -n "$DROPRADAR_MANUAL_SOURCE_IDS" ]; then
+            ARGS+=("--source=$DROPRADAR_MANUAL_SOURCE_IDS")
+          fi
+
+          npm run function:trigger -- "${ARGS[@]}"

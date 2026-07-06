@@ -1,0 +1,14 @@
+{
+  "email": "dropradar.helpdesk@gmail.com",
+  "status": "active",
+  "noteJa": "受信確認済み。問い合わせ、削除依頼、修正依頼はこの窓口で受け付けます。",
+  "noteEn": "Inbox verified. Contact, takedown, and correction requests are accepted here.",
+  "subjects": {
+    "generalJa": "DropRadar 問い合わせ",
+    "generalEn": "DropRadar contact",
+    "takedownJa": "DropRadar 権利者削除依頼",
+    "takedownEn": "DropRadar rights-holder takedown request",
+    "correctionJa": "DropRadar 掲載内容修正依頼",
+    "correctionEn": "DropRadar listing correction request"
+  }
+}

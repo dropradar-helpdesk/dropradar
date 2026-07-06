@@ -1,0 +1,55 @@
+{
+  "environment": "local",
+  "features": {
+    "supabase": false,
+    "remoteReads": false,
+    "remoteWrites": false,
+    "remoteAdminWrites": true,
+    "adminReview": true,
+    "locationHistory": false,
+    "loginlessRequests": true
+  },
+  "supabase": {
+    "url": "https://YOUR_PROJECT_ID.supabase.co",
+    "anonKey": "YOUR_SUPABASE_ANON_KEY",
+    "adminAccessToken": "YOUR_ADMIN_USER_ACCESS_TOKEN_FOR_LOCAL_TEST_ONLY"
+  },
+  "sync": {
+    "readTables": [
+      "drops",
+      "official_sources",
+      "spot_locations",
+      "tracking_request_feed"
+    ],
+    "requestRpc": [
+      "submit_tracking_request",
+      "vote_tracking_request"
+    ],
+    "adminRpc": [
+      "admin_set_tracking_request"
+    ],
+    "adminTables": [
+      "tracking_requests",
+      "request_votes",
+      "request_search_signals",
+      "source_checks",
+      "intake_candidates",
+      "moderation_rules",
+      "admin_decisions",
+      "moderation_notes"
+    ],
+    "ownerTables": [
+      "user_favorites",
+      "user_plans",
+      "budget_envelopes"
+    ],
+    "notes": [
+      "Copy this file to data/app-config.json and replace the Supabase values.",
+      "Do not commit data/app-config.json if it contains real keys.",
+      "Anonymous request writes should use RPC only. Do not expose raw request_votes or request_search_signals to the public client.",
+      "Admin actions should use Supabase Auth login with app_metadata.role=admin.",
+      "adminAccessToken is only a legacy local/staging fallback. Do not ship it in a public static build.",
+      "User GPS location is never stored. Only public spot_locations coordinates are stored."
+    ]
+  }
+}

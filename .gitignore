@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+.env
+.env.*
+!.env.github-actions.example
+data/app-config.json
+supabase/.temp/

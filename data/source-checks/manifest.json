@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-07-06T06:18:29.731Z",
+  "diffs": [
+    {
+      "sourceId": "bandai-hobby-kuji-prize",
+      "path": "bandai-spirits-products-diff.json",
+      "checkedAt": "2026-07-06T07:25:15.0538979+09:00",
+      "addedCount": 0,
+      "removedCount": 0
+    },
+    {
+      "sourceId": "pokemon-card-tcg",
+      "path": "pokemon-card-tcg-diff.json",
+      "checkedAt": "2026-07-06T06:18:29.189Z",
+      "addedCount": 0,
+      "removedCount": 0
+    }
+  ]
+}

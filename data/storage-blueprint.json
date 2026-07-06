@@ -1,0 +1,251 @@
+{
+  "version": "prototype-2026-07-06",
+  "provider": "Supabase",
+  "summary": [
+    {
+      "value": "15+view",
+      "labelJa": "主要テーブル+集計ビュー",
+      "labelEn": "core tables + public view"
+    },
+    {
+      "value": "RLS",
+      "labelJa": "行単位で保護",
+      "labelEn": "row-level guard"
+    },
+    {
+      "value": "2 RPC",
+      "labelJa": "匿名リクエスト入口",
+      "labelEn": "guest request entry"
+    }
+  ],
+  "flows": [
+    {
+      "step": "01",
+      "titleJa": "未登録検索",
+      "titleEn": "Unlisted search",
+      "copyJa": "0件検索は submit_tracking_request RPCで受け、同じ語句を tracking_requests に統合する。検索シグナルは端末/ユーザー単位で1回だけ数え、公開側は tracking_request_feed の集計だけ読む。",
+      "copyEn": "Zero-result searches go through submit_tracking_request RPC, duplicate terms merge into tracking_requests, search signals count once per device/user, and the public app reads only tracking_request_feed aggregates.",
+      "tables": ["submit_tracking_request", "tracking_requests", "request_search_signals", "tracking_request_feed"]
+    },
+    {
+      "step": "02",
+      "titleJa": "管理レビュー",
+      "titleEn": "Admin review",
+      "copyJa": "管理者だけが採用、却下、隔離、統合、公式URL確認を行う。判断は admin_decisions、理由や権利者対応メモは moderation_notes に残す。",
+      "copyEn": "Only admins approve, reject, quarantine, merge, and verify official URLs. Decisions go to admin_decisions; reasons and rights-holder notes go to moderation_notes.",
+      "tables": ["admin_set_tracking_request", "tracking_requests", "admin_decisions", "moderation_notes", "intake_candidates", "drops"]
+    },
+    {
+      "step": "03",
+      "titleJa": "ユーザー保存",
+      "titleEn": "User planning",
+      "copyJa": "お気に入り、ランク、回収日、進捗、予算は user_* 系に分けて自分の行だけ更新する。",
+      "copyEn": "Favorites, ranks, plan dates, progress, and budgets live in user_* tables and only the owner can update them.",
+      "tables": ["user_favorites", "user_plans", "budget_envelopes"]
+    },
+    {
+      "step": "04",
+      "titleJa": "公式ソース確認",
+      "titleEn": "Official source checks",
+      "copyJa": "公式ページの差分は ingest_runs と source_checks に残し、候補だけ intake_candidates に積む。自動取得はサイト規約確認後、低リスクでも人間承認で公開する。",
+      "copyEn": "Official-page diffs are stored in ingest_runs and source_checks, and only candidates are queued in intake_candidates. Automated fetches require terms / robots review and human approval before publishing.",
+      "tables": ["official_sources", "ingest_runs", "source_checks", "intake_candidates", "moderation_rules"]
+    },
+    {
+      "step": "05",
+      "titleJa": "現在地サブ機能",
+      "titleEn": "Location side feature",
+      "copyJa": "聖地・寄り道・自治体コラボの公開座標だけを spot_locations に保存する。ユーザー現在地は端末内の一時利用のみで、保存・悪用・第三者提供しない。",
+      "copyEn": "Store only public spot coordinates in spot_locations. User location is temporary on-device state only; it is not misused, stored, or shared with third parties.",
+      "tables": ["spot_locations"]
+    }
+  ],
+  "roles": [
+    {
+      "roleJa": "未ログイン/旅行者",
+      "roleEn": "Guest / visitor",
+      "canJa": "公開カード閲覧、公式リンク、追跡リクエスト、候補票・問題票",
+      "canEn": "Read public cards, open official links, request tracking, vote candidate / issue",
+      "guardJa": "RPC経由のみ。生の票・端末ハッシュ・管理メモ・個人予定は見えない",
+      "guardEn": "RPC only. Raw votes, device hashes, admin notes, and personal plans stay hidden"
+    },
+    {
+      "roleJa": "ログインユーザー",
+      "roleEn": "Signed-in user",
+      "canJa": "お気に入り、優先順位、回収日、カレンダー、予算を保存",
+      "canEn": "Save favorites, priority order, hunt dates, calendar plans, and budgets",
+      "guardJa": "user_id が一致する行だけ閲覧・更新",
+      "guardEn": "Read / update only rows matching their user_id"
+    },
+    {
+      "roleJa": "管理者",
+      "roleEn": "Admin",
+      "canJa": "公式URL確認、却下、非表示、統合、公開、監査ログ確認",
+      "canEn": "Verify official URLs, reject, hide, merge, publish, and review audit logs",
+      "guardJa": "公開前に公式URL必須。採用/却下/隔離/統合は判断ログへ",
+      "guardEn": "Official URL required before publishing. Approve / reject / quarantine / merge write decision logs"
+    }
+  ],
+  "tables": [
+    {
+      "name": "drops",
+      "labelJa": "公開カード",
+      "labelEn": "Public cards",
+      "purposeJa": "商品、コラボ、新刊、アニメ化、イベントなどの公開情報。",
+      "purposeEn": "Published goods, collabs, new volumes, anime adaptations, and events.",
+      "read": "public",
+      "write": "admin",
+      "fields": ["id", "title_ja", "title_en", "brand", "category", "state", "official_url", "source_id", "release_at", "deadline_at", "purchase_limit", "published_at"]
+    },
+    {
+      "name": "official_sources",
+      "labelJa": "公式ソース",
+      "labelEn": "Official sources",
+      "purposeJa": "ポケカ、バンダイ、飲食チェーン、出版社、イベント公式などの監視対象。",
+      "purposeEn": "Watch targets such as Pokemon cards, Bandai, restaurant chains, publishers, and event official pages.",
+      "read": "public",
+      "write": "admin",
+      "fields": ["id", "name", "url", "category", "check_mode", "cadence", "robots_checked_at", "terms_note"]
+    },
+    {
+      "name": "source_checks",
+      "labelJa": "公式確認ログ",
+      "labelEn": "Source check logs",
+      "purposeJa": "公式ページの確認時刻、差分、ハッシュ、担当者メモ。",
+      "purposeEn": "Official check time, diffs, hashes, and reviewer notes.",
+      "read": "admin",
+      "write": "admin",
+      "fields": ["id", "source_id", "checked_at", "hash", "added_count", "removed_count", "links_json", "review_status", "note"]
+    },
+    {
+      "name": "ingest_runs",
+      "labelJa": "取込ジョブ履歴",
+      "labelEn": "Ingest run history",
+      "purposeJa": "自動取込ジョブの開始/終了、対象ソース数、候補数、失敗理由。",
+      "purposeEn": "Start/end state, source count, candidate count, and failure reason for automated ingest jobs.",
+      "read": "admin",
+      "write": "system_admin",
+      "fields": ["id", "run_type", "status", "dry_run", "source_count", "candidate_count", "started_at", "finished_at", "error", "meta_json"]
+    },
+    {
+      "name": "intake_candidates",
+      "labelJa": "自動取込候補",
+      "labelEn": "Auto intake candidates",
+      "purposeJa": "公式差分、未登録リクエスト照合、NG隔離を公開前に受け止めるキュー。",
+      "purposeEn": "Pre-publication queue for official diffs, request matches, and quarantined unsafe items.",
+      "read": "admin",
+      "write": "system_admin",
+      "fields": ["id", "source_id", "request_id", "title", "official_url", "risk_level", "review_status", "detected_at", "signals_json", "moderation_note"]
+    },
+    {
+      "name": "moderation_rules",
+      "labelJa": "自動判定ルール",
+      "labelEn": "Moderation rules",
+      "purposeJa": "成人/露骨/違法/転載/個人情報などを候補化前に止めるルール。",
+      "purposeEn": "Rules that stop adult, explicit, illegal, rehosted-image, or personal-data items before publication.",
+      "read": "admin",
+      "write": "admin",
+      "fields": ["id", "rule_type", "pattern", "action", "severity", "enabled", "note", "updated_at"]
+    },
+    {
+      "name": "tracking_requests",
+      "labelJa": "追跡リクエスト",
+      "labelEn": "Tracking requests",
+      "purposeJa": "未登録検索の正規化先。検索数、採用/却下/隔離、公式URL候補、統合先を持つ管理元データ。",
+      "purposeEn": "Canonical normalized request records with search count, approval/reject/quarantine status, official URL candidates, and merge targets.",
+      "read": "admin / public via view",
+      "write": "rpc_admin",
+      "fields": ["id", "term", "normalized_term", "status", "official_url", "hidden", "search_count", "merged_into_id", "admin_note", "created_at", "last_seen_at"]
+    },
+    {
+      "name": "request_votes",
+      "labelJa": "リクエスト票",
+      "labelEn": "Request votes",
+      "purposeJa": "候補票と問題票。ログインユーザーまたは匿名端末ハッシュ単位で同一リクエスト1票に制限。生データは公開しない。",
+      "purposeEn": "Candidate and issue votes, limited to one vote per signed-in user or anonymous device hash. Raw rows are not public.",
+      "read": "admin / aggregate view only",
+      "write": "vote_tracking_request",
+      "fields": ["id", "request_id", "user_id", "voter_hash", "vote_type", "created_at", "updated_at"]
+    },
+    {
+      "name": "request_search_signals",
+      "labelJa": "検索需要シグナル",
+      "labelEn": "Search demand signals",
+      "purposeJa": "同じ端末や同じユーザーの連打で search_count が水増しされないようにする内部重複防止。",
+      "purposeEn": "Internal duplicate guard so repeated taps from the same device/user do not inflate search_count.",
+      "read": "admin",
+      "write": "submit_tracking_request",
+      "fields": ["id", "request_id", "user_id", "requester_hash", "created_at"]
+    },
+    {
+      "name": "tracking_request_feed",
+      "labelJa": "公開リクエスト集計",
+      "labelEn": "Public request aggregate",
+      "purposeJa": "公開画面が読むビュー。語句、状態、検索数、候補票、問題票だけを返し、端末ハッシュや管理メモは出さない。",
+      "purposeEn": "Read-only public view exposing terms, status, search count, candidate votes, and issue flags without device hashes or admin notes.",
+      "read": "public",
+      "write": "none",
+      "fields": ["id", "term", "status", "official_url", "search_count", "candidate_votes", "problem_votes", "last_seen_at"]
+    },
+    {
+      "name": "user_favorites",
+      "labelJa": "お気に入り",
+      "labelEn": "Favorites",
+      "purposeJa": "ユーザーが追うカードと tier S/A/B/C、同tier内の順番。",
+      "purposeEn": "Cards the user tracks, tier S/A/B/C, and order inside each tier.",
+      "read": "owner",
+      "write": "owner",
+      "fields": ["user_id", "drop_id", "rank", "rank_order", "created_at", "updated_at"]
+    },
+    {
+      "name": "user_plans",
+      "labelJa": "回収予定",
+      "labelEn": "Hunt plans",
+      "purposeJa": "回収日、進捗、当日の前提、カレンダー表示。",
+      "purposeEn": "Plan date, progress, hunt-day premise, and calendar display.",
+      "read": "owner",
+      "write": "owner",
+      "fields": ["id", "user_id", "drop_id", "plan_date", "status", "day_mode", "calendar_note"]
+    },
+    {
+      "name": "budget_envelopes",
+      "labelJa": "予算枠",
+      "labelEn": "Budget envelopes",
+      "purposeJa": "月予算、コンテンツ別予算、交通費・食費などの枠。",
+      "purposeEn": "Monthly cap, content budgets, transit and food envelopes.",
+      "read": "owner",
+      "write": "owner",
+      "fields": ["id", "user_id", "month", "drop_id", "category", "amount_yen", "spent_yen", "updated_at"]
+    },
+    {
+      "name": "spot_locations",
+      "labelJa": "聖地・寄り道スポット",
+      "labelEn": "Pilgrimage and detour spots",
+      "purposeJa": "聖地巡礼、自治体コラボ、記念マンホール、交通アクセス補助用の公開スポット座標。ユーザー現在地は保存しない。",
+      "purposeEn": "Public spot coordinates for pilgrimage, local collabs, manholes, and transit support. User current location is not stored.",
+      "read": "public",
+      "write": "admin",
+      "fields": ["id", "name_ja", "name_en", "category", "lat", "lng", "map_query_ja", "map_query_en", "access_ja", "access_en", "official_url", "published_at"]
+    },
+    {
+      "name": "admin_decisions",
+      "labelJa": "管理判断ログ",
+      "labelEn": "Admin decisions",
+      "purposeJa": "採用、却下、隔離、保留、統合、公開、非表示などの判断履歴。",
+      "purposeEn": "Decision history for approve, reject, quarantine, hold, merge, publish, hide, and restore actions.",
+      "read": "admin",
+      "write": "system",
+      "fields": ["id", "admin_user_id", "action", "target_table", "target_id", "before_json", "after_json", "created_at"]
+    },
+    {
+      "name": "moderation_notes",
+      "labelJa": "審査メモ",
+      "labelEn": "Moderation notes",
+      "purposeJa": "却下理由、権利者対応、公式URL確認、問題リクエストの隔離理由。基本は内部用。",
+      "purposeEn": "Reject reasons, rights-holder handling, official URL checks, and quarantine notes. Internal by default.",
+      "read": "admin",
+      "write": "admin",
+      "fields": ["id", "admin_user_id", "target_table", "target_id", "note", "visibility", "created_at"]
+    }
+  ]
+}

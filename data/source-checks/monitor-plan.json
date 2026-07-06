@@ -1,0 +1,103 @@
+{
+  "generatedAt": "2026-07-06T09:30:18.456Z",
+  "tier": "high",
+  "dryRun": false,
+  "selectedCount": 8,
+  "selectedWatchUrlCount": 21,
+  "requestWatchTerms": 0,
+  "byPriority": {
+    "daily-high": 8,
+    "daily-medium": 15,
+    "weekday": 1,
+    "weekly-support": 1,
+    "later-moderated": 1
+  },
+  "selectedSources": [
+    {
+      "id": "bandai-hobby-gunpla",
+      "titleJa": "ガンプラ/バンダイホビー",
+      "titleEn": "Gunpla and Bandai Hobby",
+      "priority": "daily-high",
+      "watchUrlCount": 2,
+      "officialUrl": "https://bandai-hobby.net/",
+      "cadenceJa": "1日2回。出荷予定更新週は強め",
+      "cadenceEn": "Twice daily. Heavier checks during shipment-calendar updates"
+    },
+    {
+      "id": "bandai-spirits-products",
+      "titleJa": "BANDAI SPIRITS商品情報",
+      "titleEn": "BANDAI SPIRITS product updates",
+      "priority": "daily-high",
+      "watchUrlCount": 2,
+      "officialUrl": "https://www.bandaispirits.co.jp/products/",
+      "cadenceJa": "1日1回。大型商品週は朝/夕",
+      "cadenceEn": "Daily. Morning/evening on major product weeks"
+    },
+    {
+      "id": "dragonball-official",
+      "titleJa": "ドラゴンボール公式ニュース",
+      "titleEn": "Dragon Ball official news",
+      "priority": "daily-high",
+      "watchUrlCount": 3,
+      "officialUrl": "https://dragon-ball-official.com/news/",
+      "cadenceJa": "1日1回。くじ/カード発表週は朝/夕",
+      "cadenceEn": "Daily. Morning/evening on lottery or card announcement weeks"
+    },
+    {
+      "id": "hololive-official",
+      "titleJa": "ホロライブ公式ニュース/グッズ",
+      "titleEn": "Hololive official news and goods",
+      "priority": "daily-high",
+      "watchUrlCount": 3,
+      "officialUrl": "https://hololive.hololivepro.com/news/",
+      "cadenceJa": "1日1回。店舗フェア発表時は昼も確認",
+      "cadenceEn": "Daily. Add noon checks when store fairs are announced"
+    },
+    {
+      "id": "ichiban-kuji-official",
+      "titleJa": "一番くじ公式",
+      "titleEn": "Ichiban Kuji official",
+      "priority": "daily-high",
+      "watchUrlCount": 2,
+      "officialUrl": "https://1kuji.com/",
+      "cadenceJa": "1日2回。発売前後は朝昼夜",
+      "cadenceEn": "Twice daily. Morning/noon/night around releases"
+    },
+    {
+      "id": "pokemon-card-tcg",
+      "titleJa": "ポケカ/TCG公式商品",
+      "titleEn": "Pokemon Card and TCG official products",
+      "priority": "daily-high",
+      "watchUrlCount": 3,
+      "officialUrl": "https://www.pokemon-card.com/products/",
+      "cadenceJa": "朝/夕。発売週は昼も確認",
+      "cadenceEn": "Morning/evening. Add noon checks on launch weeks"
+    },
+    {
+      "id": "pokemon-goods-center",
+      "titleJa": "ポケモングッズ/ポケセン",
+      "titleEn": "Pokemon goods and Pokemon Center",
+      "priority": "daily-high",
+      "watchUrlCount": 3,
+      "officialUrl": "https://www.pokemon.co.jp/goods/",
+      "cadenceJa": "1日1回。大型コラボ週は朝/夕",
+      "cadenceEn": "Daily. Morning/evening on major collab weeks"
+    },
+    {
+      "id": "square-enix-dragonquest-goods",
+      "titleJa": "スクエニ/ドラクエ グッズ・コラボ",
+      "titleEn": "Square Enix and Dragon Quest goods/collabs",
+      "priority": "daily-high",
+      "watchUrlCount": 3,
+      "officialUrl": "https://www.jp.square-enix.com/goods/",
+      "cadenceJa": "1日1回。飲食コラボ発表週は朝/夕",
+      "cadenceEn": "Daily. Morning/evening during food-collab announcement weeks"
+    }
+  ],
+  "commands": {
+    "dryRun": "npm run monitor:plan -- --tier=high --dry-run",
+    "localSample": "npm run monitor:run -- --from-sample --tier=high --source=bandai-hobby-gunpla,bandai-spirits-products,dragonball-official,hololive-official,ichiban-kuji-official,pokemon-card-tcg,pokemon-goods-center,square-enix-dragonquest-goods",
+    "production": "npm run monitor:run -- --tier=high --source=bandai-hobby-gunpla,bandai-spirits-products,dragonball-official,hololive-official,ichiban-kuji-official,pokemon-card-tcg,pokemon-goods-center,square-enix-dragonquest-goods"
+  },
+  "note": "Monitor plan only. It does not publish cards. Official links still enter intake and require admin verification."
+}

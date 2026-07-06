@@ -1,0 +1,41 @@
+{
+  "name": "dropradar",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mobile-first prototype for tracking official hobby drops, collabs, new volumes, and events.",
+  "scripts": {
+    "start": "python -m http.server 8765 --bind 127.0.0.1",
+    "check:pokemon": "powershell -ExecutionPolicy Bypass -File tools/check-pokemon-card-source.ps1",
+    "check:bandai": "powershell -ExecutionPolicy Bypass -File tools/check-bandai-hobby-source.ps1",
+    "check:official": "node tools/check-official-sources.mjs",
+    "audit:robots": "node tools/audit-official-source-robots.mjs",
+    "monitor:requests": "node tools/sync-request-watchlist.mjs",
+    "monitor:plan": "node tools/build-monitor-plan.mjs",
+    "monitor:run": "node tools/run-official-monitor.mjs",
+    "monitor:dry": "node tools/run-official-monitor.mjs --dry-run",
+    "monitor:daily-high": "node tools/run-official-monitor.mjs --tier=high",
+    "drops:sql": "node tools/build-drops-seed.mjs",
+    "sources:sql": "node tools/build-official-sources-seed.mjs",
+    "intake:build": "node tools/build-intake-candidates.mjs",
+    "intake:local": "npm run monitor:run",
+    "intake:legacy": "npm run check:pokemon && npm run check:bandai && npm run intake:build",
+    "supabase:smoke": "node tools/supabase-smoke-test.mjs",
+    "supabase:smoke:write": "node tools/supabase-smoke-test.mjs --write",
+    "supabase:smoke:admin": "node tools/supabase-smoke-test.mjs --admin",
+    "function:smoke": "node tools/edge-function-smoke.mjs --source=pokemon-card-tcg",
+    "function:smoke:write": "node tools/edge-function-smoke.mjs --write --source=pokemon-card-tcg",
+    "function:trigger": "node tools/trigger-ingest-function.mjs",
+    "function:trigger:dry": "node tools/trigger-ingest-function.mjs --dry-run",
+    "function:trigger:write": "node tools/trigger-ingest-function.mjs --write",
+    "github:preflight": "node tools/check-github-actions-secrets.mjs"
+  },
+  "keywords": [
+    "hobby",
+    "collab",
+    "drops",
+    "manga",
+    "anime",
+    "prototype"
+  ],
+  "license": "UNLICENSED"
+}

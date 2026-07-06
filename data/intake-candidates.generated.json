@@ -1,0 +1,78 @@
+[
+  {
+    "id": "generated-bandai-hobby-kuji-prize-20260706T07251",
+    "sourceId": "bandai-hobby-kuji-prize",
+    "status": "safe",
+    "titleJa": "バンダイ系ホビー/くじ/プライズ 差分チェック済み",
+    "titleEn": "Bandai hobby, lottery, and prize goods checked",
+    "sourceJa": "公式差分ジョブ",
+    "sourceEn": "Official diff job",
+    "reasonJa": "直近チェックでは新規リンク0件。公式監視は正常に回っているため、次回差分発生時に候補化する。",
+    "reasonEn": "Latest check found 0 new links. The official watch is running, and future diffs can be queued.",
+    "nextJa": "継続監視",
+    "nextEn": "Keep watching",
+    "detectedAt": "7/6 07:25",
+    "sourceUrl": "https://www.bandaispirits.co.jp/products/",
+    "candidateUrl": "https://www.bandaispirits.co.jp/products/",
+    "officialUrl": "https://www.bandaispirits.co.jp/products/",
+    "categoryJa": "ホビー/くじ/プライズ",
+    "categoryEn": "Hobby / lottery / prize",
+    "confidence": "高",
+    "fieldsJa": [
+      "公式URL",
+      "差分0件",
+      "画像なし"
+    ],
+    "fieldsEn": [
+      "Official URL",
+      "0 diffs",
+      "No images"
+    ],
+    "checksJa": [
+      "監視継続",
+      "差分発生時だけ公開候補化"
+    ],
+    "checksEn": [
+      "Keep watching",
+      "Queue for publishing only when a diff appears"
+    ]
+  },
+  {
+    "id": "generated-pokemon-card-tcg-20260706T06182",
+    "sourceId": "pokemon-card-tcg",
+    "status": "safe",
+    "titleJa": "ポケカ/TCG公式商品 差分チェック済み",
+    "titleEn": "Pokemon Card and TCG official products checked",
+    "sourceJa": "公式差分ジョブ",
+    "sourceEn": "Official diff job",
+    "reasonJa": "直近チェックでは新規リンク0件。公式監視は正常に回っているため、次回差分発生時に候補化する。",
+    "reasonEn": "Latest check found 0 new links. The official watch is running, and future diffs can be queued.",
+    "nextJa": "継続監視",
+    "nextEn": "Keep watching",
+    "detectedAt": "7/6 15:18",
+    "sourceUrl": "https://www.pokemon-card.com/products/",
+    "candidateUrl": "https://www.pokemon-card.com/products/",
+    "officialUrl": "https://www.pokemon-card.com/products/",
+    "categoryJa": "ポケモン",
+    "categoryEn": "Pokemon",
+    "confidence": "高",
+    "fieldsJa": [
+      "公式URL",
+      "差分0件",
+      "画像なし"
+    ],
+    "fieldsEn": [
+      "Official URL",
+      "0 diffs",
+      "No images"
+    ],
+    "checksJa": [
+      "監視継続",
+      "差分発生時だけ公開候補化"
+    ],
+    "checksEn": [
+      "Keep watching",
+      "Queue for publishing only when a diff appears"
+    ]
+  }
+]

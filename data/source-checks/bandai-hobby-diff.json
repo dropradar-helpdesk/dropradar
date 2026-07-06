@@ -1,0 +1,24 @@
+﻿{
+    "sourceId":  "bandai-hobby-kuji-prize",
+    "sourceUrl":  "https://bandai-hobby.net/gunpla/",
+    "checkedAt":  "2026-07-06T07:17:43.3540268+09:00",
+    "previousCheckedAt":  "2026-07-06T07:16:10.5204968+09:00",
+    "firstRun":  false,
+    "statusCode":  200,
+    "robotsStatus":  200,
+    "title":  "404 NOT FOUNDï½ãã³ãã¤ããã¼ãµã¤ã",
+    "previousContentSha256":  "a2edbf7f30b7eedcebeba8c9a57e24adce5f5223cc5f0fb1123f5b918e84a01f",
+    "currentContentSha256":  "a2edbf7f30b7eedcebeba8c9a57e24adce5f5223cc5f0fb1123f5b918e84a01f",
+    "hashChanged":  false,
+    "previousLinkCount":  0,
+    "currentLinkCount":  0,
+    "addedCount":  0,
+    "removedCount":  0,
+    "addedLinks":  [
+
+                   ],
+    "removedLinks":  [
+
+                     ],
+    "note":  "Diff is based on candidate official links and page hash. Human review is required before publishing as official news."
+}

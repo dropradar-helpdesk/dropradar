@@ -1,0 +1,24 @@
+﻿{
+    "sourceId":  "bandai-hobby-kuji-prize",
+    "sourceUrl":  "https://www.bandaispirits.co.jp/products/",
+    "checkedAt":  "2026-07-06T07:25:15.0538979+09:00",
+    "previousCheckedAt":  "2026-07-06T07:23:56.0099037+09:00",
+    "firstRun":  false,
+    "statusCode":  200,
+    "robotsStatus":  "unavailable",
+    "title":  "商品情報│株式会社BANDAI SPIRITS（バンダイスピリッツ）",
+    "previousContentSha256":  "c207d21f46f026265c98e1156ec71a1dfb34b51a0e018803ef037ed66839dff0",
+    "currentContentSha256":  "c207d21f46f026265c98e1156ec71a1dfb34b51a0e018803ef037ed66839dff0",
+    "hashChanged":  false,
+    "previousLinkCount":  35,
+    "currentLinkCount":  35,
+    "addedCount":  0,
+    "removedCount":  0,
+    "addedLinks":  [
+
+                   ],
+    "removedLinks":  [
+
+                     ],
+    "note":  "Diff is based on candidate official links and a stable title/link hash. Human review is required before publishing as official news."
+}

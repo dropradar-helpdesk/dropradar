@@ -1,0 +1,154 @@
+[
+  {
+    "sourceId": "pokemon-card-tcg",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "URL/hash diff only. No official images, screenshots, copied titles as public summaries, or copied article text.",
+    "robotsSummary": "robots.txt not found on pokemon-card.com; no disallow-all observed in manual audit.",
+    "termsSummary": "Official site policy restricts copying site data and requests text links only. Public cards must use original summaries and official links."
+  },
+  {
+    "sourceId": "restaurant-chain-collabs",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Low-frequency campaign/news URL/hash diff only. Store-specific details remain on official pages.",
+    "robotsSummary": "No disallow-all observed across McDonald's Japan, Yoshinoya, Sukiya, CoCo Ichibanya, and Skylark hosts.",
+    "termsSummary": "No image or campaign text copying. Admin must write original summaries and keep official detail links visible."
+  },
+  {
+    "sourceId": "dragonball-official",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Official news/product link diff only. No character art, article text copying, screenshots, or logo use.",
+    "robotsSummary": "No disallow-all observed across dragon-ball-official.com, p-bandai.jp, and carddass.com.",
+    "termsSummary": "Dragon Ball official site links to Bandai Namco terms; rights remain with BNEI/licensors. Public cards must be original summaries plus official links."
+  },
+  {
+    "sourceId": "hololive-official",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Official news/goods/event link diff only. No talent images, product images, copied news text, or fan-project auto-publishing.",
+    "robotsSummary": "No disallow-all observed across hololive.hololivepro.com and shop.hololivepro.com.",
+    "termsSummary": "Hololive official terms/privacy pages reserve platform operation and data handling; DropRadar keeps only URL/hash diffs and original admin summaries."
+  },
+  {
+    "sourceId": "bandai-spirits-products",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "BANDAI SPIRITS product/news URL/hash diff only. No official images, product descriptions, screenshots, or logo use.",
+    "robotsSummary": "robots.txt returned 404 on bandaispirits.co.jp; no disallow-all observed in audit. Keep watch URLs narrow.",
+    "termsSummary": "Public cards must be original summaries plus official links. Product detail, images, and sales conditions remain on official pages."
+  },
+  {
+    "sourceId": "bandai-hobby-gunpla",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Gunpla/Bandai Hobby URL/hash diff only. Track shipment/restock/new-product links without copying page text or images.",
+    "robotsSummary": "bandai-hobby.net robots endpoint returned nonstandard HTML, not disallow-all. Manual review required if crawl scope expands.",
+    "termsSummary": "Use only official links and original summaries. No product photos, package images, or schedule text copying."
+  },
+  {
+    "sourceId": "ichiban-kuji-official",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Ichiban Kuji product/store/online link diff only. No prize images, copied lottery pages, or character art.",
+    "robotsSummary": "robots.txt parsed on 1kuji.com; no disallow-all observed.",
+    "termsSummary": "Store availability and purchase rules stay on official pages. DropRadar may show original summaries and official links only."
+  },
+  {
+    "sourceId": "bandai-spirits-prize",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Banpresto/prize deployment link diff only. No prize images, copied descriptions, or local-stock claims.",
+    "robotsSummary": "robots.txt returned 404 on bsp-prize.jp; no disallow-all observed in audit. Keep watch URLs narrow.",
+    "termsSummary": "Deployment schedule and on-site stock are separate. Public cards must link to official details and avoid copied official copy."
+  },
+  {
+    "sourceId": "tamashii-nations-official",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Tamashii figure/item/event link diff only. No product photos, exhibition photos, copied item text, or logo use.",
+    "robotsSummary": "robots.txt returned 404 on tamashiiweb.com; no disallow-all observed in audit. Keep watch URLs narrow.",
+    "termsSummary": "Official photos and product details stay on official pages. Admin writes original summaries before publishing."
+  },
+  {
+    "sourceId": "gashapon-official",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Gashapon product/location link diff only. No product images, copied capsule descriptions, or stock claims.",
+    "robotsSummary": "robots.txt returned 404 on gashapon.jp; no disallow-all observed in audit. Keep watch URLs narrow.",
+    "termsSummary": "Location availability changes quickly. Public cards must use official links and original summaries."
+  },
+  {
+    "sourceId": "namco-arcade-campaigns",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "namco/Bandai Namco AM campaign and store-link diff only. No local-stock claims or copied campaign text.",
+    "robotsSummary": "robots.txt parsed on bandainamco-am.co.jp; no disallow-all observed.",
+    "termsSummary": "Participating stores, campaign rules, and prizes stay linked to official pages. DropRadar uses original summaries only."
+  },
+  {
+    "sourceId": "gigo-arcade-campaigns",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "GiGO campaign link diff only. No campaign image copying, prize image copying, or local-stock claims.",
+    "robotsSummary": "robots.txt returned 404 on tempo.gendagigo.jp; no disallow-all observed in audit. Keep watch URLs narrow.",
+    "termsSummary": "Campaign details and store conditions stay on official pages. DropRadar may queue official-link changes for human review."
+  },
+  {
+    "sourceId": "pokemon-goods-center",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Pokemon goods, Pokemon Center, and online-store link diff only. No product images, copied product text, screenshots, or character art.",
+    "robotsSummary": "robots.txt parsed on pokemon.co.jp and pokemoncenter-online.com; no disallow-all observed.",
+    "termsSummary": "Product details, images, store rules, and sales conditions remain on official pages. DropRadar uses original summaries and official links only."
+  },
+  {
+    "sourceId": "figure-makers-preorder",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Figure maker preorder/shipping/restock link diff only. No sculpt photos, product photos, copied descriptions, or retailer-stock claims.",
+    "robotsSummary": "robots.txt returned 404 on goodsmile.info, kotobukiya.co.jp, and alter-web.jp; megahobby.jp parsed with no disallow-all. Keep watch URLs narrow.",
+    "termsSummary": "Official product photos and details stay on official pages. Admin writes original summaries before publishing."
+  },
+  {
+    "sourceId": "convenience-retail-anime-shops",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Convenience/retail/anime-shop campaign link diff only. No bonus images, campaign image copying, copied rules, or stock claims.",
+    "robotsSummary": "No disallow-all observed across FamilyMart, Lawson, 7-Eleven, Animate, and Tower Records hosts; some robots endpoints returned 404.",
+    "termsSummary": "Campaign conditions, store availability, and purchase limits remain linked to official pages. DropRadar uses original summaries only."
+  },
+  {
+    "sourceId": "publishers-shueisha-jump",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Publisher/new-volume/new-series/event link diff only. No manga panels, cover images, page text, synopsis copying, or magazine screenshots.",
+    "robotsSummary": "robots.txt parsed on shueisha.co.jp and shonenjump.com with no disallow-all. manga-plus.shueisha.co.jp failed DNS lookup during dry run and is excluded from the initial watch URLs.",
+    "termsSummary": "Book details, cover images, previews, and excerpts stay on official or bookstore pages. Use title/date/official link plus original summaries."
+  },
+  {
+    "sourceId": "publishers-kodansha-shogakukan",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Kodansha/Shogakukan new-volume/anime/fair link diff only. No panels, cover images, copied book text, or magazine screenshots.",
+    "robotsSummary": "kodansha endpoint returned nonstandard HTML, shogakukan-comic robots parsed, sunday-webry returned 404; no disallow-all observed. Keep watch URLs narrow.",
+    "termsSummary": "Titles, dates, creator names, and official links are allowed in original summaries; images and excerpts stay on official pages."
+  },
+  {
+    "sourceId": "anime-adaptation-events",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Anime adaptation/event/exhibition/merch link diff only. No PV screenshots, key visuals, copied announcement text, or ticket-page copying.",
+    "robotsSummary": "frieren-anime.jp robots parsed; aniplex.co.jp and tohoanimation.jp returned 404; no disallow-all observed. Keep watch URLs narrow.",
+    "termsSummary": "Visuals, trailers, and official announcement text stay on official pages. DropRadar queues links for original admin summaries."
+  },
+  {
+    "sourceId": "local-tourism-pilgrimage",
+    "enabledAt": "2026-07-06",
+    "decision": "enabled",
+    "scope": "Tourism, pilgrimage, local-collab, map/manhole link diff only. No map screenshot copying, location scraping beyond official links, or exact GPS storage.",
+    "robotsSummary": "initiald-portal.com and mlit.go.jp robots returned 404; animetourism88.com returned nonstandard robots response; no disallow-all observed. Keep watch URLs narrow.",
+    "termsSummary": "Treat this as subcontent. Link to official tourism/maps for details; DropRadar must not store user GPS and must write original summaries."
+  }
+]

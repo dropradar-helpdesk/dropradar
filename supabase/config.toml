@@ -1,0 +1,4 @@
+project_id = "dropradar"
+
+[functions.ingest-official-sources]
+verify_jwt = true

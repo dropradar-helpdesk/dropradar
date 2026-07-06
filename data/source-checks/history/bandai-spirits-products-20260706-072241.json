@@ -1,0 +1,163 @@
+﻿{
+    "sourceId":  "bandai-hobby-kuji-prize",
+    "sourceUrl":  "https://www.bandaispirits.co.jp/products/",
+    "checkedAt":  "2026-07-06T07:22:41.1110047+09:00",
+    "previousCheckedAt":  null,
+    "firstRun":  true,
+    "statusCode":  200,
+    "robotsStatus":  "unavailable",
+    "title":  "商品情報│株式会社BANDAI SPIRITS（バンダイスピリッツ）",
+    "previousContentSha256":  null,
+    "currentContentSha256":  "707b9b49aea4dbec9a23e882859e130c9ee368ceffd76ad73c8242290da28883",
+    "hashChanged":  true,
+    "previousLinkCount":  0,
+    "currentLinkCount":  35,
+    "addedCount":  35,
+    "removedCount":  0,
+    "addedLinks":  [
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/"
+                       },
+                       {
+                           "text":  "発売カレンダーを見る",
+                           "url":  "https://www.bandaispirits.co.jp/products/calendar/"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/calendar/?category=4"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/calendar/?category=5"
+                       },
+                       {
+                           "text":  "商品検索",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=15801\u0026grp_id=5312"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=15802\u0026grp_id=5312"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=15853\u0026grp_id=5312"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=15869\u0026grp_id=5312"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=15870\u0026grp_id=5312"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=15903\u0026grp_id=5312"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=15909\u0026grp_id=5312"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=15935\u0026grp_id=5312"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=15939\u0026grp_id=5312"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=15956\u0026grp_id=5312"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=2773510\u0026grp_id=10000"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=2805062\u0026grp_id=10000"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=2823432\u0026grp_id=10000"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=2826132\u0026grp_id=10000"
+                       },
+                       {
+                           "text":  "くまざわ 推し色マスコット",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=2826800\u0026grp_id=10000"
+                       },
+                       {
+                           "text":  "わくでかぬいぐるみ 珍獣捕獲シリーズ～コーカサスオオキスギカブト～",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=2831002\u0026grp_id=10000"
+                       },
+                       {
+                           "text":  "ちびぐるみ専用 きらきらくまさん おくるみショルダー",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=2831990\u0026grp_id=10000"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=2836822\u0026grp_id=10000"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=2836824\u0026grp_id=10000"
+                       },
+                       {
+                           "text":  "アニメ「鬼滅の刃」 Fluffy Puffy～ムキムキねずみ～",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=2847557\u0026grp_id=10000"
+                       },
+                       {
+                           "text":  "ふたりはプリキュア ２WAYハンディファン",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=2854945\u0026grp_id=10000"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=2864852\u0026grp_id=10000"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=kaiji2\u0026grp_id=9999"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=keroro2\u0026grp_id=9999"
+                       },
+                       {
+                           "text":  "2026年 07 月 03 日 金 一番くじ ワンピース -エルバフ編- GIANT BASH!! Vol.1",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/detail.php?prd_id=onep103\u0026grp_id=9999"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/search/result.php?freeword=\u0026category=3"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/topics/"
+                       },
+                       {
+                           "text":  "ガンプラ",
+                           "url":  "https://www.bandaispirits.co.jp/products/topics/?category=1"
+                       },
+                       {
+                           "text":  "フィギュア",
+                           "url":  "https://www.bandaispirits.co.jp/products/topics/?category=3"
+                       },
+                       {
+                           "text":  "",
+                           "url":  "https://www.bandaispirits.co.jp/products/topics/?category=4"
+                       }
+                   ],
+    "removedLinks":  [
+
+                     ],
+    "note":  "Diff is based on candidate official links and page hash. Human review is required before publishing as official news."
+}

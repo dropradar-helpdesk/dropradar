@@ -1,0 +1,29 @@
+[
+  {
+    "term": "ドラゴンボール 一番くじ",
+    "status": "approved",
+    "count": 8,
+    "candidateVotes": 5,
+    "problemVotes": 0,
+    "hidden": false,
+    "officialUrl": ""
+  },
+  {
+    "term": "ホロライブ 吉野家",
+    "status": "pending",
+    "count": 4,
+    "candidateVotes": 3,
+    "problemVotes": 0,
+    "hidden": false,
+    "officialUrl": ""
+  },
+  {
+    "term": "ポケモンカード 抽選",
+    "status": "approved",
+    "count": 12,
+    "candidateVotes": 7,
+    "problemVotes": 0,
+    "hidden": false,
+    "officialUrl": "https://www.pokemon-card.com/products/"
+  }
+]

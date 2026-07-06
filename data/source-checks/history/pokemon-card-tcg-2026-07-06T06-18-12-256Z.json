@@ -1,0 +1,25 @@
+{
+  "sourceId": "pokemon-card-tcg",
+  "sourceUrl": "https://www.pokemon-card.com/products/",
+  "watchUrls": [
+    "https://www.pokemon-card.com/products/",
+    "https://www.pokemon-card.com/info/",
+    "https://www.pokemon-card.com/event/"
+  ],
+  "checkedAt": "2026-07-06T06:18:12.256Z",
+  "previousCheckedAt": "2026-07-06T06:17:33.560Z",
+  "firstRun": false,
+  "statusCode": 200,
+  "title": "商品情報 | ポケモンカードゲーム公式ホームページ",
+  "previousContentSha256": "4e80049a684c8b675aae4fcbc5d832853b197de265703da495def0b9961d9815",
+  "currentContentSha256": "4e80049a684c8b675aae4fcbc5d832853b197de265703da495def0b9961d9815",
+  "hashChanged": false,
+  "previousLinkCount": 95,
+  "currentLinkCount": 95,
+  "addedCount": 0,
+  "removedCount": 0,
+  "addedLinks": [],
+  "removedLinks": [],
+  "requestMatches": [],
+  "note": "Local official source check. Human review is required before publishing. Respect each site's terms and robots policy before scheduling."
+}

@@ -1,0 +1,10 @@
+{
+  "startedAt": "2026-07-06T09:18:34.609Z",
+  "finishedAt": "2026-07-06T09:18:34.659Z",
+  "status": "planned",
+  "tier": "high",
+  "sourcePlanCount": 8,
+  "selectedWatchUrlCount": 21,
+  "requestWatchTerms": 0,
+  "note": "Dry run only. No official pages were fetched and no public cards were changed."
+}

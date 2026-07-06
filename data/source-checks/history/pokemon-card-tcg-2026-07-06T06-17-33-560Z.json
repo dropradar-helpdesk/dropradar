@@ -1,0 +1,596 @@
+{
+  "sourceId": "pokemon-card-tcg",
+  "sourceUrl": "https://www.pokemon-card.com/products/",
+  "watchUrls": [
+    "https://www.pokemon-card.com/products/",
+    "https://www.pokemon-card.com/info/",
+    "https://www.pokemon-card.com/event/"
+  ],
+  "checkedAt": "2026-07-06T06:17:33.560Z",
+  "previousCheckedAt": null,
+  "firstRun": true,
+  "statusCode": 200,
+  "title": "商品情報 | ポケモンカードゲーム公式ホームページ",
+  "previousContentSha256": null,
+  "currentContentSha256": "4e80049a684c8b675aae4fcbc5d832853b197de265703da495def0b9961d9815",
+  "hashChanged": true,
+  "previousLinkCount": 0,
+  "currentLinkCount": 95,
+  "addedCount": 95,
+  "removedCount": 0,
+  "addedLinks": [
+    {
+      "text": "商品情報",
+      "url": "https://www.pokemon-card.com/products/",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "大会の最新情報はこちら",
+      "url": "https://www.pokemon-card.com/event/championshipseries/",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント検索",
+      "url": "https://players.pokemon-card.com/event/search",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "はじめよう！ポケモンカード",
+      "url": "https://www.pokemon-card.com/about/",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント検索",
+      "url": "https://www.pokemon-card.com/event",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "はじめよう！ポケモンカード",
+      "url": "https://www.pokemon-card.com/about",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "カード",
+      "url": "https://www.pokemon-card.com/products/#header_search_tab_cont0",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "Q&A",
+      "url": "https://www.pokemon-card.com/products/#header_search_tab_cont1",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "--> デッキレシピ",
+      "url": "https://www.pokemon-card.com/products/#--%3E%3C!--_tab_cont2",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "ニュース一覧",
+      "url": "https://www.pokemon-card.com/info/",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "拡張パック 複数のカードがランダムに封入されている。「とりあえずカードを手に入れたい！」キミにオススメ。",
+      "url": "https://www.pokemon-card.com/products/index.html?productType=expansion",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "構築デッキ カード60枚入りで、すぐに遊べる。「早くバトルの体験がしたい！」キミにオススメ。",
+      "url": "https://www.pokemon-card.com/products/index.html?productType=construction",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "その他の商品 カードが入っている。いろいろなタイプの商品。",
+      "url": "https://www.pokemon-card.com/products/index.html?productType=others",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "周辺グッズ より快適に遊べるためのグッズ。いろんなデザインがあって選ぶのが楽しい！",
+      "url": "https://www.pokemon-card.com/products/index.html?productType=peripheral",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "サイトマップ",
+      "url": "https://www.pokemon-card.com/sitemap.html",
+      "sourceUrl": "https://www.pokemon-card.com/products/",
+      "matchedRequests": []
+    },
+    {
+      "text": "商品情報",
+      "url": "https://www.pokemon-card.com/products/",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "大会の最新情報はこちら",
+      "url": "https://www.pokemon-card.com/event/championshipseries/",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント検索",
+      "url": "https://players.pokemon-card.com/event/search",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "はじめよう！ポケモンカード",
+      "url": "https://www.pokemon-card.com/about/",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント検索",
+      "url": "https://www.pokemon-card.com/event",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "はじめよう！ポケモンカード",
+      "url": "https://www.pokemon-card.com/about",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "カード",
+      "url": "https://www.pokemon-card.com/info/#header_search_tab_cont0",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "Q&A",
+      "url": "https://www.pokemon-card.com/info/#header_search_tab_cont1",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "--> デッキレシピ",
+      "url": "https://www.pokemon-card.com/info/#--%3E%3C!--_tab_cont2",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "ニュース一覧",
+      "url": "https://www.pokemon-card.com/info/",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "2026",
+      "url": "https://www.pokemon-card.com/info/index.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "2025",
+      "url": "https://www.pokemon-card.com/info/2025.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "2024",
+      "url": "https://www.pokemon-card.com/info/2024.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "2023",
+      "url": "https://www.pokemon-card.com/info/2023.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "2022",
+      "url": "https://www.pokemon-card.com/info/2022.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "2021",
+      "url": "https://www.pokemon-card.com/info/2021.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "2020",
+      "url": "https://www.pokemon-card.com/info/2020.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "2019",
+      "url": "https://www.pokemon-card.com/info/2019.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "2018",
+      "url": "https://www.pokemon-card.com/info/2018.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "2017",
+      "url": "https://www.pokemon-card.com/info/2017.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "2016",
+      "url": "https://www.pokemon-card.com/info/2016.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "すべて",
+      "url": "https://www.pokemon-card.com/info/#newsTab_all",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "商品",
+      "url": "https://www.pokemon-card.com/info/#newsTab_pro",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "キャンペーン",
+      "url": "https://www.pokemon-card.com/info/#newsTab_cam",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント",
+      "url": "https://www.pokemon-card.com/info/#newsTab_eve",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "コラム",
+      "url": "https://www.pokemon-card.com/info/#newsTab_col",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "その他",
+      "url": "https://www.pokemon-card.com/info/#newsTab_etc",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント ポケモンカードストア、新店登場！ 2026.7.3",
+      "url": "https://www.pokemon-card.com/info/004753.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "その他 「ポケモンカードゲーム プレイヤーズクラブ」生年月日変更機能の期間限定解放について 2026.7.3",
+      "url": "https://www.pokemon-card.com/info/005556.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "商品 拡張パック「ストームエメラルダ」が、7月31日（金）に発売！ 2026.6.26",
+      "url": "https://www.pokemon-card.com/ex/m6/",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント メガエルレイドexSARゲットバトル、開催！ 2026.6.26",
+      "url": "https://www.pokemon-card.com/info/005507.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント おうちでシールド戦「ストームエメラルダ」キャンペーン、開催！ 2026.6.26",
+      "url": "https://www.pokemon-card.com/info/005506.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「ポケモンカードゲーム スクランブルバトル 大阪」開催！ 2026.6.26",
+      "url": "https://www.pokemon-card.com/info/005543.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「ポケカデビューしよう！バトルアカデミー体験会」開催！ 2026.6.26",
+      "url": "https://www.pokemon-card.com/info/004983.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「ポケモンジャパンチャンピオンシップス2026」優勝者インタビュー 2026.6.19",
+      "url": "https://www.pokemon-card.com/info/005538.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "コラム プレイヤー名鑑が更新されました 2026.6.19",
+      "url": "https://www.pokemon-card.com/event/topplayers/",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "その他 30周年記念商品におけるマイナンバーカードを使用した本人確認システムの活用について 2026.6.8",
+      "url": "https://www.pokemon-card.com/info/005510.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "商品 収録カードを、一部公開！ 2026.6.7",
+      "url": "https://www.30th.pokemon-card.com/product/m6a",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "商品 「30th CELEBRATION プレミアムデッキセット エーフィ・ブラッキー」が、9月16日（水）に発売！ 2026.6.7",
+      "url": "https://www.30th.pokemon-card.com/product/mf",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "商品 「30th CELEBRATION FUTURISTIC BOX」が、9月16日（水）に発売！ 2026.6.7",
+      "url": "https://www.30th.pokemon-card.com/product/furbox",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント チャンピオンシップシリーズ2027シーズンが9月よりスタート！ 2026.6.7",
+      "url": "https://www.pokemon-card.com/info/005517.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「ピカチュウ」もらえる！ ジムイベントに参加しよう！ 2026.6.7",
+      "url": "https://www.pokemon-card.com/info/005516.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "その他 メンテナンスのおしらせ 2026.6.5",
+      "url": "https://www.pokemon-card.com/info/005513.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "その他 ポケモン公式チャンネルでポケモンカードゲーム 30周年記念商品の最新情報を公開！ 2026.5.29",
+      "url": "https://www.pokemon-card.com/info/005500.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "その他 拡張パック「ニンジャスピナー」収録カードのイラスト誤りについて 2026.5.29",
+      "url": "https://www.pokemon-card.com/info/005508.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「ポケモンジャパンチャンピオンシップス2026」カードゲーム部門のライブ配信が決定！ 2026.5.22",
+      "url": "https://www.pokemon-card.com/info/005502.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 行きつけのポケカジムで優勝しよう！マイジムNo.1決定戦開催！ 2026.5.22",
+      "url": "https://www.pokemon-card.com/info/005505.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "コラム 拡張パック「アビスアイ」のカードを使ったデッキレシピを公開！ 2026.5.22",
+      "url": "https://www.pokemon-card.com/info/005504.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "その他 【重要】ポケモンカードゲームの商品販売・イベントにおける本人確認システムの導入について 2026.5.21",
+      "url": "https://www.pokemon-card.com/info/005450.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "商品 拡張パック「アビスアイ」カードリスト公開！ 2026.5.15",
+      "url": "https://www.pokemon-card.com/ex/m5/",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「ポケモンジャパンチャンピオンシップス2026」同伴保護者の事前登録について 2026.5.15",
+      "url": "https://www.pokemon-card.com/info/005480.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンズリーグ2026 愛知May」優勝者インタビュー 2026.5.15",
+      "url": "https://www.pokemon-card.com/info/005499.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンシップシリーズ2026」リーグ別CSPランキングを掲載 2026.5.8",
+      "url": "https://www.pokemon-card.com/info/005477.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "その他 ポケモンカードゲームからのお願い 2026.5.8",
+      "url": "https://www.pokemon-card.com/info/005474.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンズリーグ2026 愛知 May」のライブ配信が決定！ 2026.5.1",
+      "url": "https://www.pokemon-card.com/info/005459.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンズリーグ2026 愛知 May」の招待選手が決定！ 2026.5.1",
+      "url": "https://www.pokemon-card.com/info/005460.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「ポケモンジャパンチャンピオンシップス2026」カードゲーム部門、エントリー受付開始！ 2026.5.1",
+      "url": "https://www.pokemon-card.com/info/005411.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「ポケモンカードゲーム学園祭2026」開催！ 2026.5.1",
+      "url": "https://www.pokemon-card.com/info/005452.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンズリーグ2026 愛知 May」その他コーナー更新 2026.4.24",
+      "url": "https://www.pokemon-card.com/info/005458.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント ポケリーダー・松丸くん「ポケモンジャパンチャンピオンシップス2026」に出場！ 2026.4.19",
+      "url": "https://www.pokemon-card.com/info/005461.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンズリーグ2026 愛知 May」ジュニアリーグ2日目大会の追加エントリーについて 2026.4.17",
+      "url": "https://www.pokemon-card.com/info/005464.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント プロモカードパック第4弾、公開！ 2026.4.17",
+      "url": "https://www.pokemon-card.com/info/005463.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント ゴールデンウィークはポケモンカードジムにいこう！ 2026.4.17",
+      "url": "https://www.pokemon-card.com/info/005462.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンズリーグ2026 愛知 May」同伴保護者の事前登録について 2026.4.10",
+      "url": "https://www.pokemon-card.com/info/005455.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント サイドイベントを開催！ 2026.4.10",
+      "url": "https://www.pokemon-card.com/info/005403.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンズリーグ2026 大阪」優勝者インタビュー 2026.4.3",
+      "url": "https://www.pokemon-card.com/info/005454.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "その他 トレーナーズウェブサイト、プレイヤーズクラブの不具合について 2026.3.30",
+      "url": "https://www.pokemon-card.com/info/005453.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンズリーグ2026 愛知 May」 2026年5月9日（土）・10日（日）開催！ 2026.3.30",
+      "url": "https://www.pokemon-card.com/info/005439.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンズリーグ2026 大阪」のライブ配信が決定！ 2026.3.19",
+      "url": "https://www.pokemon-card.com/info/005435.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンズリーグ2026 大阪」の招待選手が決定！ 2026.3.19",
+      "url": "https://www.pokemon-card.com/info/005436.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント ポケモンカードゲーム教室（4月分）開催のお知らせ 2026.3.19",
+      "url": "https://www.pokemon-card.com/info/004877.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンズリーグ2026 大阪」その他コーナー更新 2026.3.13",
+      "url": "https://www.pokemon-card.com/info/005420.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "コラム 拡張パック「ニンジャスピナー」のカードを使ったデッキレシピを公開！ 2026.3.13",
+      "url": "https://www.pokemon-card.com/info/005437.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "その他 ポケモンカードゲーム スカーレット＆バイオレット スペシャルBOXの追加生産、および追加販売のお知らせ 2026.3.13",
+      "url": "https://www.pokemon-card.com/info/005069.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "その他 パスキーによるログインについて 2026.3.12",
+      "url": "https://www.pokemon-card.com/info/005371.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "商品 カードイラストがフィギュアになって登場！ 2026.3.6",
+      "url": "https://www.pokemon-card.com/info/005413.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンズリーグ2026 大阪」ジュニアリーグの追加エントリーについて 2026.3.6",
+      "url": "https://www.pokemon-card.com/info/005416.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「シティリーグ2026 シーズン4」の追加エントリーは、2026年3月11日（水）より開始 2026.3.6",
+      "url": "https://www.pokemon-card.com/info/005389.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "商品 ポケモンカードゲーム 30周年記念商品 世界同時発売決定！ 2026.2.27",
+      "url": "https://www.pokemon-card.com/info/005385.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    },
+    {
+      "text": "イベント 「チャンピオンズリーグ2026 福岡」優勝者インタビュー 2026.2.27",
+      "url": "https://www.pokemon-card.com/info/005415.html",
+      "sourceUrl": "https://www.pokemon-card.com/info/",
+      "matchedRequests": []
+    }
+  ],
+  "removedLinks": [],
+  "requestMatches": [],
+  "note": "Local official source check. Human review is required before publishing. Respect each site's terms and robots policy before scheduling."
+}

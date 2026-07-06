@@ -1,0 +1,46 @@
+-- Generated from data/source-registry.json.
+-- Safe to rerun. Existing robots_checked_at is preserved.
+
+insert into public.official_sources
+  (id, name, url, category, check_mode, watch_urls, discovery_keywords, cadence, robots_checked_at, terms_note)
+values
+  ('pokemon-card-tcg', 'ポケカ/TCG公式商品', 'https://www.pokemon-card.com/products/', 'tcg', 'auto', array['https://www.pokemon-card.com/products/','https://www.pokemon-card.com/info/','https://www.pokemon-card.com/event/'], array['拡張パック','抽選','ポケモンカード','取扱店','booster','lottery','Pokemon Card','store'], 'daily_high', null, 'ショップごとの条件は公式先で確認。カード画像や商品画像は転載しない。 URL/hash diffs only; write original summaries before publishing.'),
+  ('pokemon-goods-center', 'ポケモングッズ/ポケセン', 'https://www.pokemon.co.jp/goods/', 'pokemon_goods', 'auto', array['https://www.pokemon.co.jp/goods/','https://www.pokemoncenter-online.com/','https://www.pokemon.co.jp/ex/'], array['ポケモンセンター','限定','グッズ','キャンペーン','Pokemon Center','exclusive','goods','campaign'], 'daily_high', null, 'ポケカと混ぜず、グッズ/雑貨/フード系として別扱い。 URL/hash diffs only; write original summaries before publishing.'),
+  ('bandai-spirits-products', 'BANDAI SPIRITS商品情報', 'https://www.bandaispirits.co.jp/products/', 'hobby', 'auto', array['https://www.bandaispirits.co.jp/products/','https://www.bandaispirits.co.jp/news/'], array['発売','商品','再販','限定','release','product','restock','limited'], 'daily_high', null, '画像や説明文は転載しない。商品詳細は公式ページで確認させる。 URL/hash diffs only; write original summaries before publishing.'),
+  ('bandai-hobby-gunpla', 'ガンプラ/バンダイホビー', 'https://bandai-hobby.net/', 'hobby', 'auto', array['https://bandai-hobby.net/','https://bandai-hobby.net/site/schedule.html'], array['ガンプラ','出荷予定','再販','新商品','Gunpla','shipment','restock','new product'], 'daily_high', null, '在庫保証はしない。店舗別販売ルールは公式/店舗告知へ飛ばす。 URL/hash diffs only; write original summaries before publishing.'),
+  ('ichiban-kuji-official', '一番くじ公式', 'https://1kuji.com/', 'lottery', 'auto', array['https://1kuji.com/','https://1kuji.com/products'], array['一番くじ','発売','取扱店','オンライン','Ichiban Kuji','release','store','online'], 'daily_high', null, '店頭在庫は保証しない。公式の取扱店/商品ページへ必ず飛ばす。 URL/hash diffs only; write original summaries before publishing.'),
+  ('bandai-spirits-prize', 'バンプレスト/プライズ公式', 'https://bsp-prize.jp/', 'hobby', 'auto', array['https://bsp-prize.jp/','https://bsp-prize.jp/item/'], array['プライズ','投入','景品','フィギュア','prize','deployment','item','figure'], 'daily', null, '投入予定と現地在庫は別物として表示。画像は公式で見てもらう。 URL/hash diffs only; write original summaries before publishing.'),
+  ('tamashii-nations-official', '魂ウェブ/フィギュア', 'https://tamashiiweb.com/', 'hobby', 'auto', array['https://tamashiiweb.com/','https://tamashiiweb.com/item/','https://tamashiiweb.com/event/'], array['フィギュア','予約','イベント','限定','figure','preorder','event','limited'], 'daily', null, '商品写真や展示写真は転載しない。公式ページに誘導する。 URL/hash diffs only; write original summaries before publishing.'),
+  ('dragonball-official', 'ドラゴンボール公式ニュース', 'https://dragon-ball-official.com/news/', 'anime_goods', 'auto', array['https://dragon-ball-official.com/news/','https://p-bandai.jp/chara/c0009/','https://www.carddass.com/dbh/'], array['ドラゴンボール','フィギュア','カード','イベント','Dragon Ball','figure','card','event'], 'daily_high', null, '作品公式と販売元が分かれるため、商品ページと公式ニュースの両方を残す。 URL/hash diffs only; write original summaries before publishing.'),
+  ('hololive-official', 'ホロライブ公式ニュース/グッズ', 'https://hololive.hololivepro.com/news/', 'vtuber_goods', 'auto', array['https://hololive.hololivepro.com/news/','https://shop.hololivepro.com/','https://hololive.hololivepro.com/events/'], array['ホロライブ','グッズ','コラボ','フェア','Hololive','goods','collab','fair'], 'daily_high', null, '二次創作や非公式企画は自動掲載しない。公式発表だけ候補化。 URL/hash diffs only; write original summaries before publishing.'),
+  ('figure-makers-preorder', 'フィギュアメーカー/予約開始', 'https://www.goodsmile.info/', 'figure', 'auto', array['https://www.goodsmile.info/','https://www.kotobukiya.co.jp/product/','https://alter-web.jp/','https://www.megahobby.jp/'], array['予約開始','出荷','再販','フィギュア','preorder','shipping','rerun','figure'], 'weekday', null, '原型写真や商品写真は公式で見てもらう。 URL/hash diffs only; write original summaries before publishing.'),
+  ('gashapon-official', 'ガシャポン公式', 'https://www.gashapon.jp/', 'capsule_toy', 'auto', array['https://www.gashapon.jp/','https://www.gashapon.jp/products/'], array['ガシャポン','発売','設置','新商品','gashapon','release','location','new item'], 'daily', null, '設置店情報は変動するため、公式の店舗検索を最終確認にする。 URL/hash diffs only; write original summaries before publishing.'),
+  ('namco-arcade-campaigns', 'namco/バンナムAMキャンペーン', 'https://bandainamco-am.co.jp/', 'arcade', 'auto', array['https://bandainamco-am.co.jp/','https://bandainamco-am.co.jp/game_center/'], array['キャンペーン','namco','景品','対象店舗','campaign','prize','participating stores'], 'daily', null, '店舗差が大きいので、対象店舗と現地在庫は別表示にする。 URL/hash diffs only; write original summaries before publishing.'),
+  ('gigo-arcade-campaigns', 'GiGOキャンペーン', 'https://tempo.gendagigo.jp/cp/', 'arcade', 'auto', array['https://tempo.gendagigo.jp/cp/'], array['GiGO','キャンペーン','景品','対象店舗','campaign','prize','stores'], 'daily', null, '現地在庫や筐体状況は保証しない。公式キャンペーン情報だけ候補化。 URL/hash diffs only; write original summaries before publishing.'),
+  ('restaurant-chain-collabs', '外食チェーンコラボ', 'https://www.mcdonalds.co.jp/campaign/', 'restaurant_collab', 'auto', array['https://www.mcdonalds.co.jp/campaign/','https://www.yoshinoya.com/campaign/','https://www.sukiya.jp/news/','https://www.ichibanya.co.jp/cp/','https://www.skylark.co.jp/campaign/'], array['コラボ','キャンペーン','特典','対象店舗','collab','campaign','bonus','participating stores'], 'daily', null, '店舗差が強いので、公式ページへの導線を必ず残す。 URL/hash diffs only; write original summaries before publishing.'),
+  ('convenience-retail-anime-shops', 'コンビニ/小売/アニメショップ', 'https://www.family.co.jp/campaign.html', 'anime_goods', 'auto', array['https://www.family.co.jp/campaign.html','https://www.lawson.co.jp/lab/campaign/','https://www.sej.co.jp/cmp/','https://www.animate.co.jp/fair_event/','https://tower.jp/'], array['コラボ','一番くじ','クリアファイル','購入制限','collab','lottery','clear file','purchase limit'], 'daily', null, '在庫や行列は公式情報とユーザー報告を分けて表示。 URL/hash diffs only; write original summaries before publishing.'),
+  ('publishers-shueisha-jump', '集英社/ジャンプ/新刊', 'https://www.shueisha.co.jp/books/', 'publisher', 'auto', array['https://www.shueisha.co.jp/books/','https://www.shonenjump.com/j/'], array['新刊','特装版','新連載','作者','new volume','special edition','new series','creator'], 'daily', null, 'あらすじや本文引用は最小限。公式/書店へ誘導。 URL/hash diffs only; write original summaries before publishing.'),
+  ('publishers-kodansha-shogakukan', '講談社/小学館/新刊', 'https://kc.kodansha.co.jp/', 'publisher', 'auto', array['https://kc.kodansha.co.jp/','https://shogakukan-comic.jp/book','https://www.sunday-webry.com/'], array['新刊','アニメ化','作家新作','フェア','new volume','anime adaptation','creator work','fair'], 'daily', null, '本文・扉絵・誌面画像は使わない。タイトル/日付/公式リンク中心。 URL/hash diffs only; write original summaries before publishing.'),
+  ('anime-adaptation-events', 'アニメ化/イベント/展示', 'https://frieren-anime.jp/', 'anime_goods', 'auto', array['https://frieren-anime.jp/','https://www.aniplex.co.jp/','https://www.tohoanimation.jp/'], array['アニメ化','2期','映画','展示','物販','anime adaptation','season 2','film','exhibition','merch'], 'daily', null, 'PVスクショやキービジュアルは使わず、公式リンクで見る。 URL/hash diffs only; write original summaries before publishing.'),
+  ('local-tourism-pilgrimage', '自治体/観光/聖地巡礼', 'https://initiald-portal.com/', 'tourism', 'manual', array['https://initiald-portal.com/','https://animetourism88.com/','https://www.mlit.go.jp/'], array['聖地巡礼','マンホール','自治体コラボ','観光マップ','pilgrimage','manhole','local collab','tourism map'], 'weekly', null, '位置情報は概略優先。詳しい行き方は公式地図へ飛ばす。 URL/hash diffs only; write original summaries before publishing.')
+on conflict (id) do update set
+  name = excluded.name,
+  url = excluded.url,
+  category = excluded.category,
+  check_mode = excluded.check_mode,
+  watch_urls = excluded.watch_urls,
+  discovery_keywords = excluded.discovery_keywords,
+  cadence = excluded.cadence,
+  robots_checked_at = coalesce(public.official_sources.robots_checked_at, excluded.robots_checked_at),
+  terms_note = case
+    when public.official_sources.robots_checked_at is not null then public.official_sources.terms_note
+    else excluded.terms_note
+  end,
+  updated_at = now();
+
+update public.official_sources
+set
+  check_mode = 'disabled',
+  terms_note = coalesce(terms_note, '') || ' Disabled by source-registry sync because this id is no longer present in data/source-registry.json.',
+  updated_at = now()
+where id not in ('pokemon-card-tcg', 'pokemon-goods-center', 'bandai-spirits-products', 'bandai-hobby-gunpla', 'ichiban-kuji-official', 'bandai-spirits-prize', 'tamashii-nations-official', 'dragonball-official', 'hololive-official', 'figure-makers-preorder', 'gashapon-official', 'namco-arcade-campaigns', 'gigo-arcade-campaigns', 'restaurant-chain-collabs', 'convenience-retail-anime-shops', 'publishers-shueisha-jump', 'publishers-kodansha-shogakukan', 'anime-adaptation-events', 'local-tourism-pilgrimage');

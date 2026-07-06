@@ -1,0 +1,54 @@
+﻿{
+    "sourceId":  "pokemon-card-tcg",
+    "checkedAt":  "2026-07-06T07:12:00.8944708+09:00",
+    "sourceUrl":  "https://www.pokemon-card.com/products/",
+    "robotsUrl":  "https://www.pokemon-card.com/robots.txt",
+    "robotsStatus":  "unavailable",
+    "robotsSnippet":  "リモート サーバーがエラーを返しました: (404) 見つかりません",
+    "statusCode":  200,
+    "title":  "商品情報 | ポケモンカードゲーム公式ホームページ",
+    "contentSha256":  "ddc05f37e1643b5b1d892beb55e70164ec05734dbd8821f3c7a1f936f74572b0",
+    "candidateLinks":  [
+                           {
+                               "text":  "",
+                               "url":  "https://www.pokemon-card.com/products/"
+                           },
+                           {
+                               "text":  "",
+                               "url":  "https://www.pokemon-card.com/products/#header_search_tab_cont0"
+                           },
+                           {
+                               "text":  "",
+                               "url":  "https://www.pokemon-card.com/products/#header_search_tab_cont1"
+                           },
+                           {
+                               "text":  "",
+                               "url":  "https://www.pokemon-card.com/products/#--%3E%3C!--_tab_cont2"
+                           },
+                           {
+                               "text":  "",
+                               "url":  "https://www.pokemon-card.com/products/"
+                           },
+                           {
+                               "text":  "",
+                               "url":  "https://www.pokemon-card.com/products/"
+                           },
+                           {
+                               "text":  "",
+                               "url":  "https://www.pokemon-card.com/products/index.html?productType=expansion"
+                           },
+                           {
+                               "text":  "",
+                               "url":  "https://www.pokemon-card.com/products/index.html?productType=construction"
+                           },
+                           {
+                               "text":  "",
+                               "url":  "https://www.pokemon-card.com/products/index.html?productType=others"
+                           },
+                           {
+                               "text":  "",
+                               "url":  "https://www.pokemon-card.com/products/index.html?productType=peripheral"
+                           }
+                       ],
+    "note":  "Manual local source check only. Confirm official terms and robots before scheduled crawling."
+}
