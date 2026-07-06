@@ -1906,14 +1906,6 @@
       gap: 6px;
       margin-top: 2px;
     }
-    .favorite-remove-row {
-      padding-top: 2px;
-    }
-    .favorite-remove-row .budget-step {
-      min-height: 32px;
-      padding: 4px 10px;
-      font-size: 11px;
-    }
     .budget-step {
       min-height: 32px;
       border: 1px solid rgba(23,25,28,.1);
@@ -1943,10 +1935,29 @@
       gap: 5px;
       margin-top: 2px;
     }
+    .status-control-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
     .status-control-label {
       color: var(--muted);
       font-size: 10.5px;
       font-weight: 850;
+    }
+    .status-remove-favorite {
+      min-height: 28px;
+      border: 1px solid rgba(179,58,47,.22);
+      border-radius: 7px;
+      background: #fff1ed;
+      color: #b33a2f;
+      padding: 4px 8px;
+      font-size: 10.5px;
+      font-weight: 850;
+      line-height: 1.15;
+      margin-left: auto;
     }
     .status-chip-list {
       display: flex;
@@ -13120,7 +13131,10 @@
                 <input class="date-input" id="plan-date-${drop.id}" type="date" value="${plannedDate}" data-plan-date-id="${drop.id}" />
               </span>
               <span class="status-control">
-                <span class="status-control-label">${state.lang === "ja" ? "進捗" : "Progress"}</span>
+                <span class="status-control-head">
+                  <span class="status-control-label">${state.lang === "ja" ? "進捗" : "Progress"}</span>
+                  <button class="status-remove-favorite" data-remove-favorite="${drop.id}">${state.lang === "ja" ? "お気に入りから外す" : "Remove favorite"}</button>
+                </span>
                 <span class="status-chip-list">
                   ${userStatusOptions.map((option) => `<button class="status-chip ${userStatus === option.id ? "active" : ""}" data-user-status-id="${drop.id}" data-user-status="${option.id}">${state.lang === "ja" ? option.labelJa : option.labelEn}</button>`).join("")}
                   <span class="status-budget-pill"><span>${state.lang === "ja" ? "コンテンツ予算" : "Budget"}</span><strong>${yen(plan.total)}</strong></span>
@@ -13136,9 +13150,6 @@
                 <button class="budget-step ${!rank ? "primary" : ""}" data-rank-id="${drop.id}" data-rank-value="">${state.lang === "ja" ? "未設定" : "Unset"}</button>
                 <button class="budget-step" data-rank-move="-1" data-rank-id="${drop.id}">${state.lang === "ja" ? "上" : "Up"}</button>
                 <button class="budget-step" data-rank-move="1" data-rank-id="${drop.id}">${state.lang === "ja" ? "下" : "Down"}</button>
-              </span>
-              <span class="budget-controls favorite-remove-row">
-                <button class="budget-step danger" data-remove-favorite="${drop.id}">${state.lang === "ja" ? "お気に入りから外す" : "Remove favorite"}</button>
               </span>
               <span class="budget-controls">
                 <button class="budget-step" data-budget-step="-500" data-budget-id="${drop.id}">-500</button>

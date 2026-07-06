@@ -1,4 +1,4 @@
-const CACHE_VERSION = "dropradar-pwa-v39";
+const CACHE_VERSION = "dropradar-pwa-v40";
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 
