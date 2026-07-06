@@ -9,6 +9,7 @@ DropRadar is close to a public web/PWA preview. It is not ready for App Store su
 Ready enough for a controlled public web preview:
 
 - GitHub Pages deployment is active.
+- GitHub Pages deployment runs `npm run release:qa` before publishing.
 - PWA manifest, icons, service worker, and offline page exist.
 - Supabase public config uses only URL and anon publishable key.
 - Admin writes require Supabase Auth admin role.
