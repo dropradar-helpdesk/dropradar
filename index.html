@@ -711,25 +711,38 @@
     .event-date {
       min-height: 58px;
       border-radius: 7px;
-      background:
-        linear-gradient(180deg, #202528, #141618);
-      color: #fff;
+      border: 1px solid rgba(23,25,28,.09);
+      background: #f6f8f7;
+      color: var(--ink);
       display: grid;
       place-items: center;
       text-align: center;
-      box-shadow: inset 0 -14px 18px rgba(255,255,255,.06);
+      box-shadow: none;
+    }
+    .event-date.unconfirmed {
+      border-style: dashed;
+      border-color: rgba(141,93,5,.28);
+      background: #fff8ea;
+      color: #7a5200;
     }
     .event-date small {
       display: block;
-      color: rgba(255,255,255,.66);
+      color: var(--muted);
       font-size: 9px;
       font-weight: 850;
+    }
+    .event-date.unconfirmed small {
+      color: #8d5d05;
     }
     .event-date strong {
       display: block;
       margin-top: 2px;
       font-size: 17px;
       line-height: 1;
+    }
+    .event-date.unconfirmed strong {
+      font-size: 12px;
+      line-height: 1.1;
     }
     .event-copy {
       min-width: 0;
@@ -12255,10 +12268,11 @@
         const title = state.lang === "ja" ? drop.titleJa : drop.titleEn;
         const area = state.lang === "ja" ? drop.areaJa : drop.areaEn;
         const status = state.lang === "ja" ? drop.statusJa : drop.statusEn;
-        const { month, day } = dropDatePill(drop, "date");
+        const dateKnown = dropDateVerified(drop, "date");
+        const { month, day } = dateKnown ? dropDatePill(drop, "date") : { month: state.lang === "ja" ? "日付" : "Date", day: state.lang === "ja" ? "未確認" : "TBD" };
         return `
           <button class="event-row" data-open="${drop.id}">
-            <span class="event-date"><small>${month}</small><strong>${day}</strong></span>
+            <span class="event-date ${dateKnown ? "" : "unconfirmed"}"><small>${month}</small><strong>${day}</strong></span>
             <span class="event-copy">
               <span class="event-meta"><span class="event-chip">${tagText(drop.brand)}</span><span class="event-chip warn">${status}</span></span>
               <strong>${title}</strong>
