@@ -673,6 +673,20 @@
       font-size: 20px;
       line-height: 1;
     }
+    .date-pill.unconfirmed {
+      border: 1px dashed rgba(141,93,5,.28);
+      background: #fff8ea;
+      color: #7a5200;
+      box-shadow: none;
+    }
+    .date-pill.unconfirmed small {
+      opacity: 1;
+      color: #8d5d05;
+    }
+    .date-pill.unconfirmed strong {
+      font-size: 12px;
+      line-height: 1.1;
+    }
     .date-copy {
       min-width: 0;
       display: grid;
@@ -4285,6 +4299,10 @@
       background:
         linear-gradient(180deg, #202528, #141618);
       box-shadow: inset 0 -14px 18px rgba(255,255,255,.06);
+    }
+    .date-pill.unconfirmed {
+      background: #fff8ea;
+      box-shadow: none;
     }
     .bottom-nav {
       background: rgba(255,255,252,.92);
@@ -12246,10 +12264,11 @@
         .sort((a, b) => dropDateSortValue(a, "deadline").localeCompare(dropDateSortValue(b, "deadline")))
         .map((drop) => {
           const title = state.lang === "ja" ? drop.titleJa : drop.titleEn;
-          const { month, day } = dropDatePill(drop, "deadline");
+          const deadlineKnown = drop.deadlineNotRequired === true || dropDateVerified(drop, "deadline");
+          const { month, day } = deadlineKnown ? dropDatePill(drop, "deadline") : { month: state.lang === "ja" ? "締切" : "Due", day: state.lang === "ja" ? "未確認" : "TBD" };
           return `
             <button class="date-row" data-open="${drop.id}">
-              <div class="date-pill"><small>${month}</small><strong>${day}</strong></div>
+              <div class="date-pill ${deadlineKnown ? "" : "unconfirmed"}"><small>${month}</small><strong>${day}</strong></div>
               <div class="date-copy">
                 <strong>${title}</strong>
                 <span>${text("deadline")}: ${dropDateText(drop, "deadline")} / ${state.lang === "ja" ? drop.statusJa : drop.statusEn}</span>
