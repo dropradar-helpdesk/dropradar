@@ -623,6 +623,19 @@
 
     .screen { display: none; }
     .screen.active { display: block; }
+    .screen.active[data-screen="home"] {
+      display: flex;
+      flex-direction: column;
+    }
+    .screen[data-screen="home"].is-searching .section-head {
+      order: -30;
+    }
+    .screen[data-screen="home"].is-searching #feed {
+      order: -29;
+    }
+    .screen[data-screen="home"].is-searching #emptyState {
+      order: -28;
+    }
     .calendar-list,
     .event-list,
     .saved-list,
@@ -4565,7 +4578,7 @@
         <div class="request-admin-list" id="requestAdminList"></div>
       </div>
         <div class="section-head">
-          <h1 data-i18n="todayTitle">メイン新商品群</h1>
+          <h1 data-i18n="todayTitle">新商品</h1>
           <span id="feedCount" aria-live="polite"></span>
         </div>
         <div class="today-panel">
@@ -5259,7 +5272,7 @@
         tabLottery: "抽選",
         tabStore: "店頭",
         tabOnline: "通販",
-        todayTitle: "メイン新商品群",
+        todayTitle: "新商品",
         todayQueueTitle: "今日だけ見る",
         todayQueueSub: "迷いを減らす",
         noticeTitle: "通知メモ",
@@ -5547,7 +5560,7 @@
         tabLottery: "Lottery",
         tabStore: "Store",
         tabOnline: "Online",
-        todayTitle: "Main new drops",
+        todayTitle: "New items",
         todayQueueTitle: "Today only",
         todayQueueSub: "Reduce choices",
         noticeTitle: "Reminder notes",
@@ -10830,6 +10843,9 @@
 
     function renderFeed() {
       const items = drops.filter(matchesFilter).sort((a, b) => dropDateSortValue(a, "deadline").localeCompare(dropDateSortValue(b, "deadline")));
+      const query = normalizeRequestTerm(state.search);
+      const homeScreen = document.querySelector('.screen[data-screen="home"]');
+      if (homeScreen) homeScreen.classList.toggle("is-searching", Boolean(query));
       $("#feed").innerHTML = items.map(card).join("");
       $("#feedCount").textContent = countText(items.length);
       const emptyState = $("#emptyState");
