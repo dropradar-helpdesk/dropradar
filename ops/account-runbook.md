@@ -128,3 +128,23 @@ and non-secret operational state in this project.
 
 The owner must keep actual passwords and recovery methods outside the repo,
 preferably in a password manager or the browser's saved-password vault.
+
+## Release Ownership
+
+DropRadar's main value is not that each individual listing is precious. The
+value is that official announcements, requests, schedules, budgets, and nearby
+ideas are gathered into one view.
+
+Therefore the normal release loop is:
+
+1. Codex runs `npm run release:qa` or `node tools/release-qa.mjs`.
+2. Codex fixes any release-blocking copy, JSON, script, contact, PWA, or public
+   secret issue found by the QA gate.
+3. Codex commits, pushes, and checks the GitHub Pages workflow.
+4. Codex opens the public app URL and verifies the basic rendered state.
+5. The owner gives product-direction corrections afterward when something feels
+   wrong.
+
+Do not require the owner to manually inspect every card, source, or workflow
+before each public preview. If a non-critical listing is wrong, ship the safer
+preview and correct it after owner feedback.
