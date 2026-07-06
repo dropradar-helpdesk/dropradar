@@ -3690,6 +3690,23 @@
       font-size: 10.5px;
       line-height: 1.45;
     }
+    .legal-links {
+      margin: 8px 4px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .legal-links a {
+      min-height: 34px;
+      border-radius: 8px;
+      border: 1px solid rgba(23,25,28,.12);
+      background: #fff;
+      color: var(--ink);
+      padding: 8px 10px;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 850;
+    }
 
     /* Premium visual pass */
     :root {
@@ -4765,6 +4782,9 @@
         </div>
       </section>
       <p class="legal-note" data-i18n="legalNote">非公式の情報整理ツールです。各作品名・ブランド名・商標は各権利者に帰属し、掲載内容は公式発表へのリンクと要約を基準にします。情報は追跡していますが、見落とし・遅延・変更の可能性があります。GPSは任意で、現在地は悪用・保存・第三者提供しません。問い合わせ・権利者様からの削除依頼は dropradar.helpdesk@gmail.com へ。最終確認と推し活管理は各自でお願いします。入手失敗、応募漏れ、予定変更、交通費・購入費等について当方では責任を負いかねます。</p>
+      <div class="legal-links" aria-label="policy links">
+        <a href="./legal.html" target="_blank" rel="noreferrer" data-i18n="legalPolicyLink">ポリシー・問い合わせ</a>
+      </div>
     </main>
 
     <nav class="bottom-nav" aria-label="main navigation">
@@ -5483,6 +5503,7 @@
         switchToEnglish: "言語を英語に切り替え",
         switchToJapanese: "言語を日本語に切り替え",
         legalNote: "非公式の情報整理ツールです。各作品名・ブランド名・商標は各権利者に帰属し、掲載内容は公式発表へのリンクと要約を基準にします。情報は追跡していますが、見落とし・遅延・変更の可能性があります。GPSは任意で、現在地は悪用・保存・第三者提供しません。問い合わせ・権利者様からの削除依頼は dropradar.helpdesk@gmail.com へ。最終確認と推し活管理は各自でお願いします。入手失敗、応募漏れ、予定変更、交通費・購入費等について当方では責任を負いかねます。",
+        legalPolicyLink: "ポリシー・問い合わせ",
         items: "件",
         follow: "追跡",
         followed: "追跡中",
@@ -5770,6 +5791,7 @@
         switchToEnglish: "Switch language to English",
         switchToJapanese: "Switch language to Japanese",
         legalNote: "Unofficial information organizer. Series names, brand names, and trademarks belong to their respective owners; listings are based on official links and brief summaries. We monitor sources, but misses, delays, and changes can happen. GPS is optional, and current location is not misused, stored, or shared with third parties. Contact and rights-holder takedown requests: dropradar.helpdesk@gmail.com. Please make final checks and manage your own plans. We cannot accept responsibility for failed purchases, missed entries, schedule changes, transportation costs, purchase costs, or related losses.",
+        legalPolicyLink: "Policies and contact",
         items: "items",
         follow: "Track",
         followed: "Tracking",

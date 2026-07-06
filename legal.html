@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f4ee">
+  <title>DropRadar Policies / Contact</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, "Segoe UI", "Noto Sans JP", system-ui, sans-serif;
+      --paper: #f7f4ee;
+      --surface: #fffffc;
+      --ink: #17191c;
+      --muted: #64686e;
+      --line: #d7d9d5;
+      --brand: #202022;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.7;
+    }
+    main {
+      width: min(780px, 100%);
+      margin: 0 auto;
+      padding: 28px 18px 48px;
+      display: grid;
+      gap: 18px;
+    }
+    header {
+      display: grid;
+      gap: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+    }
+    h1, h2, p { margin: 0; }
+    h1 {
+      font-size: clamp(28px, 6vw, 44px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+    h2 {
+      font-size: 18px;
+      line-height: 1.25;
+    }
+    p, li {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    a { color: var(--brand); font-weight: 850; }
+    section {
+      background: var(--surface);
+      border: 1px solid rgba(23,25,28,.1);
+      border-radius: 8px;
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .notice {
+      border-color: rgba(226,77,63,.25);
+      background: #fff7f3;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .pill {
+      border: 1px solid rgba(23,25,28,.12);
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: #fff;
+      font-weight: 850;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="brand">
+        <img src="./icons/icon.svg" alt="" width="38" height="38">
+        <span>DropRadar</span>
+      </div>
+      <h1>ポリシー・問い合わせ</h1>
+      <p>DropRadarは、公式発表へのリンクと短い独自要約を中心に、ホビー・コラボ・新刊・イベント情報を整理する非公式ツールです。</p>
+      <div class="meta">
+        <span class="pill">Unofficial</span>
+        <span class="pill">No image rehosting</span>
+        <span class="pill">No GPS storage</span>
+        <span>最終更新: 2026-07-07</span>
+      </div>
+    </header>
+
+    <section class="notice">
+      <h2>重要な注意</h2>
+      <p>本ページは公開前の運用ポリシー草案です。法的助言ではありません。App Storeや大規模公開の前に、著作権・商標・プライバシー・アクセシビリティについて専門家レビューを受ける前提です。</p>
+    </section>
+
+    <section>
+      <h2>非公式サービスであること</h2>
+      <ul>
+        <li>DropRadarは権利者、出版社、メーカー、店舗、イベント主催者の公式アプリではありません。</li>
+        <li>作品名、ブランド名、商標は各権利者に帰属します。</li>
+        <li>掲載内容は公式発表へのリンク、日付、取扱条件、短い独自要約を中心に扱います。</li>
+        <li>商品画像、公式ロゴ、漫画・アニメの画像、動画、音楽、長い引用は原則として転載しません。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>免責</h2>
+      <ul>
+        <li>情報は追跡しますが、見落とし、遅延、変更、誤検出が起こる可能性があります。</li>
+        <li>購入、抽選応募、旅行、交通、予算管理の最終判断は利用者自身で行ってください。</li>
+        <li>入手失敗、応募漏れ、予定変更、交通費、購入費、その他の損失について、当方では責任を負いかねます。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>プライバシー</h2>
+      <ul>
+        <li>GPSは任意です。拒否しても主要機能は使えます。</li>
+        <li>現在地は近い順表示など端末内の一時処理に使い、サーバーへ保存しません。</li>
+        <li>外部地図へ移動する場合は、原則として目的地を渡します。</li>
+        <li>ログインなしリクエストや投票は、重複防止のため匿名識別子を使う場合があります。生の識別子は公開表示しません。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>削除・修正依頼</h2>
+      <p>権利者様からの削除依頼、掲載内容の修正、問い合わせ、バグ報告は次のメールへお願いします。</p>
+      <p><a href="mailto:dropradar.helpdesk@gmail.com?subject=DropRadar%20contact">dropradar.helpdesk@gmail.com</a></p>
+      <ul>
+        <li>権利者削除依頼: 件名に「DropRadar 権利者削除依頼」と入れてください。</li>
+        <li>掲載修正依頼: 件名に「DropRadar 掲載内容修正依頼」と入れてください。</li>
+        <li>住所、電話番号、身分証など不要な個人情報は送らないでください。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>アクセシビリティ</h2>
+      <ul>
+        <li>主要操作はキーボード、ラベル付きフォーム、色だけに頼らない表示を目標にします。</li>
+        <li>見づらい表示、操作しにくい箇所、スクリーンリーダーで困る箇所があれば問い合わせ先へ連絡してください。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>English Summary</h2>
+      <p>DropRadar is an unofficial information organizer. It links to official announcements and uses short original summaries. We do not rehost copyrighted product images, official logos, manga/anime visuals, videos, music, or long excerpts by default. GPS is optional and current location is not stored or shared by DropRadar. Source monitoring can miss, delay, or misread updates, so users must confirm official pages before purchasing, entering lotteries, or traveling.</p>
+      <p>Contact, correction, accessibility, and rights-holder takedown requests: <a href="mailto:dropradar.helpdesk@gmail.com?subject=DropRadar%20contact">dropradar.helpdesk@gmail.com</a>.</p>
+    </section>
+  </main>
+</body>
+</html>

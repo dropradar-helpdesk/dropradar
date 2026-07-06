@@ -429,7 +429,7 @@ Sub value:
 - Do not imply responsibility for failed purchases, missed entries, schedule changes, transportation costs, purchase costs, or related losses.
 - Treat GPS as an optional subfeature. Refusal must not block the core app; user location must not be stored, sold, shared, or used outside temporary nearby sorting and user-initiated map handoff.
 - Keep the public contact route visible: `dropradar.helpdesk@gmail.com` for contact, correction, and rights-holder takedown requests.
-- See `legal-and-accessibility-checklist.md` before adding crawlers, user reports, ads, or monetization.
+- See `legal.html` for the public policy/contact draft, and `legal-and-accessibility-checklist.md` before adding crawlers, user reports, ads, or monetization.
 
 ## Next Build Steps
 
@@ -439,4 +439,4 @@ Sub value:
 4. Add GitHub repository secrets, run `.github/workflows/dropradar-daily-ingest.yml` manually once with `dry_run=true`, then enable the daily schedule.
 5. Connect spot locations to Supabase reads.
 6. Keep periodic inbox checks for `dropradar.helpdesk@gmail.com`, especially after launch and after source/collab updates.
-7. Add privacy, terms, takedown, accessibility, and contact pages before public release.
+7. Review `legal.html` with a lawyer before App Store / broad public release, then prepare store screenshots and privacy metadata.
