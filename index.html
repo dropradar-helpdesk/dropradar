@@ -11259,8 +11259,66 @@
     function sourceUrlLabel(url) {
       const fallback = state.lang === "ja" ? "公式" : "Official";
       try {
-        const host = new URL(url).hostname.replace(/^www\./, "");
+        const normalized = normalizeOfficialUrl(url);
+        const parsed = new URL(normalized);
+        const host = parsed.hostname.replace(/^www\./, "");
+        const path = parsed.pathname.replace(/\/$/, "");
+        const exactLabels = [
+          { host: "pokemon-card.com", path: "/products", ja: "ポケカ商品", en: "Pokemon Card products" },
+          { host: "pokemon-card.com", path: "/info", ja: "ポケカニュース", en: "Pokemon Card news" },
+          { host: "pokemon-card.com", path: "/event", ja: "ポケカイベント", en: "Pokemon Card events" },
+          { host: "pokemon.co.jp", path: "/goods", ja: "ポケモングッズ", en: "Pokemon goods" },
+          { host: "pokemon.co.jp", path: "/ex", ja: "ポケモン特集", en: "Pokemon features" },
+          { host: "bandaispirits.co.jp", path: "/products", ja: "BANDAI商品", en: "BANDAI products" },
+          { host: "bandaispirits.co.jp", path: "/news", ja: "BANDAIニュース", en: "BANDAI news" },
+          { host: "bandai-hobby.net", path: "", ja: "ガンプラ公式", en: "Gunpla official" },
+          { host: "bandai-hobby.net", path: "/site/schedule.html", ja: "出荷予定", en: "Shipment schedule" },
+          { host: "1kuji.com", path: "", ja: "一番くじ", en: "Ichiban Kuji" },
+          { host: "1kuji.com", path: "/products", ja: "くじ商品", en: "Kuji products" },
+          { host: "bsp-prize.jp", path: "", ja: "バンプレスト", en: "Banpresto" },
+          { host: "bsp-prize.jp", path: "/item", ja: "プライズ商品", en: "Prize items" },
+          { host: "tamashiiweb.com", path: "", ja: "魂ウェブ", en: "Tamashii Web" },
+          { host: "tamashiiweb.com", path: "/item", ja: "魂商品", en: "Tamashii items" },
+          { host: "tamashiiweb.com", path: "/event", ja: "魂イベント", en: "Tamashii events" },
+          { host: "hololive.hololivepro.com", path: "/news", ja: "ホロニュース", en: "Hololive news" },
+          { host: "hololive.hololivepro.com", path: "/events", ja: "ホロイベント", en: "Hololive events" },
+          { host: "gashapon.jp", path: "", ja: "ガシャポン", en: "Gashapon" },
+          { host: "gashapon.jp", path: "/products", ja: "ガシャポン商品", en: "Gashapon products" },
+          { host: "bandainamco-am.co.jp", path: "", ja: "namco", en: "namco" },
+          { host: "bandainamco-am.co.jp", path: "/game_center", ja: "namco店舗", en: "namco stores" },
+          { host: "shueisha.co.jp", path: "/books", ja: "集英社", en: "Shueisha" },
+          { host: "shonenjump.com", path: "/j", ja: "ジャンプ", en: "Jump" },
+          { host: "shogakukan-comic.jp", path: "/book", ja: "小学館", en: "Shogakukan" },
+          { host: "frieren-anime.jp", path: "", ja: "フリーレン", en: "Frieren" },
+          { host: "frieren-anime.jp", path: "/news", ja: "フリーレンNEWS", en: "Frieren news" },
+          { host: "jp.square-enix.com", path: "/goods", ja: "スクエニグッズ", en: "Square Enix goods" },
+          { host: "jp.square-enix.com", path: "/cafe/tokyo", ja: "スクエニカフェ", en: "Square Enix cafe" },
+          { host: "taito.co.jp", path: "/prize", ja: "タイトー景品", en: "Taito prizes" },
+          { host: "taito.co.jp", path: "/campaign", ja: "タイトーCP", en: "Taito campaigns" },
+          { host: "segaplaza.jp", path: "/prize", ja: "セガ景品", en: "SEGA prizes" },
+          { host: "segaplaza.jp", path: "/event", ja: "セガイベント", en: "SEGA events" },
+          { host: "sanrio.co.jp", path: "/news/goods", ja: "サンリオ商品", en: "Sanrio goods" },
+          { host: "sanrio.co.jp", path: "/news/campaign", ja: "サンリオCP", en: "Sanrio campaigns" },
+          { host: "initiald-portal.com", path: "", ja: "頭文字D", en: "Initial D" },
+          { host: "initiald-portal.com", path: "/news", ja: "頭文字D NEWS", en: "Initial D news" },
+          { host: "capcom.co.jp", path: "/amusement/game/shop", ja: "CAPCOM店舗", en: "CAPCOM stores" },
+          { host: "capcom.co.jp", path: "/amusement/capcomcafe", ja: "カプコンカフェ", en: "CAPCOM Cafe" },
+          { host: "capcom.co.jp", path: "/amusement", ja: "カプコンAM", en: "CAPCOM amusement" },
+          { host: "capcom-games.com", path: "/ja-jp/goods", ja: "カプコングッズ", en: "CAPCOM goods" }
+        ];
+        const exact = exactLabels.find((item) => item.host === host && item.path === path);
+        if (exact) return state.lang === "ja" ? exact.ja : exact.en;
         const labels = {
+          "pokemoncenter-online.com": { ja: "ポケセンオンライン", en: "Pokemon Center Online" },
+          "dragon-ball-official.com": { ja: "DB公式", en: "Dragon Ball official" },
+          "p-bandai.jp": { ja: "Pバンダイ", en: "Premium Bandai" },
+          "carddass.com": { ja: "カードダス", en: "Carddass" },
+          "shop.hololivepro.com": { ja: "ホロ公式SHOP", en: "Hololive shop" },
+          "goodsmile.info": { ja: "グッスマ", en: "Good Smile" },
+          "kotobukiya.co.jp": { ja: "コトブキヤ", en: "Kotobukiya" },
+          "alter-web.jp": { ja: "ALTER", en: "ALTER" },
+          "megahobby.jp": { ja: "メガホビ", en: "MegaHobby" },
+          "tempo.gendagigo.jp": { ja: "GiGO", en: "GiGO" },
           "yoshinoya.com": { ja: "吉野家", en: "Yoshinoya" },
           "mcdonalds.co.jp": { ja: "マクドナルド", en: "McDonald's" },
           "sukiya.jp": { ja: "すき家", en: "Sukiya" },
@@ -11270,7 +11328,15 @@
           "lawson.co.jp": { ja: "ローソン", en: "Lawson" },
           "sej.co.jp": { ja: "セブン", en: "7-Eleven" },
           "animate.co.jp": { ja: "アニメイト", en: "Animate" },
-          "tower.jp": { ja: "タワレコ", en: "Tower Records" }
+          "tower.jp": { ja: "タワレコ", en: "Tower Records" },
+          "kc.kodansha.co.jp": { ja: "講談社", en: "Kodansha" },
+          "sunday-webry.com": { ja: "サンデーうぇぶり", en: "Sunday Webry" },
+          "aniplex.co.jp": { ja: "Aniplex", en: "Aniplex" },
+          "tohoanimation.jp": { ja: "TOHO animation", en: "TOHO animation" },
+          "dragonquest.jp": { ja: "ドラクエ", en: "Dragon Quest" },
+          "shop.sanrio.co.jp": { ja: "サンリオSHOP", en: "Sanrio shop" },
+          "animetourism88.com": { ja: "アニメ聖地88", en: "Anime Tourism 88" },
+          "mlit.go.jp": { ja: "国交省", en: "MLIT" }
         };
         const label = labels[host];
         return label ? (state.lang === "ja" ? label.ja : label.en) : host;
