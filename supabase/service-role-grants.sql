@@ -4,6 +4,7 @@
 grant usage on schema public to service_role;
 
 grant select on public.official_sources to service_role;
+grant select on public.tracking_request_feed to service_role;
 grant select, insert on public.source_checks to service_role;
 grant select, insert, update on public.ingest_runs to service_role;
 grant select, insert, update, delete on public.intake_candidates to service_role;
