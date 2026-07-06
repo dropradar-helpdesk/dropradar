@@ -88,6 +88,8 @@ npm run github:preflight
 - GitHub Actions manual write-mode run succeeded.
 - GitHub Pages workflow is configured.
 - Public config for GitHub Pages is generated with only Supabase URL and anon key.
+- GitHub Pages manual deployment succeeded.
+- Public app opened successfully at `https://dropradar-helpdesk.github.io/dropradar/`.
 
 ## Next GitHub Procedure
 
