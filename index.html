@@ -8113,12 +8113,12 @@
       }[key];
     }
 
-    function mailtoUrl(type) {
+    function contactComposeUrl(type) {
       const subject = encodeURIComponent(contactSubject(type));
       const body = encodeURIComponent(state.lang === "ja"
         ? "該当URL:\n内容:\nご連絡先:\n"
         : "Relevant URL:\nDetails:\nContact:\n");
-      return `mailto:${contactEmail()}?subject=${subject}&body=${body}`;
+      return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(contactEmail())}&su=${subject}&body=${body}`;
     }
 
     function renderContactPanel() {
@@ -8137,9 +8137,9 @@
           </div>
           <span class="contact-note">${configured ? escapeHtml(state.lang === "ja" ? contactConfig?.noteJa || contactConfig?.note || text("contactNote") : contactConfig?.noteEn || contactConfig?.note || text("contactNote")) : text("contactSetupPending")}</span>
           <div class="contact-actions">
-            <a class="budget-step primary" href="${mailtoUrl("general")}">${text("contactGeneral")}</a>
-            <a class="budget-step" href="${mailtoUrl("takedown")}">${text("contactTakedown")}</a>
-            <a class="budget-step" href="${mailtoUrl("correction")}">${text("contactCorrection")}</a>
+            <a class="budget-step primary" href="${contactComposeUrl("general")}" target="_blank" rel="noopener noreferrer">${text("contactGeneral")}</a>
+            <a class="budget-step" href="${contactComposeUrl("takedown")}" target="_blank" rel="noopener noreferrer">${text("contactTakedown")}</a>
+            <a class="budget-step" href="${contactComposeUrl("correction")}" target="_blank" rel="noopener noreferrer">${text("contactCorrection")}</a>
           </div>
           <span class="contact-note">${text("contactNote")}</span>
         </div>
