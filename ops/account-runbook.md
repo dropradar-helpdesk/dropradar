@@ -148,3 +148,20 @@ Therefore the normal release loop is:
 Do not require the owner to manually inspect every card, source, or workflow
 before each public preview. If a non-critical listing is wrong, ship the safer
 preview and correct it after owner feedback.
+
+## Daily Codex Review Automation
+
+Codex app automation `dropradar-daily-request-review` is active.
+
+- Schedule: daily at 07:45 JST, after the 07:17 JST official ingest window.
+- Working folder: `outputs/hobby-drop-app`.
+- Owner expectation: Codex reviews accumulated tracking requests, intake
+  candidates, release QA, GitHub Pages status, and public app rendering.
+- Owner involvement: emergency response only, such as legal risk, adult/unsafe
+  requests, credential failure, public breakage, or irreversible admin action.
+- Normal corrections can happen after publishing when the owner notices product
+  direction issues.
+
+This automation should not expose secrets or require the owner to inspect every
+card. If admin credentials are unavailable, Codex should leave a concise report
+and concrete next action instead of blocking the owner with broad manual review.
