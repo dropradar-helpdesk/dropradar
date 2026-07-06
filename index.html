@@ -1781,6 +1781,12 @@
       grid-template-columns: 82px 1fr;
       gap: 8px;
     }
+    .plan-row {
+      grid-template-columns: 1fr;
+      padding: 8px 9px;
+      background: rgba(255,255,255,.9);
+      box-shadow: none;
+    }
     .priority-mark {
       min-height: 58px;
       border-radius: 7px;
@@ -13019,14 +13025,13 @@
                 ${tripModes.map((item) => `<button class="day-mode-chip ${mode === item.id ? "active" : ""}" data-day-mode-date="${date}" data-day-mode="${item.id}">${state.lang === "ja" ? item.labelJa : item.labelEn}</button>`).join("")}
               </div>
             </div>
-            ${dayItems.map(({ drop, plan, rankLabel, dayIndex }) => {
+            ${dayItems.map(({ drop, plan, rankLabel }) => {
               const title = state.lang === "ja" ? drop.titleJa : drop.titleEn;
               const area = state.lang === "ja" ? drop.areaJa : drop.areaEn;
               const tier = tierDisplay(rankLabel);
               const targetNote = compactTargetNote(targetNoteFor(drop));
               return `
                 <article class="plan-row">
-                  <span class="priority-mark"><small>${state.lang === "ja" ? "順番" : "Order"}</small><strong>${dayIndex}</strong></span>
                   <span class="plan-copy">
                     <strong>${plan.time} ${title}</strong>
                     <span>${tier.text} / ${area}</span>
