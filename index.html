@@ -4587,19 +4587,21 @@
       <div class="rail" id="chipRail"></div>
 
       <section class="screen active" data-screen="home">
+        <div class="section-head">
+          <h1 data-i18n="todayTitle">新商品</h1>
+          <span id="feedCount" aria-live="polite"></span>
+        </div>
+        <div class="feed" id="feed"></div>
+        <div class="empty" id="emptyState" data-i18n="empty">条件に合う情報がありません。</div>
         <div class="source-panel request-admin-panel">
           <div class="mini-section-head">
             <h3 id="requestAdminTitle">追加リクエスト</h3>
             <span id="requestAdminSub">候補票と問題票</span>
           </div>
           <div class="source-summary" id="requestAdminSummary"></div>
-        <div class="request-sync-banner" id="requestSyncBanner" aria-live="polite"></div>
-        <div class="request-sensor-panel" id="requestSensorPanel"></div>
-        <div class="request-admin-list" id="requestAdminList"></div>
-      </div>
-        <div class="section-head">
-          <h1 data-i18n="todayTitle">新商品</h1>
-          <span id="feedCount" aria-live="polite"></span>
+          <div class="request-sync-banner" id="requestSyncBanner" aria-live="polite"></div>
+          <div class="request-sensor-panel" id="requestSensorPanel"></div>
+          <div class="request-admin-list" id="requestAdminList"></div>
         </div>
         <div class="today-panel">
           <div class="mini-section-head">
@@ -4622,8 +4624,6 @@
           </div>
           <div class="creator-list" id="creatorList"></div>
         </div>
-        <div class="feed" id="feed"></div>
-        <div class="empty" id="emptyState" data-i18n="empty">条件に合う情報がありません。</div>
         <div class="source-panel verification-queue-panel" id="verificationQueuePanel" hidden>
           <div class="mini-section-head">
             <h3 data-i18n="verificationQueueTitle">公式確認待ちキュー</h3>
