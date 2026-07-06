@@ -4757,7 +4757,7 @@
       <section class="screen" data-screen="map">
         <div class="section-head">
           <h2 data-i18n="mapTitle">近くで探す</h2>
-          <span data-i18n="mapSub">東京サンプル</span>
+          <span data-i18n="mapSub">現在地または選択エリア</span>
         </div>
         <div class="map-panel">
           <div class="map-art">
@@ -5480,7 +5480,7 @@
         eventTitle: "イベント日程",
         eventSub: "都合が合えば行く",
         mapTitle: "近くで探す",
-        mapSub: "東京サンプル",
+        mapSub: "現在地または選択エリア",
         mapHeading: "取扱・開催の可能性がある場所",
         mapNote: "在庫保証ではなく、公式店舗検索や告知ページへの導線として扱います。",
         locationTitle: "現在地で並べ替え",
@@ -5768,7 +5768,7 @@
         eventTitle: "Event schedule",
         eventSub: "Go if it fits",
         mapTitle: "Nearby",
-        mapSub: "Tokyo sample",
+        mapSub: "Current or selected area",
         mapHeading: "Likely official locations",
         mapNote: "This does not guarantee stock. It points to official store and campaign pages.",
         locationTitle: "Sort by current location",
@@ -8360,8 +8360,8 @@
         };
       }
       return {
-        valueJa: "準備中",
-        valueEn: "Ready",
+        valueJa: "端末保存",
+        valueEn: "Local",
         noteJa: "設定あり。remoteReads/remoteWritesはOFF",
         noteEn: "Configured. remoteReads/remoteWrites are off"
       };
@@ -8710,8 +8710,8 @@
         sourceUrl: item.sourceUrl || "",
         candidateUrl: item.candidateUrl || item.url || "",
         officialUrl: item.officialUrl || "",
-        categoryJa: item.categoryJa || "手動サンプル",
-        categoryEn: item.categoryEn || "Manual sample",
+        categoryJa: item.categoryJa || "手動候補",
+        categoryEn: item.categoryEn || "Manual candidate",
         confidence: item.confidence || (item.status === "safe" ? "高" : "要確認"),
         checksJa: Array.isArray(item.checksJa) ? item.checksJa : ["公式元を確認", "公開可否を判断"],
         checksEn: Array.isArray(item.checksEn) ? item.checksEn : ["Check official source", "Decide publishability"]
@@ -11401,8 +11401,7 @@
         const status = state.lang === "ja" ? item.statusJa : item.statusEn;
         const fields = state.lang === "ja" ? item.fieldsJa : item.fieldsEn;
         const modeClass = item.mode === "manual" ? "manual" : item.mode === "report" ? "report" : "";
-        const linkLabel = state.lang === "ja" ? "公式へ" : "Official";
-        const laterLabel = state.lang === "ja" ? "準備中" : "Later";
+        const laterLabel = state.lang === "ja" ? "後日確認" : "Check later";
         const diff = item.id ? sourceDiffs[item.id] : null;
         const watchCount = Array.isArray(item.watchUrls) ? item.watchUrls.length : item.url ? 1 : 0;
         const actionUrls = sourceActionUrls(item);
@@ -11426,7 +11425,7 @@
             <div class="source-actions">
               <span class="source-note">${caution}</span>
               ${actionUrls.length
-                ? `<span class="source-link-list">${actionUrls.map((url) => `<a class="source-open" href="${escapeHtml(url)}" target="_blank" rel="noreferrer" aria-label="${text("sourceFor")}: ${title} / ${escapeHtml(sourceUrlLabel(url))}"><svg><use href="#i-link"/></svg>${actionUrls.length > 1 ? escapeHtml(sourceUrlLabel(url)) : linkLabel}</a>`).join("")}</span>`
+                ? `<span class="source-link-list">${actionUrls.map((url) => `<a class="source-open" href="${escapeHtml(url)}" target="_blank" rel="noreferrer" aria-label="${text("sourceFor")}: ${title} / ${escapeHtml(sourceUrlLabel(url))}"><svg><use href="#i-link"/></svg>${escapeHtml(sourceUrlLabel(url))}</a>`).join("")}</span>`
                 : `<span class="source-open disabled" aria-label="${laterLabel}">${laterLabel}</span>`}
             </div>
           </article>
@@ -13157,11 +13156,13 @@
     function tierDisplay(rankLabel) {
       const match = /^([A-Z])-([0-9]+)$/.exec(rankLabel || "");
       if (!match) {
+        const value = state.lang === "ja" ? "未" : "unset";
+        const label = state.lang === "ja" ? "tier 未設定" : "tier unset";
         return {
-          value: "none",
+          value,
           order: "",
-          text: "tier none",
-          aria: "tier none"
+          text: label,
+          aria: label
         };
       }
       const value = match[1];
