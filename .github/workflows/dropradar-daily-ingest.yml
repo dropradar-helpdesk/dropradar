@@ -50,6 +50,7 @@ jobs:
           DROPRADAR_MANUAL_SOURCE_IDS: ${{ github.event_name == 'workflow_dispatch' && inputs.source_ids || '' }}
         shell: bash
         run: |
+          mkdir -p artifacts
           ARGS=("--write" "--plan=data/source-checks/monitor-plan.json")
 
           if [ "$DROPRADAR_MANUAL_DRY_RUN" = "true" ]; then
@@ -60,4 +61,12 @@ jobs:
             ARGS+=("--source=$DROPRADAR_MANUAL_SOURCE_IDS")
           fi
 
-          npm run function:trigger -- "${ARGS[@]}"
+          npm run function:trigger -- "${ARGS[@]}" --report=artifacts/ingest-report.json
+
+      - name: Upload ingest report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dropradar-ingest-report
+          path: artifacts/ingest-report.json
+          if-no-files-found: ignore

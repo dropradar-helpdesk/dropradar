@@ -348,6 +348,16 @@ high-priority source plan, and calls the Supabase Edge Function with
 `dryRun=false`. It writes only to `source_checks`, `ingest_runs`, and
 `intake_candidates`; public drops still require admin review.
 
+Each run also writes a human-readable GitHub Actions step summary and uploads
+`artifacts/ingest-report.json` as the `dropradar-ingest-report` artifact. The
+workflow fails only for hard operational failures such as no sources checked or
+all sources failing/skipping; partial source failures are surfaced as warnings so
+one official site outage does not break the whole daily guard.
+
+In the app, admin mode reads the latest `ingest_runs` row and shows it in the
+production connection panel as `Daily ingest`. This is the quick check before
+opening GitHub Actions or Supabase.
+
 Add these GitHub repository secrets before enabling the schedule:
 
 ```text

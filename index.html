@@ -4664,6 +4664,8 @@
     let adminBackendData = {
       source: "local",
       sourceChecks: 0,
+      ingestRuns: 0,
+      latestIngest: null,
       intakeCandidates: 0,
       messageJa: "ローカル生成候補",
       messageEn: "Local generated queue"
@@ -4893,12 +4895,42 @@
         checksEn: ["Open official URL", "Check date, deadline, and purchase rules", "Decide whether it can be published"]
       };
     }
+    function remoteIngestRunSummary(row = {}) {
+      return {
+        id: row.id || "",
+        status: row.status || "unknown",
+        dryRun: Boolean(row.dry_run),
+        sourceCount: Number(row.source_count || 0),
+        candidateCount: Number(row.candidate_count || 0),
+        startedAt: row.started_at || "",
+        finishedAt: row.finished_at || "",
+        error: row.error || ""
+      };
+    }
+    function ingestRunStatusLabel(run) {
+      if (!run) return state.lang === "ja" ? "未実行" : "No run";
+      if (run.status === "complete") return state.lang === "ja" ? "成功" : "OK";
+      if (run.status === "failed") return state.lang === "ja" ? "失敗" : "Failed";
+      if (run.status === "running") return state.lang === "ja" ? "実行中" : "Running";
+      return run.status || (state.lang === "ja" ? "不明" : "Unknown");
+    }
+    function ingestRunNote(run) {
+      if (!run) return state.lang === "ja" ? "ingest_runs 未読込" : "ingest_runs not loaded";
+      const checkedAt = formatCheckTime(run.finishedAt || run.startedAt);
+      const mode = run.dryRun ? "dry-run" : "write";
+      const error = run.error ? ` / ${run.error}` : "";
+      return state.lang === "ja"
+        ? `${checkedAt} / ${mode} / 対象 ${run.sourceCount} / 候補 ${run.candidateCount}${error}`
+        : `${checkedAt} / ${mode} / sources ${run.sourceCount} / candidates ${run.candidateCount}${error}`;
+    }
     async function loadRemoteAdminMonitorData() {
       const flags = adminSyncFlags();
       if (!flags.write) {
         adminBackendData = {
           ...adminBackendData,
           source: "local",
+          ingestRuns: 0,
+          latestIngest: null,
           messageJa: "管理DB未接続。ローカル生成候補を表示",
           messageEn: "Admin DB not connected. Showing local generated queue"
         };
@@ -4930,9 +4962,18 @@
         if (Array.isArray(intake) && intake.length) {
           generatedIntakeQueue = intake.map(remoteIntakeCandidateToGenerated);
         }
+        const ingestResponse = await fetch(supabaseRestUrl("ingest_runs", "select=id,status,dry_run,source_count,candidate_count,started_at,finished_at,error&order=started_at.desc&limit=5"), {
+          headers,
+          cache: "no-store"
+        });
+        if (!ingestResponse.ok) throw new Error(`ingest_runs HTTP ${ingestResponse.status}`);
+        const ingestRuns = await ingestResponse.json();
+        const latestIngest = Array.isArray(ingestRuns) && ingestRuns.length ? remoteIngestRunSummary(ingestRuns[0]) : null;
         adminBackendData = {
           source: "supabase",
           sourceChecks: Array.isArray(checks) ? checks.length : 0,
+          ingestRuns: Array.isArray(ingestRuns) ? ingestRuns.length : 0,
+          latestIngest,
           intakeCandidates: Array.isArray(intake) ? intake.length : 0,
           messageJa: `Supabase管理DB (${Array.isArray(intake) ? intake.length : 0}候補)`,
           messageEn: `Supabase admin DB (${Array.isArray(intake) ? intake.length : 0} candidates)`
@@ -4948,6 +4989,8 @@
         adminBackendData = {
           ...adminBackendData,
           source: "fallback",
+          ingestRuns: 0,
+          latestIngest: null,
           messageJa: migrationHintJa,
           messageEn: migrationHintEn
         };
@@ -8370,6 +8413,14 @@
           labelEn: "Source checks",
           noteJa: adminBackendData.source === "supabase" ? `source_checks (${adminBackendData.sourceChecks}件)` : "local source-checks",
           noteEn: adminBackendData.source === "supabase" ? `source_checks (${adminBackendData.sourceChecks})` : "local source-checks",
+          group: "admin"
+        },
+        {
+          value: ingestRunStatusLabel(adminBackendData.latestIngest),
+          labelJa: "日次巡回",
+          labelEn: "Daily ingest",
+          noteJa: ingestRunNote(adminBackendData.latestIngest),
+          noteEn: ingestRunNote(adminBackendData.latestIngest),
           group: "admin"
         },
         {

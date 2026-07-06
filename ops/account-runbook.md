@@ -98,6 +98,11 @@ npm run github:preflight
 3. Leave the daily GitHub Actions schedule enabled.
 4. Check the GitHub Pages deployment after the next push.
 5. Check the ingest workflow after the next scheduled 07:17 JST run.
+   - First look at the Actions step summary.
+   - Download `dropradar-ingest-report` only when the run is red, warning-heavy,
+     or candidate counts look unusual.
+   - In the app, admin mode shows the latest `Daily ingest` status from
+     `ingest_runs`; use that as the quick daily glance.
 6. After no more local Supabase CLI deploy work is needed, revoke the temporary Supabase CLI access token.
 
 ## Reset / Recovery Rules

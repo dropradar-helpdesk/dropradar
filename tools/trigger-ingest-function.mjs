@@ -21,6 +21,10 @@ function cleanUrl(value) {
   return String(value || "").replace(/\/$/, "");
 }
 
+function cleanOneLine(value, fallback = "") {
+  return String(value ?? fallback).replace(/\s+/g, " ").trim();
+}
+
 function fail(message) {
   throw new TriggerFailure(message);
 }
@@ -46,6 +50,164 @@ async function readPlanSourceIds() {
   } catch {
     fail(`Monitor plan was not found. Run npm run monitor:plan first or pass --source=source-a,source-b.`);
   }
+}
+
+function resultStatus(result = {}) {
+  if (result.skipped) return "skipped";
+  if (result.status === "partial") return "partial";
+  if (result.status === "failed") return "failed";
+  return "ok";
+}
+
+function resultErrorCount(result = {}) {
+  return Array.isArray(result.errors) ? result.errors.length : 0;
+}
+
+function summarizeResults(results = []) {
+  const summary = {
+    total: results.length,
+    ok: 0,
+    partial: 0,
+    failed: 0,
+    skipped: 0,
+    errorCount: 0
+  };
+  for (const result of results) {
+    const status = resultStatus(result);
+    summary[status] += 1;
+    summary.errorCount += resultErrorCount(result);
+  }
+  summary.successful = summary.ok + summary.partial;
+  return summary;
+}
+
+function compactResult(result = {}) {
+  return {
+    sourceId: String(result.sourceId || "unknown"),
+    status: resultStatus(result),
+    watchUrls: Number(result.watchUrls || 0),
+    currentLinks: Number(result.currentLinks || 0),
+    addedLinks: Number(result.addedLinks || 0),
+    removedLinks: Number(result.removedLinks || 0),
+    firstRun: Boolean(result.firstRun),
+    skipped: Boolean(result.skipped),
+    reason: result.reason || "",
+    errorCount: resultErrorCount(result),
+    errors: Array.isArray(result.errors)
+      ? result.errors.slice(0, 5).map((error) => ({
+        sourceUrl: error.source_url || error.sourceUrl || "",
+        error: cleanOneLine(error.error || error.message || "")
+      }))
+      : []
+  };
+}
+
+function buildReport({
+  functionName,
+  functionUrl,
+  dryRun,
+  sourceIds,
+  healthJson,
+  runJson,
+  errorMessage = ""
+}) {
+  const results = Array.isArray(runJson?.results) ? runJson.results.map(compactResult) : [];
+  const summary = summarizeResults(results);
+  const fatal = [];
+  const warnings = [];
+
+  if (errorMessage) fatal.push(errorMessage);
+  if (!runJson?.runId && !errorMessage) fatal.push("Ingest function did not return a runId.");
+  if (!errorMessage && Number(runJson?.sourceCount || 0) < 1) fatal.push("No official sources were checked.");
+  if (!errorMessage && summary.total > 0 && summary.successful < 1) fatal.push("All official-source checks failed or were skipped.");
+  if (summary.partial > 0) warnings.push(`${summary.partial} source check(s) were partial.`);
+  if (summary.failed > 0) warnings.push(`${summary.failed} source check(s) failed.`);
+  if (summary.skipped > 0) warnings.push(`${summary.skipped} source check(s) were skipped.`);
+  if (healthJson && healthJson.hasIngestSecret === false) {
+    warnings.push("INGEST_CRON_SECRET is not set on the Edge Function; scheduled invokes are less protected.");
+  }
+
+  return {
+    version: 1,
+    generatedAt: new Date().toISOString(),
+    functionName,
+    functionUrl,
+    mode: dryRun ? "dry-run" : "write",
+    sourceIds,
+    health: healthJson ? {
+      ok: Boolean(healthJson.ok),
+      hasServiceRoleKey: Boolean(healthJson.hasServiceRoleKey),
+      hasIngestSecret: Boolean(healthJson.hasIngestSecret)
+    } : null,
+    run: runJson ? {
+      id: runJson.runId || "",
+      dryRun: Boolean(runJson.dryRun),
+      sourceCount: Number(runJson.sourceCount || 0),
+      candidateCount: Number(runJson.candidateCount || 0)
+    } : null,
+    summary,
+    results,
+    warnings,
+    fatal
+  };
+}
+
+function reportMarkdown(report) {
+  const run = report.run || {};
+  const lines = [
+    "## DropRadar daily ingest",
+    "",
+    `- Mode: ${report.mode}`,
+    `- Run ID: ${run.id || "not created"}`,
+    `- Sources: ${run.sourceCount ?? 0} checked / ok ${report.summary.ok} / partial ${report.summary.partial} / failed ${report.summary.failed} / skipped ${report.summary.skipped}`,
+    `- New intake candidates: ${run.candidateCount ?? 0}`,
+    "- Public drops: unchanged; admin review is still required.",
+    ""
+  ];
+
+  if (report.fatal.length) {
+    lines.push("### Fatal");
+    report.fatal.forEach((message) => lines.push(`- ${message}`));
+    lines.push("");
+  }
+  if (report.warnings.length) {
+    lines.push("### Warnings");
+    report.warnings.forEach((message) => lines.push(`- ${message}`));
+    lines.push("");
+  }
+
+  if (report.results.length) {
+    lines.push("### Source results");
+    lines.push("| Source | Status | Added | Removed | Links | Errors |");
+    lines.push("|---|---:|---:|---:|---:|---:|");
+    for (const result of report.results.slice(0, 20)) {
+      lines.push(`| ${result.sourceId} | ${result.status} | ${result.addedLinks} | ${result.removedLinks} | ${result.currentLinks} | ${result.errorCount} |`);
+    }
+    lines.push("");
+  }
+
+  return `${lines.join("\n")}\n`;
+}
+
+function githubAnnotation(level, message) {
+  if (process.env.GITHUB_ACTIONS !== "true") return;
+  const clean = cleanOneLine(message).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A");
+  console.log(`::${level}::${clean}`);
+}
+
+async function publishReport(report, reportPath) {
+  const markdown = reportMarkdown(report);
+  if (reportPath) {
+    const absolutePath = path.resolve(root, reportPath);
+    await fs.mkdir(path.dirname(absolutePath), { recursive: true });
+    await fs.writeFile(absolutePath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
+    console.log(`Report: ${path.relative(root, absolutePath)}`);
+  }
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, markdown, "utf8");
+  }
+  report.warnings.forEach((message) => githubAnnotation("warning", message));
+  report.fatal.forEach((message) => githubAnnotation("error", message));
 }
 
 async function readJson(response, label) {
@@ -74,6 +236,7 @@ async function main() {
   );
   const ingestSecret = String(process.env.DROPRADAR_INGEST_SECRET || process.env.INGEST_CRON_SECRET || "");
   const functionName = readArg("--function", "ingest-official-sources");
+  const reportPath = readArg("--report", process.env.DROPRADAR_INGEST_REPORT || "");
   const dryRun = hasFlag("--dry-run") || !hasFlag("--write");
   const sourceIds = await readPlanSourceIds();
 
@@ -108,14 +271,39 @@ async function main() {
     body: JSON.stringify({ dryRun, sourceIds })
   });
   const runJson = await readJson(run, dryRun ? "dry-run ingest" : "scheduled ingest");
+  const report = buildReport({ functionName, functionUrl, dryRun, sourceIds, healthJson, runJson });
+  await publishReport(report, reportPath);
 
   console.log(`Run: ${runJson?.runId || "unknown"}`);
   console.log(`Checked sources: ${runJson?.sourceCount ?? 0}`);
   console.log(`New intake candidates: ${runJson?.candidateCount ?? 0}`);
   console.log("Public drops were not changed. Admin review is still required.");
+  if (report.fatal.length) {
+    process.exitCode = 1;
+  }
 }
 
-main().catch((error) => {
+main().catch(async (error) => {
+  const message = error instanceof Error ? error.message : String(error);
+  try {
+    const supabaseUrl = cleanUrl(process.env.DROPRADAR_SUPABASE_URL || process.env.SUPABASE_URL || "");
+    const functionName = readArg("--function", "ingest-official-sources");
+    const dryRun = hasFlag("--dry-run") || !hasFlag("--write");
+    const reportPath = readArg("--report", process.env.DROPRADAR_INGEST_REPORT || "");
+    const sourceIds = parseSourceIds(readArg("--source", ""));
+    const report = buildReport({
+      functionName,
+      functionUrl: supabaseUrl ? `${supabaseUrl}/functions/v1/${functionName}` : "",
+      dryRun,
+      sourceIds,
+      healthJson: null,
+      runJson: null,
+      errorMessage: message
+    });
+    await publishReport(report, reportPath);
+  } catch (reportError) {
+    console.error(`Could not write ingest report: ${reportError instanceof Error ? reportError.message : String(reportError)}`);
+  }
   if (error instanceof TriggerFailure) {
     console.error(`DropRadar ingest trigger failed: ${error.message}`);
   } else {
