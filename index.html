@@ -2050,6 +2050,49 @@
       font-size: 11px;
       font-weight: 800;
     }
+    .target-note-control {
+      display: grid;
+      gap: 5px;
+      margin-top: 2px;
+    }
+    .target-note-control span {
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 850;
+    }
+    .target-note-control textarea {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid rgba(23,25,28,.12);
+      border-radius: 8px;
+      background: #fbfcfb;
+      color: var(--ink);
+      padding: 7px 8px;
+      font: inherit;
+      font-size: 11.5px;
+      font-weight: 750;
+      line-height: 1.35;
+      resize: vertical;
+      outline: none;
+    }
+    .target-note-control textarea:focus {
+      border-color: rgba(0,125,115,.45);
+      box-shadow: 0 0 0 3px rgba(0,125,115,.1);
+    }
+    .target-note-preview {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      max-width: 100%;
+      min-height: 23px;
+      padding: 3px 7px;
+      border-radius: 7px;
+      background: #f3f3f1;
+      color: #484540;
+      font-size: 10.5px;
+      font-weight: 850;
+      line-height: 1.25;
+    }
     .budget-line {
       display: flex;
       justify-content: space-between;
@@ -4107,32 +4150,9 @@
     }
     .card-info-row {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr);
       gap: 6px;
       align-items: stretch;
-    }
-    .budget-chip {
-      min-height: 30px;
-      padding: 5px 8px;
-      border-radius: 7px;
-      background: #fff3c8;
-      border: 1px solid rgba(158,105,0,.28);
-      display: grid;
-      align-content: center;
-      gap: 2px;
-      white-space: nowrap;
-    }
-    .budget-chip span {
-      color: #7c5200;
-      font-size: 10px;
-      font-weight: 900;
-      line-height: 1;
-    }
-    .budget-chip strong {
-      color: #35250c;
-      font-size: 13px;
-      font-weight: 900;
-      line-height: 1;
     }
     .facts {
       gap: 6px;
@@ -6065,6 +6085,42 @@
       }
     }
 
+    function cleanTargetNote(value) {
+      return String(value || "")
+        .replace(/\r\n/g, "\n")
+        .replace(/\r/g, "\n")
+        .replace(/[ \t]+/g, " ")
+        .trim()
+        .slice(0, 220);
+    }
+
+    function compactTargetNote(value) {
+      return cleanTargetNote(value).replace(/\s*\n\s*/g, " / ");
+    }
+
+    function loadTargetNotes() {
+      try {
+        const raw = localStorage.getItem("dropradar.targetNotes");
+        const parsed = raw ? JSON.parse(raw) : {};
+        if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+        return Object.entries(parsed).reduce((notes, [id, value]) => {
+          const note = cleanTargetNote(value);
+          if (note) notes[id] = note;
+          return notes;
+        }, {});
+      } catch {
+        return {};
+      }
+    }
+
+    function saveTargetNotes() {
+      try {
+        localStorage.setItem("dropradar.targetNotes", JSON.stringify(state.targetNotes));
+      } catch {
+        // Target notes remain in memory if local storage is unavailable.
+      }
+    }
+
     function normalizeRequestTerm(value) {
       return String(value || "").replace(/\s+/g, " ").trim().slice(0, 60);
     }
@@ -6398,6 +6454,7 @@
       planOrder: loadPlanOrder(),
       dayModes: loadDayModes(),
       userStatuses: loadUserStatuses(),
+      targetNotes: loadTargetNotes(),
       trackingRequests: loadTrackingRequests(),
       requestVotes: loadRequestVotes(),
       requestDeviceKey: loadRequestDeviceKey(),
@@ -10752,7 +10809,6 @@
       const area = state.lang === "ja" ? drop.areaJa : drop.areaEn;
       const limit = state.lang === "ja" ? drop.limitJa : drop.limitEn;
       const method = methodText(drop.method);
-      const cardBudget = contentBudget(drop);
       const favorite = state.favoriteIds.has(drop.id);
       const favoriteLabel = state.lang === "ja" ? (favorite ? "保存済" : "保存") : (favorite ? "Saved" : "Save");
       const trust = dropTrustMeta(drop);
@@ -10767,7 +10823,6 @@
               <h3 class="card-title"><button data-open="${drop.id}">${title}</button></h3>
               <div class="card-info-row">
                 <div class="method-strip"><span>${text("method")}</span><strong>${method}</strong></div>
-                <div class="budget-chip"><span>${state.lang === "ja" ? "予算" : "Budget"}</span><strong>${yen(cardBudget)}</strong></div>
               </div>
               <div class="facts">
                 <div class="fact"><svg><use href="#i-calendar"/></svg><span>${dropDateText(drop, "date")} / ${dropDateText(drop, "deadline")}</span></div>
@@ -12312,6 +12367,7 @@
         state.planOrder = state.planOrder.filter((itemId) => itemId !== id);
         delete state.planDates[id];
         delete state.userStatuses[id];
+        delete state.targetNotes[id];
       } else {
         state.favoriteIds.add(id);
         if (!state.rankOrder.includes(id)) state.rankOrder.push(id);
@@ -12322,6 +12378,7 @@
       savePlanOrder();
       savePlanDates();
       saveUserStatuses();
+      saveTargetNotes();
       render();
     }
 
@@ -12348,6 +12405,20 @@
       }
       saveUserStatuses();
       render();
+    }
+
+    function targetNoteFor(drop) {
+      return cleanTargetNote(state.targetNotes[drop.id]);
+    }
+
+    function setTargetNote(id, value) {
+      const note = cleanTargetNote(value);
+      if (note) {
+        state.targetNotes[id] = note;
+      } else {
+        delete state.targetNotes[id];
+      }
+      saveTargetNotes();
     }
 
     function activeFavoriteItems() {
@@ -12643,11 +12714,21 @@
 
     function moveFavoriteRank(id, direction) {
       normalizeRankOrder();
-      const index = state.rankOrder.indexOf(id);
-      const nextIndex = index + direction;
-      if (index === -1 || nextIndex < 0 || nextIndex >= state.rankOrder.length) return;
+      const drop = favoriteDrops().find((item) => item.id === id);
+      if (!drop) return;
+      const rank = rankFor(drop);
+      const sameRankIds = favoriteDrops()
+        .filter((item) => rankFor(item) === rank)
+        .sort((a, b) => orderIndex(a.id) - orderIndex(b.id) || dropDateSortValue(a, "deadline").localeCompare(dropDateSortValue(b, "deadline")))
+        .map((item) => item.id);
+      const groupIndex = sameRankIds.indexOf(id);
+      const swapId = sameRankIds[groupIndex + direction];
+      if (groupIndex === -1 || !swapId) return;
       const nextOrder = [...state.rankOrder];
-      [nextOrder[index], nextOrder[nextIndex]] = [nextOrder[nextIndex], nextOrder[index]];
+      const index = nextOrder.indexOf(id);
+      const swapIndex = nextOrder.indexOf(swapId);
+      if (index === -1 || swapIndex === -1) return;
+      [nextOrder[index], nextOrder[swapIndex]] = [nextOrder[swapIndex], nextOrder[index]];
       state.rankOrder = nextOrder;
       saveRankOrder();
       render();
@@ -12923,6 +13004,7 @@
               const title = state.lang === "ja" ? drop.titleJa : drop.titleEn;
               const area = state.lang === "ja" ? drop.areaJa : drop.areaEn;
               const tier = tierDisplay(rankLabel);
+              const targetNote = compactTargetNote(targetNoteFor(drop));
               return `
                 <article class="plan-row">
                   <span class="priority-mark"><small>${state.lang === "ja" ? "順番" : "Order"}</small><strong>${dayIndex}</strong></span>
@@ -12931,6 +13013,7 @@
                     <span>${tier.text} / ${area}</span>
                     <span>${state.lang === "ja" ? "予定予算" : "Planned budget"} ${yen(plan.total)} / ${state.lang === "ja" ? drop.statusJa : drop.statusEn}</span>
                     <span class="user-status-note">${userStatusLabel(drop)}</span>
+                    ${targetNote ? `<span class="target-note-preview">${escapeHtml(targetNote)}</span>` : ""}
                     <span class="budget-controls">
                       <button class="budget-step" data-schedule-move="-1" data-schedule-id="${drop.id}">${state.lang === "ja" ? "上" : "Up"}</button>
                       <button class="budget-step" data-schedule-move="1" data-schedule-id="${drop.id}">${state.lang === "ja" ? "下" : "Down"}</button>
@@ -13012,6 +13095,7 @@
         const area = state.lang === "ja" ? drop.areaJa : drop.areaEn;
         const tier = tierDisplay(rankLabel);
         const coverage = budgetCoverageFor(drop, plan, budgetOverview);
+        const targetNote = targetNoteFor(drop);
         return `
           <article class="favorite-row">
             <span class="rank-mark" aria-label="${tier.aria}">
@@ -13035,6 +13119,10 @@
                   <span class="status-budget-pill ${coverage.className}"><span>${state.lang === "ja" ? "予算状態" : "Coverage"}</span><strong>${state.lang === "ja" ? coverage.labelJa : coverage.labelEn}</strong></span>
                 </span>
               </span>
+              <label class="target-note-control">
+                <span>${state.lang === "ja" ? "狙いメモ" : "Target note"}</span>
+                <textarea data-target-note="${drop.id}" placeholder="${state.lang === "ja" ? "例: MGSD狙い、再販HGだけ、A賞優先、予算は交通費込み" : "Ex: MGSD target, restock HG only, prize A first, budget includes transit"}">${escapeHtml(targetNote)}</textarea>
+              </label>
               <span class="budget-controls">
                 ${rankOptions.map((option) => `<button class="budget-step ${rank === option ? "primary" : ""}" data-rank-id="${drop.id}" data-rank-value="${option}">tier ${option}</button>`).join("")}
                 <button class="budget-step ${!rank ? "primary" : ""}" data-rank-id="${drop.id}" data-rank-value="">${state.lang === "ja" ? "未設定" : "Unset"}</button>
@@ -13075,6 +13163,10 @@
       $$("[data-user-status]", $("#favoriteList")).forEach((button) => button.addEventListener("click", () => {
         setUserStatus(button.dataset.userStatusId, button.dataset.userStatus);
       }));
+      $$("[data-target-note]", $("#favoriteList")).forEach((field) => {
+        field.addEventListener("input", () => setTargetNote(field.dataset.targetNote, field.value));
+        field.addEventListener("blur", () => renderMySchedule());
+      });
       $$("[data-remove-favorite]", $("#favoriteList")).forEach((button) => button.addEventListener("click", () => {
         toggleFavorite(button.dataset.removeFavorite);
       }));
