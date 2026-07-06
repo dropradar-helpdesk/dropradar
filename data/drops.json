@@ -1,10 +1,10 @@
 [
   {
     "id": "holo-yoshinoya",
-    "titleJa": "吉野家 アニメ/ホロライブ系コラボキャンペーン監視",
-    "titleEn": "Yoshinoya anime and Hololive-style collab campaign watch",
+    "titleJa": "吉野家 ドラクエ/アニメ系コラボキャンペーン監視",
+    "titleEn": "Yoshinoya Dragon Quest and anime collab campaign watch",
     "category": "飲食コラボ",
-    "brand": "ホロライブ",
+    "brand": "吉野家",
     "method": "店頭",
     "state": "store",
     "statusJa": "告知監視",
@@ -18,9 +18,10 @@
     "howJa": "公式キャンペーンページで作品名、開催期間、対象店舗、配布条件が確認できたものだけ公開カード化。",
     "howEn": "Publish only after official pages confirm title, period, stores, and bonus rules.",
     "source": "吉野家公式（監視対象）",
-    "link": "https://www.yoshinoya.com/",
+    "link": "https://www.yoshinoya.com/campaign/",
     "tags": [
-      "ホロライブ",
+      "吉野家",
+      "ドラクエ",
       "飲食コラボ",
       "外食",
       "店頭",

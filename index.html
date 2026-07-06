@@ -3471,6 +3471,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
+      flex-wrap: wrap;
     }
     .source-note {
       color: var(--muted);
@@ -3499,6 +3500,20 @@
       background: #f6f4ee;
       color: var(--muted);
       border-color: rgba(23,25,28,.08);
+    }
+    .source-link-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 5px;
+      margin-left: auto;
+    }
+    .source-link-list .source-open {
+      min-height: 30px;
+      background: #fff;
+      color: #17191c;
+      border-color: rgba(23,25,28,.12);
+      padding: 3px 8px;
     }
     .intake-list {
       display: grid;
@@ -4610,7 +4625,7 @@
       <div class="search-wrap" role="search">
         <svg aria-hidden="true"><use href="#i-search"/></svg>
         <label class="sr-only" for="searchInput" data-i18n="searchLabel">キーワードで探す</label>
-        <input id="searchInput" type="search" autocomplete="off" aria-label="キーワードで探す" data-placeholder-ja="新刊、アニメ化、ドラゴンボール、ホロライブ..." data-placeholder-en="New volume, anime adaptation, Dragon Ball..." placeholder="新刊、アニメ化、ドラゴンボール、ホロライブ..." />
+        <input id="searchInput" type="search" autocomplete="off" aria-label="キーワードで探す" data-placeholder-ja="ガンプラ、トレカ、フィギュア、ホロライブ..." data-placeholder-en="Gunpla, trading cards, figures, Hololive..." placeholder="ガンプラ、トレカ、フィギュア、ホロライブ..." />
       </div>
     </header>
 
@@ -4618,8 +4633,8 @@
       <section class="priority-panel" aria-label="priority briefing">
         <div class="priority-hero">
           <span class="eyebrow" data-i18n="signalEyebrow">公式発表ベース</span>
-          <h1 data-i18n="signalTitle">新作・新刊・限定を拾う</h1>
-          <p data-i18n="signalCopy">新刊、アニメ化、抽選締切、購入制限、取扱店を1画面に圧縮。</p>
+          <h1 data-i18n="signalTitle">新商品・限定・コラボを拾う</h1>
+          <p data-i18n="signalCopy">ガンプラ、トレカ、フィギュア、くじ、食玩、飲食コラボを1画面に圧縮。</p>
         </div>
         <div class="priority-list" id="priorityList"></div>
       </section>
@@ -5345,8 +5360,8 @@
         tagline: "推し活・ホビー・原作を逃がさないサポート",
         searchLabel: "キーワードで探す",
         signalEyebrow: "公式発表ベース",
-        signalTitle: "新作・新刊・限定を拾う",
-        signalCopy: "新刊、アニメ化、抽選締切、購入制限、取扱店を1画面に圧縮。",
+        signalTitle: "新商品・限定・コラボを拾う",
+        signalCopy: "ガンプラ、トレカ、フィギュア、くじ、食玩、飲食コラボを1画面に圧縮。",
         statOpen: "抽選・予約中",
         statWeek: "今週発売/開始",
         statLimit: "購入制限あり",
@@ -5633,8 +5648,8 @@
         tagline: "Tracking support for hobby, collab, and source news",
         searchLabel: "Search by keyword",
         signalEyebrow: "OFFICIAL FIRST",
-        signalTitle: "Catch new drops and volumes",
-        signalCopy: "New volumes, anime adaptations, lotteries, purchase limits, and stores in one view.",
+        signalTitle: "Catch new hobby drops and collabs",
+        signalCopy: "Gunpla, cards, figures, kuji, candy toys, and food collabs in one view.",
         statOpen: "Open lotteries",
         statWeek: "This week",
         statLimit: "With limits",
@@ -7054,8 +7069,8 @@
                 "sourceEn": "Products, events, store search, and lottery links",
                 "methodJa": "商品情報とお店検索を分けて差分確認。抽選先は公式導線から到達したURLだけ保存。",
                 "methodEn": "Diff products and store search separately. Save lottery links only when reached from official paths.",
-                "cadenceJa": "朝/夕。発売週は昼も確認",
-                "cadenceEn": "Morning/evening. Add noon checks on launch weeks",
+                "cadenceJa": "1日1回自動巡回。管理者確認後に掲載",
+                "cadenceEn": "Daily automated crawl. Publish after admin review.",
                 "fieldsJa": [
                       "発売日",
                       "抽選締切",
@@ -7086,8 +7101,8 @@
                 "sourceEn": "Goods lineup, Pokemon Center, and online-store paths",
                 "methodJa": "グッズカテゴリ、ポケセン限定、オンライン販売の導線を候補化。販売ページの画像は公式で見てもらう。",
                 "methodEn": "Queue goods categories, Pokemon Center exclusives, and online-sale paths. Product images stay on official pages.",
-                "cadenceJa": "1日1回。大型コラボ週は朝/夕",
-                "cadenceEn": "Daily. Morning/evening on major collab weeks",
+                "cadenceJa": "1日1回自動巡回。管理者確認後に掲載",
+                "cadenceEn": "Daily automated crawl. Publish after admin review.",
                 "fieldsJa": [
                       "発売日",
                       "販売場所",
@@ -7118,8 +7133,8 @@
                 "sourceEn": "Gunpla, Ichiban Kuji, prize, and figure updates",
                 "methodJa": "商品情報と発売カレンダーを分けて差分確認。くじ/プライズ/出荷予定は別タグ化。",
                 "methodEn": "Diff product info and release calendars separately. Tag lottery, prize, and shipment updates apart.",
-                "cadenceJa": "1日2回。発売日前後は朝昼夜",
-                "cadenceEn": "Twice daily. Morning/noon/night around launches",
+                "cadenceJa": "1日1回自動巡回。管理者確認後に掲載",
+                "cadenceEn": "Daily automated crawl. Publish after admin review.",
                 "fieldsJa": [
                       "発売月",
                       "店頭/通販",
@@ -7150,8 +7165,8 @@
                 "sourceEn": "Official news across goods, figures, cards, books, and events",
                 "methodJa": "カテゴリ別ニュースを差分確認。海外人気が強いので英語表示向けタグも付与。",
                 "methodEn": "Diff category news. Add English-facing tags because overseas demand is strong.",
-                "cadenceJa": "1日1回。くじ/カード発表週は朝/夕",
-                "cadenceEn": "Daily. Morning/evening on lottery or card announcement weeks",
+                "cadenceJa": "1日1回自動巡回。管理者確認後に掲載",
+                "cadenceEn": "Daily automated crawl. Publish after admin review.",
                 "fieldsJa": [
                       "グッズ",
                       "一番くじ",
@@ -7182,8 +7197,8 @@
                 "sourceEn": "Official news, events, goods, and store fairs",
                 "methodJa": "NEWS/GOODS/EVENTSの差分を確認。店舗フェアは対象店舗と購入条件を別フィールドにする。",
                 "methodEn": "Diff NEWS/GOODS/EVENTS. Split store-fair locations from purchase conditions.",
-                "cadenceJa": "1日1回。店舗フェア発表時は昼も確認",
-                "cadenceEn": "Daily. Add noon checks when store fairs are announced",
+                "cadenceJa": "1日1回自動巡回。管理者確認後に掲載",
+                "cadenceEn": "Daily automated crawl. Publish after admin review.",
                 "fieldsJa": [
                       "開始日",
                       "対象店舗",
@@ -7204,8 +7219,8 @@
                 "icon": "i-star",
                 "mode": "auto",
                 "priority": "weekday",
-                "statusJa": "平日定期",
-                "statusEn": "Weekday",
+                "statusJa": "毎日通常",
+                "statusEn": "Daily normal",
                 "titleJa": "フィギュアメーカー/予約開始",
                 "titleEn": "Figure makers and preorder starts",
                 "officialUrl": "https://www.goodsmile.info/",
@@ -7214,8 +7229,8 @@
                 "sourceEn": "Maker pages, preorder starts, and shipping schedules",
                 "methodJa": "メーカー別の新着と出荷予定を保存。販売店リンクは補助扱い。",
                 "methodEn": "Save maker news and shipping schedules. Retail links are secondary.",
-                "cadenceJa": "平日朝/夕",
-                "cadenceEn": "Weekday morning/evening",
+                "cadenceJa": "1日1回自動巡回。管理者確認後に掲載",
+                "cadenceEn": "Daily automated crawl. Publish after admin review.",
                 "fieldsJa": [
                       "予約開始",
                       "発売月",
@@ -7246,8 +7261,8 @@
                 "sourceEn": "Gashapon official, Banpresto, GiGO, and namco lanes",
                 "methodJa": "景品投入時期、取扱店舗検索、キャンペーン条件を分ける。現地在庫は保証しない。",
                 "methodEn": "Split prize timing, store search, and campaign rules. Never guarantee on-site stock.",
-                "cadenceJa": "1日1回。月末/月初と投入週は強め",
-                "cadenceEn": "Daily. Heavier at month end/start and deployment weeks",
+                "cadenceJa": "1日1回自動巡回。管理者確認後に掲載",
+                "cadenceEn": "Daily automated crawl. Publish after admin review.",
                 "fieldsJa": [
                       "投入時期",
                       "設置店舗",
@@ -7270,16 +7285,16 @@
                 "priority": "daily-medium",
                 "statusJa": "毎日通常",
                 "statusEn": "Daily normal",
-                "titleJa": "外食チェーンコラボ",
+                "titleJa": "外食チェーン各社コラボ",
                 "titleEn": "Restaurant chain collabs",
-                "officialUrl": "https://www.mcdonalds.co.jp/campaign/",
-                "url": "https://www.mcdonalds.co.jp/campaign/",
-                "sourceJa": "マクドナルド、吉野家、すき家、ココイチ、ガスト/すかいらーく",
-                "sourceEn": "McDonald's, Yoshinoya, Sukiya, CoCo Ichibanya, and Skylark/Gusto",
+                "officialUrl": "https://www.yoshinoya.com/campaign/",
+                "url": "https://www.yoshinoya.com/campaign/",
+                "sourceJa": "吉野家、マクドナルド、すき家、ココイチ、ガスト/すかいらーく",
+                "sourceEn": "Yoshinoya, McDonald's, Sukiya, CoCo Ichibanya, and Skylark/Gusto",
                 "methodJa": "キャンペーン/ニュースページを確認。対象店舗と特典条件を分ける。",
                 "methodEn": "Check campaign and news pages. Split participating stores from bonus rules.",
-                "cadenceJa": "1日1回。開始初日は昼も確認",
-                "cadenceEn": "Daily. Add a noon check on launch day",
+                "cadenceJa": "1日1回自動巡回。管理者確認後に掲載",
+                "cadenceEn": "Daily automated crawl. Publish after admin review.",
                 "fieldsJa": [
                       "開始/終了",
                       "対象店舗",
@@ -7293,25 +7308,32 @@
                       "Sellout risk"
                 ],
                 "cautionJa": "店舗差が強いので、公式ページへの導線を必ず残す。",
-                "cautionEn": "Store variance is high, so keep official-page links prominent."
+                "cautionEn": "Store variance is high, so keep official-page links prominent.",
+                "watchUrls": [
+                      "https://www.yoshinoya.com/campaign/",
+                      "https://www.mcdonalds.co.jp/campaign/",
+                      "https://www.sukiya.jp/news/",
+                      "https://www.ichibanya.co.jp/cp/",
+                      "https://www.skylark.co.jp/campaign/"
+                ]
           },
           {
                 "id": "convenience-retail-anime-shops",
                 "icon": "i-pin",
-                "mode": "manual",
+                "mode": "auto",
                 "priority": "daily-medium",
-                "statusJa": "半自動",
-                "statusEn": "Semi-auto",
+                "statusJa": "毎日通常",
+                "statusEn": "Daily normal",
                 "titleJa": "コンビニ/小売/アニメショップ",
                 "titleEn": "Convenience, retail, and anime shops",
                 "officialUrl": "https://www.family.co.jp/campaign.html",
                 "url": "https://www.family.co.jp/campaign.html",
-                "sourceJa": "ローソン、ファミマ、セブン、アニメイト、HMV、タワレコ",
-                "sourceEn": "Lawson, FamilyMart, 7-Eleven, Animate, HMV, and Tower Records",
+                "sourceJa": "ローソン、ファミマ、セブン、アニメイト、タワレコ",
+                "sourceEn": "Lawson, FamilyMart, 7-Eleven, Animate, and Tower Records",
                 "methodJa": "キャンペーンページと店舗検索を拾い、店舗差分は人間確認。",
                 "methodEn": "Collect campaign pages and store search links; humans review local variance.",
-                "cadenceJa": "朝/昼/夜の確認候補",
-                "cadenceEn": "Morning/noon/night candidates",
+                "cadenceJa": "1日1回自動巡回。管理者確認後に掲載",
+                "cadenceEn": "Daily automated crawl. Publish after admin review.",
                 "fieldsJa": [
                       "店舗検索",
                       "発売時間",
@@ -7325,7 +7347,14 @@
                       "Tickets"
                 ],
                 "cautionJa": "在庫や行列は公式情報とユーザー報告を分けて表示。",
-                "cautionEn": "Separate stock and line reports from official facts."
+                "cautionEn": "Separate stock and line reports from official facts.",
+                "watchUrls": [
+                      "https://www.family.co.jp/campaign.html",
+                      "https://www.lawson.co.jp/lab/campaign/",
+                      "https://www.sej.co.jp/cmp/",
+                      "https://www.animate.co.jp/fair_event/",
+                      "https://tower.jp/"
+                ]
           },
           {
                 "id": "publishers-shueisha-jump",
@@ -7342,8 +7371,8 @@
                 "sourceEn": "Comics, magazines, Jump events, and creator names",
                 "methodJa": "作品名だけでなく著者/作画/キャラデザ名でも追跡。特装版と関連イベントを別タグ化。",
                 "methodEn": "Track writer, artist, and character designer names. Tag special editions and related events apart.",
-                "cadenceJa": "1日1回。月初と発売週は強め",
-                "cadenceEn": "Daily. Heavier checks at month start and release weeks",
+                "cadenceJa": "1日1回自動巡回。管理者確認後に掲載",
+                "cadenceEn": "Daily automated crawl. Publish after admin review.",
                 "fieldsJa": [
                       "新刊",
                       "特装版",
@@ -7374,8 +7403,8 @@
                 "sourceEn": "Comics, anime adaptations, creator works, and fairs",
                 "methodJa": "出版社ごとの新刊一覧を候補化。作者/作画名でお気に入りに刺さるものを拾う。",
                 "methodEn": "Queue publisher release lists. Catch writer/artist matches for favorites.",
-                "cadenceJa": "1日1回。月初と発売週は強め",
-                "cadenceEn": "Daily. Heavier checks at month start and release weeks",
+                "cadenceJa": "1日1回自動巡回。管理者確認後に掲載",
+                "cadenceEn": "Daily automated crawl. Publish after admin review.",
                 "fieldsJa": [
                       "新刊",
                       "アニメ化",
@@ -7406,8 +7435,8 @@
                 "sourceEn": "Series sites, anime sites, venues, and ticket pages",
                 "methodJa": "アニメ化、2期、映画、展示、物販、事後通販を分けて保存。",
                 "methodEn": "Save adaptations, sequels, films, exhibitions, merch, and after-sales separately.",
-                "cadenceJa": "1日1回。イベント前は締切通知",
-                "cadenceEn": "Daily. Deadline reminders before events",
+                "cadenceJa": "1日1回自動巡回。管理者確認後に掲載",
+                "cadenceEn": "Daily automated crawl. Publish after admin review.",
                 "fieldsJa": [
                       "発表日",
                       "開催日",
@@ -7438,8 +7467,8 @@
                 "sourceEn": "Tourism pages, city collabs, manholes, and official maps",
                 "methodJa": "商品フィードではなく、近くに来た時の付加価値として表示。",
                 "methodEn": "Show as nearby extra value, not as the primary product feed.",
-                "cadenceJa": "週1回 + 旅行先登録時",
-                "cadenceEn": "Weekly plus when a destination is saved",
+                "cadenceJa": "自動掲載なし。管理者確認後に掲載",
+                "cadenceEn": "No automatic publishing. Publish after admin review.",
                 "fieldsJa": [
                       "場所",
                       "交通",
@@ -7470,8 +7499,8 @@
                 "sourceEn": "Sold out, ticket ended, line, and purchase-limit sightings",
                 "methodJa": "構造化投稿だけ。公式情報とは別表示。最初は公開チャットなし。",
                 "methodEn": "Structured reports only. Separate from official facts. No open chat at first.",
-                "cadenceJa": "モデレーション準備後",
-                "cadenceEn": "After moderation is ready",
+                "cadenceJa": "自動掲載なし。管理者確認後に掲載",
+                "cadenceEn": "No automatic publishing. Publish after admin review.",
                 "fieldsJa": [
                       "時刻",
                       "場所",
@@ -7987,6 +8016,8 @@
         "ポケカ": "Pokemon TCG",
         "ガンダム": "Gundam",
         "ガンプラ": "Gunpla",
+        "プラモデル": "Plastic model",
+        "トレカ": "Trading cards",
         "ドラクエ": "Dragon Quest",
         "ジャンプ": "Jump",
         "推し作者": "Favorite creator",
@@ -8035,13 +8066,12 @@
         "画集": "Artbook",
         "関連作品": "Related works",
         "作画/画集": "Artist / artbook",
-        "ちいかわ": "Chiikawa",
         "バンプレスト": "Banpresto",
         "バンダイ": "Bandai",
         "イベント": "Event",
         "グッズ": "Goods",
-        "展示/グッズ": "Exhibit / goods",
         "キャラ雑貨": "Character goods",
+        "展示/グッズ": "Exhibit / goods",
         "観光": "Sightseeing",
         "カフェ": "Cafe",
         "女性人気": "Popular with women",
@@ -10807,11 +10837,41 @@
       return definition ? definition.match(drop) : true;
     }
 
+    const tagAliases = {
+      "ガンプラ": ["ガンプラ", "プラモデル"],
+      "トレカ": ["トレカ", "トレーディングカード", "カード", "TCG", "ポケカ"],
+      "フィギュア": ["フィギュア", "figure"],
+      "プライズ": ["プライズ", "クレーン", "バンプレスト", "景品"],
+      "一番くじ": ["一番くじ", "くじ"],
+      "ガチャ": ["ガチャ", "ガシャポン", "カプセルトイ"],
+      "食玩": ["食玩", "ウエハース", "キャンディ"],
+      "キャラ雑貨": ["キャラ雑貨", "グッズ", "カフェ/雑貨", "展示/グッズ", "イベント/グッズ"],
+      "飲食コラボ": ["飲食コラボ", "飲食", "外食", "マクドナルド", "すき家", "ココイチ", "ガスト", "すかいらーく"],
+      "聖地": ["聖地", "聖地イベント", "観光", "観光向け", "遠征"]
+    };
+
+    function tagMatchesDrop(drop, tag) {
+      if (tag === "すべて") return true;
+      const aliases = tagAliases[tag] || [tag];
+      const values = [
+        state.lang === "ja" ? drop.titleJa : drop.titleEn,
+        drop.titleJa,
+        drop.titleEn,
+        drop.brand,
+        drop.category,
+        ...(Array.isArray(drop.tags) ? drop.tags : [])
+      ].filter(Boolean).map((value) => String(value).toLowerCase());
+      return aliases.some((alias) => {
+        const needle = String(alias).toLowerCase();
+        return values.some((value) => value.includes(needle));
+      });
+    }
+
     function matchesFilter(drop) {
       const q = state.search.trim().toLowerCase();
       const title = `${drop.titleJa} ${drop.titleEn} ${drop.tags.join(" ")} ${drop.category} ${drop.brand}`.toLowerCase();
       const bySearch = !q || title.includes(q);
-      const byTag = state.tag === "すべて" || drop.tags.includes(state.tag) || drop.brand === state.tag || drop.category === state.tag;
+      const byTag = tagMatchesDrop(drop, state.tag);
       const byView = state.viewFilter === "all"
         || (state.viewFilter === "deadline" && ["lottery", "online"].includes(drop.state))
         || drop.state === state.viewFilter;
@@ -10839,8 +10899,10 @@
     }
 
     function buildChips() {
-      const tagOrder = ["すべて", "新刊", "アニメ化", "作者新作", "原作", "作画", "関連作品", "画集", "飲食コラボ", "マクドナルド", "すき家", "ココイチ", "ガスト", "フリーレン", "ちいかわ", "ジブリ", "サンリオ", "頭文字D", "ドラゴンボール", "ホロライブ", "ポケモン", "ガンダム", "海外人気", "女性人気", "イベント", "抽選", "店頭", "オンライン", "締切"];
-      $("#chipRail").innerHTML = tagOrder.map((tag) => `
+      const tagOrder = ["すべて", "ガンプラ", "トレカ", "フィギュア", "プライズ", "一番くじ", "ガチャ", "食玩", "キャラ雑貨", "飲食コラボ", "コンビニ", "イベント", "聖地", "ポケモン", "ガンダム", "ホロライブ", "ドラゴンボール", "フリーレン", "ちいかわ", "頭文字D", "サンリオ", "ジブリ"];
+      const visibleTags = tagOrder.filter((tag) => tag === "すべて" || drops.some((drop) => tagMatchesDrop(drop, tag)));
+      if (!visibleTags.some((tag) => tag === state.tag)) state.tag = "すべて";
+      $("#chipRail").innerHTML = visibleTags.map((tag) => `
         <button class="chip ${state.tag === tag ? "active" : ""}" data-tag="${tag}" data-filter="${tag}" aria-pressed="${state.tag === tag}">
           <span class="dot"></span><span>${tagText(tag)}</span>
         </button>
@@ -11194,6 +11256,36 @@
       `;
     }
 
+    function sourceUrlLabel(url) {
+      const fallback = state.lang === "ja" ? "公式" : "Official";
+      try {
+        const host = new URL(url).hostname.replace(/^www\./, "");
+        const labels = {
+          "yoshinoya.com": { ja: "吉野家", en: "Yoshinoya" },
+          "mcdonalds.co.jp": { ja: "マクドナルド", en: "McDonald's" },
+          "sukiya.jp": { ja: "すき家", en: "Sukiya" },
+          "ichibanya.co.jp": { ja: "ココイチ", en: "CoCoICHI" },
+          "skylark.co.jp": { ja: "すかいらーく", en: "Skylark" },
+          "family.co.jp": { ja: "ファミマ", en: "FamilyMart" },
+          "lawson.co.jp": { ja: "ローソン", en: "Lawson" },
+          "sej.co.jp": { ja: "セブン", en: "7-Eleven" },
+          "animate.co.jp": { ja: "アニメイト", en: "Animate" },
+          "tower.jp": { ja: "タワレコ", en: "Tower Records" }
+        };
+        const label = labels[host];
+        return label ? (state.lang === "ja" ? label.ja : label.en) : host;
+      } catch {
+        return fallback;
+      }
+    }
+
+    function sourceActionUrls(item) {
+      const rawUrls = Array.isArray(item.watchUrls) && item.watchUrls.length
+        ? item.watchUrls
+        : [item.url || item.officialUrl].filter(Boolean);
+      return [...new Set(rawUrls.map((url) => normalizeOfficialUrl(url)).filter(Boolean))].slice(0, 6);
+    }
+
     function renderSourceRegistry() {
       const sources = officialSources();
       const autoCount = sources.filter((item) => item.mode === "auto").length;
@@ -11247,6 +11339,7 @@
         const laterLabel = state.lang === "ja" ? "準備中" : "Later";
         const diff = item.id ? sourceDiffs[item.id] : null;
         const watchCount = Array.isArray(item.watchUrls) ? item.watchUrls.length : item.url ? 1 : 0;
+        const actionUrls = sourceActionUrls(item);
         return `
           <article class="source-card">
             <div class="source-top">
@@ -11266,8 +11359,8 @@
             <div class="source-fields">${fields.map((field) => `<span class="source-field">${field}</span>`).join("")}</div>
             <div class="source-actions">
               <span class="source-note">${caution}</span>
-              ${item.url
-                ? `<a class="source-open" href="${item.url}" target="_blank" rel="noreferrer" aria-label="${text("sourceFor")}: ${title}"><svg><use href="#i-link"/></svg>${linkLabel}</a>`
+              ${actionUrls.length
+                ? `<span class="source-link-list">${actionUrls.map((url) => `<a class="source-open" href="${escapeHtml(url)}" target="_blank" rel="noreferrer" aria-label="${text("sourceFor")}: ${title} / ${escapeHtml(sourceUrlLabel(url))}"><svg><use href="#i-link"/></svg>${actionUrls.length > 1 ? escapeHtml(sourceUrlLabel(url)) : linkLabel}</a>`).join("")}</span>`
                 : `<span class="source-open disabled" aria-label="${laterLabel}">${laterLabel}</span>`}
             </div>
           </article>
