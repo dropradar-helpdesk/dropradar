@@ -4959,7 +4959,7 @@
     let backendProbe = { status: "idle", messageJa: "", messageEn: "" };
     let dropDataSource = { type: "local", messageJa: "ローカルJSON", messageEn: "Local JSON" };
     let adminAuthSession = null;
-    const curatedDropOverrideIds = new Set(["holo-yoshinoya"]);
+    const curatedDropOverrideIds = new Set(["holo-yoshinoya", "dragonball-figure-watch"]);
     function refreshDrops() {
       drops = [...baseDrops, ...state.promotedDrops];
     }
@@ -9231,7 +9231,7 @@
 
     function dropDateText(drop, field) {
       if (field === "deadline" && drop.deadlineNotRequired === true) {
-        return state.lang === "ja" ? "締切なし" : "No deadline";
+        return state.lang === "ja" ? (drop.deadlineLabelJa || "締切なし") : (drop.deadlineLabelEn || "No deadline");
       }
       const raw = field === "deadline" ? drop.deadline : drop.date;
       if (dropDateVerified(drop, field)) return fmtDate(raw);
@@ -9249,7 +9249,7 @@
     }
 
     function dropDateDistanceText(drop, field) {
-      if (field === "deadline" && drop.deadlineNotRequired === true) return state.lang === "ja" ? "締切なし" : "no deadline";
+      if (field === "deadline" && drop.deadlineNotRequired === true) return state.lang === "ja" ? (drop.deadlineLabelJa || "締切なし") : (drop.deadlineLabelEn || "no deadline");
       if (!dropDateVerified(drop, field)) return state.lang === "ja" ? "公式確認待ち" : "official check pending";
       return dayDistanceText(field === "deadline" ? drop.deadline : drop.date);
     }
@@ -10783,6 +10783,17 @@
         || drop.method === "現地";
     }
 
+    function isMonitorPlaceholderDrop(drop) {
+      return drop
+        && drop.statusJa === "告知監視"
+        && drop.dateVerified === false
+        && drop.deadlineVerified === false;
+    }
+
+    function userFacingDrops() {
+      return drops.filter((drop) => !isMonitorPlaceholderDrop(drop));
+    }
+
     function actionDefinitions() {
       return [
         {
@@ -10870,8 +10881,9 @@
     }
 
     function todayQueue() {
+      const pool = userFacingDrops();
       return actionDefinitions().map((definition) => {
-        const matches = drops.filter(definition.match).sort(definition.sort);
+        const matches = pool.filter(definition.match).sort(definition.sort);
         return { ...definition, count: matches.length, drop: matches[0] };
       });
     }
@@ -10919,7 +10931,8 @@
     function matchesFilter(drop) {
       const q = state.search.trim().toLowerCase();
       const title = `${drop.titleJa} ${drop.titleEn} ${drop.tags.join(" ")} ${drop.category} ${drop.brand}`.toLowerCase();
-      const bySearch = !q || title.includes(q);
+      const queryTerms = q.split(/\s+/).filter(Boolean);
+      const bySearch = !queryTerms.length || queryTerms.every((term) => title.includes(term));
       const byTag = tagMatchesDrop(drop, state.tag);
       const byView = state.viewFilter === "all"
         || (state.viewFilter === "deadline" && ["lottery", "online"].includes(drop.state))
@@ -10949,7 +10962,8 @@
 
     function buildChips() {
       const tagOrder = ["すべて", "ガンプラ", "トレカ", "フィギュア", "プライズ", "一番くじ", "ガチャ", "食玩", "キャラ雑貨", "飲食コラボ", "コンビニ", "イベント", "聖地", "ポケモン", "ガンダム", "ホロライブ", "ドラゴンボール", "フリーレン", "ちいかわ", "頭文字D", "サンリオ", "ジブリ"];
-      const visibleTags = tagOrder.filter((tag) => tag === "すべて" || drops.some((drop) => tagMatchesDrop(drop, tag)));
+      const pool = userFacingDrops();
+      const visibleTags = tagOrder.filter((tag) => tag === "すべて" || pool.some((drop) => tagMatchesDrop(drop, tag)));
       if (!visibleTags.some((tag) => tag === state.tag)) state.tag = "すべて";
       $("#chipRail").innerHTML = visibleTags.map((tag) => `
         <button class="chip ${state.tag === tag ? "active" : ""}" data-tag="${tag}" data-filter="${tag}" aria-pressed="${state.tag === tag}">
@@ -11018,7 +11032,7 @@
     }
 
     function renderPriority() {
-      const items = drops
+      const items = userFacingDrops()
         .filter(matchesFilter)
         .filter((drop) => dropDateVerified(drop, "deadline") && !drop.deadlineNotRequired && withinDays(drop.deadline, 0, 14))
         .sort((a, b) => dropDateSortValue(a, "deadline").localeCompare(dropDateSortValue(b, "deadline")))
@@ -11075,7 +11089,7 @@
     }
 
     function renderFeed() {
-      const items = drops.filter(matchesFilter).sort((a, b) => dropDateSortValue(a, "deadline").localeCompare(dropDateSortValue(b, "deadline")));
+      const items = userFacingDrops().filter(matchesFilter).sort((a, b) => dropDateSortValue(a, "deadline").localeCompare(dropDateSortValue(b, "deadline")));
       const query = normalizeRequestTerm(state.search);
       const homeScreen = document.querySelector('.screen[data-screen="home"]');
       if (homeScreen) homeScreen.classList.toggle("is-searching", Boolean(query));
@@ -12471,10 +12485,11 @@
     }
 
     function renderStats() {
+      const pool = userFacingDrops();
       const actions = actionDefinitions();
       const actionCount = (id) => {
         const definition = actions.find((item) => item.id === id);
-        return definition ? drops.filter(definition.match).length : 0;
+        return definition ? pool.filter(definition.match).length : 0;
       };
       $("#countOpen").textContent = actionCount("open");
       $("#countWeek").textContent = actionCount("week");
@@ -12483,7 +12498,7 @@
 
     function renderCalendar() {
       renderMySchedule();
-      $("#calendarList").innerHTML = [...drops]
+      $("#calendarList").innerHTML = [...userFacingDrops()]
         .sort((a, b) => dropDateSortValue(a, "deadline").localeCompare(dropDateSortValue(b, "deadline")))
         .map((drop) => {
           const title = state.lang === "ja" ? drop.titleJa : drop.titleEn;
@@ -12503,7 +12518,7 @@
     }
 
     function renderEvents() {
-      const events = drops
+      const events = userFacingDrops()
         .filter((drop) => drop.tags.includes("イベント") || drop.category.includes("イベント"))
         .sort((a, b) => dropDateSortValue(a, "date").localeCompare(dropDateSortValue(b, "date")));
       $("#eventList").innerHTML = events.map((drop) => {
@@ -12530,7 +12545,7 @@
     function renderMap() {
       renderLocationPanel();
       renderNearbySpots();
-      const locationDrops = drops.filter((drop) => ["店頭", "店頭/通販"].includes(drop.method) || drop.state === "store");
+      const locationDrops = userFacingDrops().filter((drop) => ["店頭", "店頭/通販"].includes(drop.method) || drop.state === "store");
       $("#mapList").innerHTML = locationDrops.slice(0, 5).map((drop) => `
         <button class="date-row" data-open="${drop.id}">
           <div class="date-pill"><small>${state.lang === "ja" ? "MAP" : "MAP"}</small><strong>${drop.category.slice(0, 2)}</strong></div>
@@ -12638,7 +12653,7 @@
     }
 
     function favoriteDrops() {
-      return drops.filter((drop) => state.favoriteIds.has(drop.id));
+      return userFacingDrops().filter((drop) => state.favoriteIds.has(drop.id));
     }
 
     function toggleFavorite(id) {
@@ -13944,7 +13959,7 @@
       $("#tripAlertValue").textContent = profile.alertValue;
       $("#tripAlertLabel").textContent = langValue(profile, "alertLabel");
       $("#routeList").innerHTML = routeStops.map((stop) => {
-        const drop = drops.find((item) => item.id === stop.dropId);
+        const drop = userFacingDrops().find((item) => item.id === stop.dropId);
         if (!drop) return "";
         const title = state.lang === "ja" ? drop.titleJa : drop.titleEn;
         const place = state.lang === "ja" ? stop.placeJa : stop.placeEn;
@@ -13984,7 +13999,7 @@
         </button>
       `).join("");
       $("#savedList").innerHTML = tags.map((tag) => {
-        const count = drops.filter((drop) => drop.tags.includes(tag) || drop.brand === tag).length;
+        const count = userFacingDrops().filter((drop) => drop.tags.includes(tag) || drop.brand === tag).length;
         return `
           <button class="follow-tag" data-follow="${tag}">
             <span>${tagText(tag)}</span><small>${countText(count)}</small>

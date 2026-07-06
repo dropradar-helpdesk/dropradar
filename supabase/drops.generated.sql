@@ -1,5 +1,5 @@
 -- Generated from data/drops.json. Review before running in Supabase SQL Editor.
--- Generated at 2026-07-06T23:33:56.036Z.
+-- Generated at 2026-07-06T23:54:12.174Z.
 
 alter table public.drops add column if not exists method text not null default 'official';
 alter table public.drops add column if not exists status_ja text;
@@ -272,25 +272,25 @@ values
   ),
 (
     'dragonball-figure-watch',
-    'ドラゴンボール新作フィギュア・一番くじ横断チェック',
-    'Dragon Ball figure and Ichiban Kuji watch',
+    '一番くじ ドラゴンボール スペクタクルバトル',
+    'Ichiban Kuji Dragon Ball Spectacle Battle',
     'ドラゴンボール',
     'フィギュア/くじ',
     '店頭/オンライン',
     'store',
-    '告知監視',
-    'Notice watch',
-    'https://dragon-ball-official.com/',
-    'ドラゴンボール公式/バンダイ系（監視対象）',
+    '発売予定',
+    'Scheduled',
+    'https://1kuji.com/products/db_sb',
+    'ドラゴンボール公式/一番くじ公式',
+    '2026-07-11',
     null,
-    null,
-    'ゲームセンター・コンビニ・ホビー店',
-    'Arcades, convenience stores, hobby shops',
-    '未確認。購入回数・投入日・入荷数は店舗差あり',
-    'Unconfirmed. Play limits, arrival date, and stock vary by store',
-    '公式ページで商品個別URL、発売日/開始日、締切、購入条件が確認できたものだけ公開カード化。',
-    'Publish only after an official page confirms the item URL, date, deadline, and purchase rules.',
-    array['ドラゴンボール', 'フィギュア', '一番くじ', '店頭', '公式確認', '未確認']::text[],
+    'ファミリーマート、書店、ホビーショップ、一番くじ公式ショップ、一番くじONLINEなど',
+    'FamilyMart, bookstores, hobby shops, Ichiban Kuji official shops, Ichiban Kuji Online, and others',
+    '店頭販売は7/11(土)より順次、オンライン販売は7/14(火)13:00開始予定。1回800円、なくなり次第終了。',
+    'Store sales start Jul 11; online sales start Jul 14 at 13:00. 800 yen per draw, while supplies last.',
+    'ドラゴンボール公式ニュースで発売日、オンライン開始時刻、価格、取扱店、なくなり次第終了を確認。商品詳細は一番くじ公式へ。',
+    'Checked Dragon Ball official news for store date, online start time, price, stores, and while-supplies-last note. Product details link to Ichiban Kuji.',
+    array['ドラゴンボール', 'フィギュア', '一番くじ', '店頭', 'オンライン', '発売予定', '公式確認']::text[],
     'i-box',
     '#ff9f1a',
     '#2478b8',
