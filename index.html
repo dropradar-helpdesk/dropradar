@@ -535,6 +535,11 @@
       border: 0;
       padding: 0;
       font-weight: 850;
+      display: grid;
+      align-items: center;
+      width: 100%;
+      min-height: 38px;
+      line-height: inherit;
     }
     .facts {
       display: grid;
@@ -585,12 +590,12 @@
       margin-top: auto;
     }
     .mini-btn {
-      height: 31px;
+      min-height: 34px;
       border: 1px solid var(--line);
       background: #fff;
       color: var(--ink);
       border-radius: 7px;
-      padding: 0 9px;
+      padding: 4px 9px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -1889,17 +1894,18 @@
       margin-top: 2px;
     }
     .budget-step {
-      min-height: 27px;
+      min-height: 32px;
       border: 1px solid rgba(23,25,28,.1);
       border-radius: 7px;
       background: #f8f6ef;
       color: var(--ink);
-      padding: 0 8px;
+      padding: 4px 9px;
       font-size: 11px;
       font-weight: 850;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      line-height: 1.15;
     }
     .budget-step.primary {
       background: #202022;
@@ -2208,9 +2214,10 @@
       align-items: center;
     }
     .verification-status-row .status-chip {
-      min-height: 24px;
+      min-height: 32px;
       font-size: 10px;
-      padding: 0 7px;
+      padding: 4px 8px;
+      line-height: 1.15;
     }
     .verification-status-row .status-chip.hold {
       background: #fff4dd;
@@ -2223,18 +2230,18 @@
       border-color: rgba(23,25,28,.1);
     }
     .verification-check {
-      min-height: 24px;
+      min-height: 32px;
       border: 1px solid rgba(23,25,28,.1);
       border-radius: 999px;
       background: #fff8ea;
       color: #7c5200;
-      padding: 0 8px 0 6px;
+      padding: 4px 8px 4px 6px;
       display: inline-flex;
       align-items: center;
       gap: 5px;
       font-size: 10px;
       font-weight: 850;
-      line-height: 1;
+      line-height: 1.15;
     }
     .verification-check.done {
       background: #f1fbf7;
@@ -2242,8 +2249,8 @@
       border-color: rgba(0,125,115,.18);
     }
     .verification-check input {
-      width: 14px;
-      height: 14px;
+      width: 18px;
+      height: 18px;
       margin: 0;
       accent-color: #007d73;
     }
@@ -3227,12 +3234,12 @@
       line-height: 1.35;
     }
     .source-open {
-      height: 30px;
+      min-height: 34px;
       border: 1px solid var(--line);
       border-radius: 7px;
       background: #17191c;
       color: #fff;
-      padding: 0 9px;
+      padding: 4px 9px;
       display: inline-flex;
       align-items: center;
       gap: 6px;
