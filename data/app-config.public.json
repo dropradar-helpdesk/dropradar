@@ -1,0 +1,39 @@
+{
+  "environment": "github-pages",
+  "features": {
+    "supabase": true,
+    "remoteReads": true,
+    "remoteWrites": true,
+    "remoteAdminWrites": true,
+    "adminReview": true,
+    "locationHistory": false,
+    "loginlessRequests": true
+  },
+  "supabase": {
+    "url": "https://frpadphgdzdakxytedqy.supabase.co",
+    "anonKey": "sb_publishable_X-uTqnotWtX7A6Ni4Do-Sg_nFbLume6",
+    "adminAccessToken": ""
+  },
+  "sync": {
+    "readTables": [
+      "drops",
+      "official_sources",
+      "spot_locations",
+      "tracking_request_feed"
+    ],
+    "requestRpc": [
+      "submit_tracking_request",
+      "vote_tracking_request"
+    ],
+    "adminRpc": [
+      "admin_set_tracking_request"
+    ],
+    "notes": [
+      "Public GitHub Pages config. Contains only Supabase URL and anon key.",
+      "Do not add service-role keys, admin JWTs, database passwords, or ingest secrets here.",
+      "Anonymous request writes are limited to RPC calls by the Supabase policy.",
+      "Admin actions still require Supabase Auth with app_metadata.role=admin.",
+      "User GPS location is never stored or sent by this config."
+    ]
+  }
+}

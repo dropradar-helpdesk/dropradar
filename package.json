@@ -27,6 +27,7 @@
     "function:trigger": "node tools/trigger-ingest-function.mjs",
     "function:trigger:dry": "node tools/trigger-ingest-function.mjs --dry-run",
     "function:trigger:write": "node tools/trigger-ingest-function.mjs --write",
+    "config:public": "node tools/build-public-app-config.mjs",
     "github:preflight": "node tools/check-github-actions-secrets.mjs"
   },
   "keywords": [

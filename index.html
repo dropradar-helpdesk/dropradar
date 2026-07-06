@@ -4957,13 +4957,18 @@
       }
     }
     async function loadAppConfig() {
-      try {
-        const response = await fetch("data/app-config.json", { cache: "no-store" });
-        if (!response.ok) return;
-        const data = await response.json();
-        if (data && typeof data === "object" && !Array.isArray(data)) appConfig = data;
-      } catch (error) {
-        console.warn(error);
+      for (const configPath of ["data/app-config.json", "data/app-config.public.json"]) {
+        try {
+          const response = await fetch(configPath, { cache: "no-store" });
+          if (!response.ok) continue;
+          const data = await response.json();
+          if (data && typeof data === "object" && !Array.isArray(data)) {
+            appConfig = data;
+            return;
+          }
+        } catch (error) {
+          console.warn(error);
+        }
       }
     }
     async function loadGeneratedIntakeQueue() {

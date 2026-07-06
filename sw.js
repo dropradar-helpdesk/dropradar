@@ -1,4 +1,4 @@
-const CACHE_VERSION = "dropradar-pwa-v28";
+const CACHE_VERSION = "dropradar-pwa-v29";
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 
@@ -15,6 +15,7 @@ const APP_SHELL = [
   "./data/source-registry.json",
   "./data/storage-blueprint.json",
   "./data/contact.json",
+  "./data/app-config.public.json",
   "./data/app-config.sample.json",
   "./data/intake-candidates.generated.json",
   "./data/request-watchlist.sample.json",

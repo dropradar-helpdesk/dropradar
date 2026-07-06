@@ -14,6 +14,7 @@ provider's own secret store.
 | Supabase project ref | frpadphgdzdakxytedqy | CLI linking and dashboard project ID |
 | Supabase project URL | https://frpadphgdzdakxytedqy.supabase.co | App API URL and Edge Function calls |
 | GitHub repository | https://github.com/dropradar-helpdesk/dropradar | Source control and GitHub Actions |
+| GitHub Pages URL | https://dropradar-helpdesk.github.io/dropradar/ | Public PWA/web prototype after Pages deploy |
 | Local project folder | `outputs/hobby-drop-app` | Main app source |
 | Local app URL | http://127.0.0.1:8765/ | Prototype browser check |
 
@@ -30,6 +31,7 @@ provider's own secret store.
 | GitHub account | Code repository owner account | GitHub repo and GitHub Actions | Supabase account |
 | GitHub Actions secrets | Repo-side runtime secrets | Daily ingest workflow | Files committed to git |
 | Local SSH deploy key | Private key in `work/secrets/dropradar_github_rsa` and public key in GitHub SSH keys | Local git push from this PC/thread | GitHub Actions secrets |
+| Public app config | `data/app-config.public.json` | GitHub Pages Supabase anon connection | Local `data/app-config.json`, service-role key, ingest secret |
 
 ## What To Use On The Current GitHub Screen
 
@@ -84,14 +86,17 @@ npm run github:preflight
 - GitHub Actions secrets are registered.
 - GitHub Actions manual dry-run succeeded.
 - GitHub Actions manual write-mode run succeeded.
+- GitHub Pages workflow is configured.
+- Public config for GitHub Pages is generated with only Supabase URL and anon key.
 
 ## Next GitHub Procedure
 
 1. Keep the repository at `https://github.com/dropradar-helpdesk/dropradar`.
 2. Use SSH remote `git@github.com:dropradar-helpdesk/dropradar.git` for local pushes.
 3. Leave the daily GitHub Actions schedule enabled.
-4. Check the workflow after the next scheduled 07:17 JST run.
-5. After no more local Supabase CLI deploy work is needed, revoke the temporary Supabase CLI access token.
+4. Check the GitHub Pages deployment after the next push.
+5. Check the ingest workflow after the next scheduled 07:17 JST run.
+6. After no more local Supabase CLI deploy work is needed, revoke the temporary Supabase CLI access token.
 
 ## Reset / Recovery Rules
 
@@ -102,6 +107,8 @@ npm run github:preflight
 - If `DROPRADAR_INGEST_SECRET` is lost, generate a new one, update Supabase
   Function secrets, then update GitHub Actions secrets.
 - If a service-role key is exposed, rotate it immediately from Supabase.
+- If a public config ever includes service-role keys, admin JWTs, DB passwords,
+  or ingest secrets, remove it from git history and rotate the leaked value.
 - If the local SSH private key is exposed, delete `DropRadar local deploy key`
   from GitHub SSH keys, generate a new key, and update the local git push setup.
 

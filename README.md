@@ -41,6 +41,8 @@ Official-announcement-first prototype for tracking hobby drops, limited goods, c
 - Supabase setup guide is in `supabase/SETUP.md`; schema draft is in `supabase/schema.sql`; initial seed data is in `supabase/seed.sql`; scheduled ingest skeleton is in `supabase/functions/ingest-official-sources/`.
 - Edge Function service-role grants for existing projects are in `supabase/service-role-grants.sql`.
 - Scheduled official-source monitoring is set up for GitHub Actions in `.github/workflows/dropradar-daily-ingest.yml`; the Supabase `pg_cron` template remains in `supabase/schedule-ingest-cron-template.sql` as a fallback.
+- Public static deployment is set up for GitHub Pages in `.github/workflows/dropradar-pages.yml`.
+- Public GitHub Pages config is generated at `data/app-config.public.json`; it contains only the Supabase URL and anon key, never service-role keys, admin JWTs, DB passwords, or ingest secrets.
 - Public-card seed SQL is generated at `supabase/drops.generated.sql` from `data/drops.json`.
 - Official-source seed SQL is generated at `supabase/official-sources.generated.sql` from `data/source-registry.json`.
 - Supabase smoke tests are available through `npm run supabase:smoke`, `npm run supabase:smoke:write`, and `npm run supabase:smoke:admin`.
@@ -75,6 +77,16 @@ Run the local server, then open `http://127.0.0.1:8765/` from a browser that can
 - Local file opening will not register the Service Worker; use the local server or HTTPS.
 - The Service Worker caches the app shell and local JSON only. Official external pages are linked, not cached.
 
+## GitHub Pages
+
+Build the public Supabase config from the ignored local config:
+
+```powershell
+npm run config:public
+```
+
+Then push to `main`. The Pages workflow publishes the static app to GitHub Pages and removes ignored local-only `data/app-config.json` from the artifact.
+
 ## Project Structure
 
 ```text
@@ -92,13 +104,15 @@ Run the local server, then open `http://127.0.0.1:8765/` from a browser that can
 |   |-- drops.json
 |   |-- contact.json
 |   |-- app-config.sample.json
+|   |-- app-config.public.json
 |   |-- intake-candidates.generated.json
 |   |-- source-registry.json
 |   |-- source-checks/monitor-plan.json
 |   `-- storage-blueprint.json
 |-- .github/
 |   `-- workflows/
-|       `-- dropradar-daily-ingest.yml
+|       |-- dropradar-daily-ingest.yml
+|       `-- dropradar-pages.yml
 |-- ops/
 |   `-- account-runbook.md
 |-- .env.github-actions.example
@@ -115,6 +129,7 @@ Run the local server, then open `http://127.0.0.1:8765/` from a browser that can
 |   |-- check-bandai-hobby-source.ps1
 |   |-- build-drops-seed.mjs
 |   |-- build-intake-candidates.mjs
+|   |-- build-public-app-config.mjs
 |   |-- run-official-monitor.mjs
 |   |-- sync-request-watchlist.mjs
 |   |-- trigger-ingest-function.mjs
