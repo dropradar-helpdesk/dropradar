@@ -1,5 +1,6 @@
 name: DropRadar Supabase Functions
 
+# Keeps the deployed Edge Function in sync with the source-controlled crawler.
 on:
   push:
     branches:
