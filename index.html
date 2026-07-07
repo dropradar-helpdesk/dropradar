@@ -9271,6 +9271,36 @@
       return dropDateVerified(drop, field) ? (field === "deadline" ? drop.deadline : drop.date) : "9999-12-31";
     }
 
+    const feedCategoryOrder = ["トレカ", "新刊", "食玩", "フィギュア", "プライズ", "一番くじ", "プラモデル", "ガチャ", "飲食コラボ", "キャラ雑貨"];
+
+    function dropFeedDateSortValue(drop) {
+      if (validDateString(drop?.date)) return drop.date;
+      if (validDateString(drop?.deadline)) return drop.deadline;
+      return "9999-12-31";
+    }
+
+    function feedDateBucket(drop) {
+      const date = dropFeedDateSortValue(drop);
+      if (!validDateString(date)) return 3;
+      const distance = dayDistance(date);
+      if (distance >= -1) return 0;
+      if (distance >= -14) return 1;
+      return 2;
+    }
+
+    function feedCategoryWeight(drop) {
+      const haystack = `${drop.category || ""} ${(drop.tags || []).join(" ")}`;
+      const index = feedCategoryOrder.findIndex((item) => haystack.includes(item));
+      return index === -1 ? 99 : index;
+    }
+
+    function compareFeedDrops(a, b) {
+      return feedDateBucket(a) - feedDateBucket(b)
+        || dropFeedDateSortValue(a).localeCompare(dropFeedDateSortValue(b))
+        || feedCategoryWeight(a) - feedCategoryWeight(b)
+        || String(a.titleJa || a.titleEn || "").localeCompare(String(b.titleJa || b.titleEn || ""), "ja");
+    }
+
     function dropDatePill(drop, field) {
       if (field === "deadline" && drop.deadlineNotRequired === true) {
         return state.lang === "ja"
@@ -10916,8 +10946,10 @@
     }
 
     const tagAliases = {
-      "ガンプラ": ["ガンプラ", "プラモデル"],
-      "トレカ": ["トレカ", "トレーディングカード", "カード", "TCG", "ポケカ"],
+      "ガンプラ": ["ガンプラ", "ガンダム", "GUNDAM", "RG 1/144", "HG 1/144"],
+      "プラモデル": ["プラモデル", "プラモ", "模型", "RG", "HG"],
+      "トレカ": ["トレカ", "トレーディングカード", "カード", "TCG", "ポケカ", "ワンピカード", "ONE PIECEカードゲーム", "デュエル・マスターズ", "デュエマ", "構築済みデッキ", "カード周辺商品"],
+      "新刊": ["新刊", "単行本", "コミックス", "書籍", "ライトノベル", "原作"],
       "フィギュア": ["フィギュア", "figure"],
       "プライズ": ["プライズ", "クレーン", "バンプレスト", "景品"],
       "一番くじ": ["一番くじ", "くじ"],
@@ -10978,7 +11010,7 @@
     }
 
     function buildChips() {
-      const tagOrder = ["すべて", "ガンプラ", "トレカ", "フィギュア", "プライズ", "一番くじ", "ガチャ", "食玩", "キャラ雑貨", "飲食コラボ", "コンビニ", "イベント", "聖地", "ポケモン", "ガンダム", "ホロライブ", "ドラゴンボール", "フリーレン", "ちいかわ", "頭文字D", "サンリオ", "ジブリ"];
+      const tagOrder = ["すべて", "トレカ", "新刊", "ガンプラ", "プラモデル", "フィギュア", "プライズ", "一番くじ", "ガチャ", "食玩", "キャラ雑貨", "飲食コラボ", "コンビニ", "イベント", "聖地", "ポケモン", "ガンダム", "ホロライブ", "ドラゴンボール", "フリーレン", "ちいかわ", "頭文字D", "サンリオ", "ジブリ"];
       const pool = userFacingDrops();
       const visibleTags = tagOrder.filter((tag) => tag === "すべて" || pool.some((drop) => tagMatchesDrop(drop, tag)));
       if (!visibleTags.some((tag) => tag === state.tag)) state.tag = "すべて";
@@ -11106,7 +11138,7 @@
     }
 
     function renderFeed() {
-      const items = userFacingDrops().filter(matchesFilter).sort((a, b) => dropDateSortValue(a, "deadline").localeCompare(dropDateSortValue(b, "deadline")));
+      const items = userFacingDrops().filter(matchesFilter).sort(compareFeedDrops);
       const query = normalizeRequestTerm(state.search);
       const homeScreen = document.querySelector('.screen[data-screen="home"]');
       if (homeScreen) homeScreen.classList.toggle("is-searching", Boolean(query));
