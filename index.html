@@ -5388,7 +5388,7 @@
         signalEyebrow: "公式発表ベース",
         signalTitle: "新商品・限定・コラボを拾う",
         signalCopy: "ガンプラ、トレカ、フィギュア、くじ、食玩、飲食コラボを1画面に圧縮。",
-        statOpen: "抽選・予約中",
+        statOpen: "発売中/予約中",
         statWeek: "今週発売/開始",
         statLimit: "購入制限あり",
         tabAll: "全部",
@@ -5678,7 +5678,7 @@
         signalEyebrow: "OFFICIAL FIRST",
         signalTitle: "Catch new hobby drops and collabs",
         signalCopy: "Gunpla, cards, figures, kuji, candy toys, and food collabs in one view.",
-        statOpen: "Open lotteries",
+        statOpen: "Live/preorder",
         statWeek: "This week",
         statLimit: "With limits",
         tabAll: "All",
@@ -10803,18 +10803,23 @@
     }
 
     function userFacingDrops() {
-      return drops.filter((drop) => !isMonitorPlaceholderDrop(drop));
+      return drops.filter((drop) => !isMonitorPlaceholderDrop(drop) && !isPastDisplayWindow(drop));
+    }
+
+    function isPastDisplayWindow(drop) {
+      const displayUntil = drop?.displayUntil || drop?.endDate || "";
+      return validDateString(displayUntil) && dayDistance(displayUntil) < 0;
     }
 
     function actionDefinitions() {
       return [
         {
           id: "open",
-          labelJa: "抽選・予約中",
-          labelEn: "Open now",
-          copyJa: "応募・予約の対象",
-          copyEn: "Applications and preorders",
-          match: (drop) => ["lottery", "online"].includes(drop.state),
+          labelJa: "発売中/予約中",
+          labelEn: "Live/preorder",
+          copyJa: "今買える・応募できる対象",
+          copyEn: "On sale, applications, and preorders",
+          match: (drop) => String(drop.statusJa || "").includes("発売中") || ["lottery", "online"].includes(drop.state),
           sort: (a, b) => dropDateSortValue(a, "deadline").localeCompare(dropDateSortValue(b, "deadline"))
         },
         {
