@@ -694,6 +694,12 @@
       color: #7a5200;
       box-shadow: none;
     }
+    .date-pill.qualitative {
+      border: 1px solid rgba(27, 111, 82, .2);
+      background: #edf8f3;
+      color: #1c6449;
+      box-shadow: none;
+    }
     .date-pill.unconfirmed small {
       opacity: 1;
       color: #8d5d05;
@@ -701,6 +707,15 @@
     .date-pill.unconfirmed strong {
       font-size: 12px;
       line-height: 1.1;
+    }
+    .date-pill.qualitative strong {
+      font-size: 13px;
+      line-height: 1.1;
+    }
+    .date-pill.category strong {
+      font-size: 12px;
+      line-height: 1.12;
+      overflow-wrap: anywhere;
     }
     .date-copy {
       min-width: 0;
@@ -754,6 +769,11 @@
       background: #fff8ea;
       color: #7a5200;
     }
+    .event-date.qualitative {
+      border-color: rgba(27, 111, 82, .2);
+      background: #edf8f3;
+      color: #1c6449;
+    }
     .event-date small {
       display: block;
       color: var(--muted);
@@ -771,6 +791,10 @@
     }
     .event-date.unconfirmed strong {
       font-size: 12px;
+      line-height: 1.1;
+    }
+    .event-date.qualitative strong {
+      font-size: 13px;
       line-height: 1.1;
     }
     .event-copy {
@@ -9238,16 +9262,48 @@
 
     function dropDatePill(drop, field) {
       if (field === "deadline" && drop.deadlineNotRequired === true) {
+        const label = `${drop.deadlineLabelJa || ""} ${drop.deadlineLabelEn || ""}`;
+        const isSelloutEnd = /なくなり|売切|売り切れ|在庫|配布|終了|sold|stock|while/i.test(label);
         return state.lang === "ja"
-          ? { month: "締", day: "無" }
-          : { month: "NO", day: "DUE" };
+          ? (isSelloutEnd ? { month: "終了", day: "次第" } : { month: "締切", day: "なし" })
+          : (isSelloutEnd ? { month: "UNTIL", day: "GONE" } : { month: "NO", day: "DUE" });
       }
       if (!dropDateVerified(drop, field)) {
         return state.lang === "ja"
-          ? { month: "未", day: "確" }
+          ? { month: field === "deadline" ? "終了" : "日付", day: "未確認" }
           : { month: "TBD", day: "--" };
       }
       return dateParts(field === "deadline" ? drop.deadline : drop.date);
+    }
+
+    function dropDatePillClass(drop, field) {
+      if (field === "deadline" && drop.deadlineNotRequired === true) return "qualitative";
+      return dropDateVerified(drop, field) ? "" : "unconfirmed";
+    }
+
+    function compactCategoryLabel(category) {
+      const value = String(category || "").trim();
+      if (!value) return state.lang === "ja" ? "場所" : "Spot";
+      const labels = [
+        ["飲食コラボ", "飲食"],
+        ["外食", "飲食"],
+        ["フィギュア", "フィギュア"],
+        ["プライズ", "プライズ"],
+        ["ガシャポン", "ガチャ"],
+        ["ガチャ", "ガチャ"],
+        ["一番くじ", "くじ"],
+        ["プラモデル", "プラモ"],
+        ["ガンプラ", "ガンプラ"],
+        ["トレカ", "トレカ"],
+        ["カード", "カード"],
+        ["新刊", "新刊"],
+        ["キャラ雑貨", "雑貨"],
+        ["食玩", "食玩"],
+        ["コンビニ", "小売"]
+      ];
+      const hit = labels.find(([key]) => value.includes(key));
+      if (hit) return hit[1];
+      return Array.from(value).slice(0, 3).join("");
     }
 
     function followedDrop(drop) {
@@ -12483,9 +12539,10 @@
           const title = state.lang === "ja" ? drop.titleJa : drop.titleEn;
           const deadlineKnown = drop.deadlineNotRequired === true || dropDateVerified(drop, "deadline");
           const { month, day } = deadlineKnown ? dropDatePill(drop, "deadline") : { month: state.lang === "ja" ? "締切" : "Due", day: state.lang === "ja" ? "未確認" : "TBD" };
+          const pillClass = dropDatePillClass(drop, "deadline");
           return `
             <button class="date-row" data-open="${drop.id}">
-              <div class="date-pill ${deadlineKnown ? "" : "unconfirmed"}"><small>${month}</small><strong>${day}</strong></div>
+              <div class="date-pill ${pillClass}"><small>${month}</small><strong>${day}</strong></div>
               <div class="date-copy">
                 <strong>${title}</strong>
                 <span>${text("deadline")}: ${dropDateText(drop, "deadline")} / ${state.lang === "ja" ? drop.statusJa : drop.statusEn}</span>
@@ -12506,9 +12563,10 @@
         const status = state.lang === "ja" ? drop.statusJa : drop.statusEn;
         const dateKnown = dropDateVerified(drop, "date");
         const { month, day } = dateKnown ? dropDatePill(drop, "date") : { month: state.lang === "ja" ? "日付" : "Date", day: state.lang === "ja" ? "未確認" : "TBD" };
+        const pillClass = dropDatePillClass(drop, "date");
         return `
           <button class="event-row" data-open="${drop.id}">
-            <span class="event-date ${dateKnown ? "" : "unconfirmed"}"><small>${month}</small><strong>${day}</strong></span>
+            <span class="event-date ${pillClass}"><small>${month}</small><strong>${day}</strong></span>
             <span class="event-copy">
               <span class="event-meta"><span class="event-chip">${tagText(drop.brand)}</span><span class="event-chip warn">${status}</span></span>
               <strong>${title}</strong>
@@ -12527,7 +12585,7 @@
       const locationDrops = userFacingDrops().filter((drop) => ["店頭", "店頭/通販"].includes(drop.method) || drop.state === "store");
       $("#mapList").innerHTML = locationDrops.slice(0, 5).map((drop) => `
         <button class="date-row" data-open="${drop.id}">
-          <div class="date-pill"><small>${state.lang === "ja" ? "MAP" : "MAP"}</small><strong>${drop.category.slice(0, 2)}</strong></div>
+          <div class="date-pill category"><small>${state.lang === "ja" ? "MAP" : "MAP"}</small><strong>${compactCategoryLabel(drop.category)}</strong></div>
           <div class="date-copy">
             <strong>${state.lang === "ja" ? drop.areaJa : drop.areaEn}</strong>
             <span>${state.lang === "ja" ? drop.titleJa : drop.titleEn}</span>
