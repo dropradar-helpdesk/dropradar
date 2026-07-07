@@ -5028,7 +5028,7 @@
         if (!response.ok) return new Map();
         const data = await response.json();
         if (!Array.isArray(data)) return new Map();
-        return new Map(data.filter((drop) => drop?.id && (drop.dateVerified === false || curatedDropOverrideIds.has(drop.id))).map((drop) => [drop.id, drop]));
+        return new Map(data.filter((drop) => drop?.id).map((drop) => [drop.id, drop]));
       } catch {
         return new Map();
       }
@@ -5044,12 +5044,15 @@
       if (!Array.isArray(data)) throw new Error("drops returned non-array data");
       const localOverrides = await loadLocalDropOverrides();
       const normalized = data.map((row) => normalizeRemoteDrop(row, localOverrides.get(String(row.id)))).filter(Boolean);
-      if (!normalized.length) throw new Error("drops returned no published rows");
-      baseDrops = normalized;
+      const remoteIds = new Set(normalized.map((drop) => drop.id));
+      const localOnly = [...localOverrides.values()].filter((drop) => !remoteIds.has(drop.id) && !isMonitorPlaceholderDrop(drop));
+      const merged = [...normalized, ...localOnly];
+      if (!merged.length) throw new Error("drops returned no published rows");
+      baseDrops = merged;
       dropDataSource = {
         type: "supabase",
-        messageJa: `Supabase drops (${normalized.length}件)`,
-        messageEn: `Supabase drops (${normalized.length})`
+        messageJa: `Supabase drops (${normalized.length}件) + local verified (${localOnly.length}件)`,
+        messageEn: `Supabase drops (${normalized.length}) + local verified (${localOnly.length})`
       };
       refreshDrops();
     }
@@ -9223,6 +9226,8 @@
     function dropDateVerified(drop, field) {
       if (!drop) return true;
       if (field === "deadline" && drop.deadlineNotRequired === true) return true;
+      const approximateKey = field === "deadline" ? "deadlineApproximate" : "dateApproximate";
+      if (drop[approximateKey] === true) return true;
       const key = field === "deadline" ? "deadlineVerified" : "dateVerified";
       if (drop[key] === false) return false;
       if (drop.dateVerified === false && field === "date") return false;
@@ -9234,6 +9239,13 @@
         return state.lang === "ja" ? (drop.deadlineLabelJa || "締切なし") : (drop.deadlineLabelEn || "No deadline");
       }
       const raw = field === "deadline" ? drop.deadline : drop.date;
+      const approximateKey = field === "deadline" ? "deadlineApproximate" : "dateApproximate";
+      if (drop[approximateKey] === true) {
+        const jaKey = field === "deadline" ? "deadlineLabelJa" : "dateLabelJa";
+        const enKey = field === "deadline" ? "deadlineLabelEn" : "dateLabelEn";
+        const fallback = fmtDate(raw);
+        return state.lang === "ja" ? (drop[jaKey] || fallback) : (drop[enKey] || fallback);
+      }
       if (dropDateVerified(drop, field)) return fmtDate(raw);
       const jaKey = field === "deadline" ? "deadlineLabelJa" : "dateLabelJa";
       const enKey = field === "deadline" ? "deadlineLabelEn" : "dateLabelEn";
