@@ -125,6 +125,43 @@ function checkPolicyPages(indexHtml, legalHtml, privacyHtml, accessibilityHtml, 
   }
 }
 
+function checkNativeWrapper(packageJson, capConfig, appBuildNotes, nativeBuildScript) {
+  if (!packageJson) return;
+  const scripts = packageJson.scripts || {};
+  for (const scriptName of ["build:native-web", "native:sync", "native:add:ios", "native:add:android"]) {
+    if (!scripts[scriptName]) errors.push(`package.json missing native script: ${scriptName}`);
+  }
+  if (!packageJson.dependencies?.["@capacitor/core"]) {
+    errors.push("package.json missing @capacitor/core dependency");
+  }
+  for (const dependency of ["@capacitor/cli", "@capacitor/ios", "@capacitor/android"]) {
+    if (!packageJson.devDependencies?.[dependency]) {
+      errors.push(`package.json missing native dev dependency: ${dependency}`);
+    }
+  }
+
+  if (!capConfig) return;
+  if (capConfig.appId !== "com.dropradar.app") errors.push(`capacitor.config.json appId is unexpected: ${capConfig.appId || "missing"}`);
+  if (capConfig.appName !== "DropRadar") errors.push(`capacitor.config.json appName is unexpected: ${capConfig.appName || "missing"}`);
+  if (capConfig.webDir !== "native-www") errors.push(`capacitor.config.json webDir is unexpected: ${capConfig.webDir || "missing"}`);
+
+  const appBuildNotesLower = appBuildNotes.toLowerCase();
+  for (const token of [
+    "Privacy URL",
+    "Support / rights URL",
+    "TestFlight",
+    "npx cap add ios"
+  ]) {
+    if (!appBuildNotes.includes(token)) errors.push(`APP_BUILD_NOTES.md missing native release note: ${token}`);
+  }
+  for (const token of ["ads", "analytics"]) {
+    if (!appBuildNotesLower.includes(token)) errors.push(`APP_BUILD_NOTES.md missing native exclusion note: ${token}`);
+  }
+  for (const token of ["native-www", "app-config.json", "data"]) {
+    if (!nativeBuildScript.includes(token)) errors.push(`tools/build-native-web.mjs missing expected native copy guard: ${token}`);
+  }
+}
+
 function checkDrops(drops) {
   if (!Array.isArray(drops) || !drops.length) {
     errors.push("data/drops.json must contain public cards");
@@ -210,7 +247,11 @@ const legalHtml = requireFile("legal.html");
 const privacyHtml = requireFile("privacy.html");
 const accessibilityHtml = requireFile("accessibility.html");
 const storeNotes = requireFile("store-submission-notes.md");
+const appBuildNotes = requireFile("APP_BUILD_NOTES.md");
+const nativeBuildScript = requireFile("tools/build-native-web.mjs");
 const sw = requireFile("sw.js");
+const packageJson = readJson(path.join(root, "package.json"));
+const capConfig = readJson(path.join(root, "capacitor.config.json"));
 const manifest = readJson(path.join(root, "manifest.webmanifest"));
 const drops = readJson(path.join(root, "data", "drops.json"));
 const sources = readJson(path.join(root, "data", "source-registry.json"));
@@ -232,6 +273,7 @@ checkScripts(indexHtml);
 checkManifest(manifest);
 checkContact(indexHtml, legalHtml, privacyHtml, accessibilityHtml, contact);
 checkPolicyPages(indexHtml, legalHtml, privacyHtml, accessibilityHtml, storeNotes);
+checkNativeWrapper(packageJson, capConfig, appBuildNotes, nativeBuildScript);
 checkDrops(drops);
 checkSources(sources);
 checkPublicConfig(publicConfig);

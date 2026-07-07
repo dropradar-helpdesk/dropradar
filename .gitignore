@@ -1,6 +1,9 @@
 node_modules/
 dist/
 build/
+native-www/
+ios/
+android/
 .DS_Store
 Thumbs.db
 *.log

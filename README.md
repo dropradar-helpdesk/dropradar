@@ -6,6 +6,7 @@ Official-announcement-first prototype for tracking hobby drops, limited goods, c
 
 - Static smartphone-first HTML prototype.
 - PWA-ready prototype with a web app manifest, local Service Worker cache, standalone display metadata, safe-area spacing, and original DropRadar icons.
+- Native wrapper prep is configured with Capacitor. `npm run build:native-web` creates the static bundle for iOS/Android under ignored `native-www`.
 - Favorite items can be saved locally and reviewed in a My Page view.
 - My Page includes user-set S/A/B/C ranks, recovery dates, 500-yen-step per-content budgets, an editable monthly cap, progress statuses, date-grouped schedule planning, and current-month budget subtraction based on recovery dates.
 - My Page also surfaces "today", "due tomorrow", and "this week" action cards from saved items.
@@ -51,6 +52,7 @@ Official-announcement-first prototype for tracking hobby drops, limited goods, c
 - Edge Function smoke tests are available through `npm run function:smoke` and `npm run function:smoke:write` after deploying `ingest-official-sources`.
 - `spot_locations` is planned for public pilgrimage / detour / local-collab coordinates; user GPS location is intentionally not part of the storage model.
 - PWA metadata is managed in `manifest.webmanifest`; offline shell caching is managed in `sw.js`.
+- Native app build notes are managed in `APP_BUILD_NOTES.md`; Capacitor config is managed in `capacitor.config.json`.
 - Manual official-source check scripts are in `tools/`.
 - Account roles, non-secret IDs, GitHub/Supabase confusion points, and recovery steps are managed in `ops/account-runbook.md`. Passwords and private keys are intentionally not stored in the repo.
 
@@ -79,6 +81,31 @@ Run the local server, then open `http://127.0.0.1:8765/` from a browser that can
 - Local file opening will not register the Service Worker; use the local server or HTTPS.
 - The Service Worker caches the app shell and local JSON only. Official external pages are linked, not cached.
 
+## Native App Trial
+
+The first native app path is a thin Capacitor wrapper around the current static app.
+
+From this folder:
+
+```powershell
+npm run release:qa
+npm run build:native-web
+```
+
+The generated `native-www` folder is ignored by git and excludes local-only `data/app-config.json`.
+
+iOS needs macOS + Xcode for the real project and TestFlight/App Store upload:
+
+```bash
+npm install
+npm run build:native-web
+npx cap add ios
+npx cap sync ios
+npx cap open ios
+```
+
+See `APP_BUILD_NOTES.md` for the current app ID, privacy URLs, and first-submission scope.
+
 ## GitHub Pages
 
 Build the public Supabase config from the ignored local config:
@@ -94,9 +121,12 @@ Then push to `main`. The Pages workflow publishes the static app to GitHub Pages
 ```text
 .
 |-- index.html
+|-- capacitor.config.json
 |-- manifest.webmanifest
 |-- sw.js
 |-- offline.html
+|-- privacy.html
+|-- accessibility.html
 |-- icons/
 |   |-- icon.svg
 |   |-- maskable.svg
@@ -139,6 +169,8 @@ Then push to `main`. The Pages workflow publishes the static app to GitHub Pages
 |   |-- check-github-actions-secrets.mjs
 |   `-- supabase-smoke-test.mjs
 |-- legal-and-accessibility-checklist.md
+|-- APP_BUILD_NOTES.md
+|-- store-submission-notes.md
 |-- package.json
 |-- start-local-server.ps1
 `-- README.md
@@ -442,7 +474,7 @@ Sub value:
 - Do not imply responsibility for failed purchases, missed entries, schedule changes, transportation costs, purchase costs, or related losses.
 - Treat GPS as an optional subfeature. Refusal must not block the core app; user location must not be stored, sold, shared, or used outside temporary nearby sorting and user-initiated map handoff.
 - Keep the public contact route visible: `dropradar.helpdesk@gmail.com` for contact, correction, and rights-holder takedown requests.
-- See `legal.html` for the public policy/contact draft, and `legal-and-accessibility-checklist.md` before adding crawlers, user reports, ads, or monetization.
+- See `legal.html`, `privacy.html`, `accessibility.html`, `store-submission-notes.md`, and `legal-and-accessibility-checklist.md` before adding crawlers, user reports, ads, or monetization.
 
 ## Next Build Steps
 
@@ -452,4 +484,4 @@ Sub value:
 4. Add GitHub repository secrets, run `.github/workflows/dropradar-daily-ingest.yml` manually once with `dry_run=true`, then enable the daily schedule.
 5. Connect spot locations to Supabase reads.
 6. Keep periodic inbox checks for `dropradar.helpdesk@gmail.com`, especially after launch and after source/collab updates.
-7. Review `legal.html` with a lawyer before App Store / broad public release, then prepare store screenshots and privacy metadata.
+7. For the native app path, use `APP_BUILD_NOTES.md`, build `native-www`, then continue the iOS project on macOS/Xcode. Review legal/privacy wording before monetization, US-heavy marketing, ads, chat, uploads, or paid features.

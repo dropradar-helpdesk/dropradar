@@ -4,7 +4,7 @@ Updated: 2026-07-07
 
 ## Current Release Position
 
-DropRadar is close to a public web/PWA preview. It is not ready for App Store submission yet.
+DropRadar is public as a web/PWA preview and is moving toward a small native wrapper. The practical path is to use it, find real friction, and ship fixes quickly.
 
 Ready enough for a controlled public web/PWA preview:
 
@@ -20,18 +20,21 @@ Ready enough for a controlled public web/PWA preview:
 - Privacy policy URL is available at `privacy.html`.
 - Accessibility statement is available at `accessibility.html`.
 - Store review notes draft is available at `store-submission-notes.md`.
+- Native wrapper prep is available through `capacitor.config.json`, `APP_BUILD_NOTES.md`, and `npm run build:native-web`.
 - Daily official ingest workflow exists and is scheduled once per day.
 - Approved tracking requests are read by daily ingest, matched against their source lane, and inserted into `intake_candidates` with `request_id`.
 
-## Do Not Launch as a Store App Until These Are Done
+## Store App Can Proceed If These Are Accepted
 
-- Lawyer review of copyright, trademark, crawling, privacy, and terms.
+- First submission stays thin: no ads, no analytics SDKs, no paid passes, no open chat, no user image uploads, no background GPS, no push notifications.
+- Owner accepts that small UX/data issues will be fixed after real use.
+- iOS build and TestFlight still require macOS + Xcode.
 - Confirm the final privacy labels in `store-submission-notes.md` match the actual native wrapper / SDK behavior.
 - Store screenshots that avoid third-party copyrighted images/logos.
-- Native wrapper decision, for example PWA only first or Capacitor/TestFlight later.
 - Final app store description clearly saying unofficial.
 - Accessibility pass on keyboard, screen reader labels, contrast, text zoom, dialog focus, and touch target size.
 - Takedown process test using the public Gmail.
+- Lawyer review remains strongly recommended before monetization, US-heavy marketing, chat, uploads, ads, or paid features.
 
 ## Operational Boundaries
 
