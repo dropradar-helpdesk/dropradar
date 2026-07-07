@@ -9044,6 +9044,53 @@
       return "9999-12-31";
     }
 
+    function isGashaponDrop(drop) {
+      const haystack = [
+        drop?.id,
+        drop?.source,
+        drop?.category,
+        drop?.brand,
+        drop?.method,
+        ...(Array.isArray(drop?.tags) ? drop.tags : [])
+      ].filter(Boolean).join(" ");
+      return /gashapon|ガシャポン|ガチャ|カプセルトイ/i.test(haystack);
+    }
+
+    function isLowFitGashaponDrop(drop) {
+      if (!isGashaponDrop(drop)) return false;
+      const haystack = [
+        drop?.id,
+        drop?.titleJa,
+        drop?.titleEn,
+        drop?.brand,
+        drop?.category,
+        ...(Array.isArray(drop?.tags) ? drop.tags : [])
+      ].filter(Boolean).join(" ").toLowerCase();
+      const blockedSignals = [
+        "アンパンマン",
+        "anpanman",
+        "みいつけた",
+        "miitsuketa",
+        "キッズ",
+        "幼児",
+        "ベビー",
+        "知育",
+        "オリジナル雑貨",
+        "涼を感じる",
+        "カムンとアント",
+        "わんちゃあ"
+      ];
+      if (blockedSignals.some((signal) => haystack.includes(signal.toLowerCase()))) return true;
+      return haystack.includes("まちぼうけ") && !/(漫画|アニメ|ゲーム|特撮|ジャンプ|ガンダム|ドラゴンボール|ポケモン|ワンピース|one piece|jojo|hxh|bleach|呪術|ブルーロック|コナン|初音ミク|転スラ|封神演義)/i.test(haystack);
+    }
+
+    function feedNoiseWeight(drop) {
+      let weight = 0;
+      if (drop?.dateApproximate === true) weight += 2;
+      if (isGashaponDrop(drop)) weight += 1;
+      return weight;
+    }
+
     function feedDateDistance(drop) {
       const date = dropFeedDateSortValue(drop);
       return validDateString(date) ? dayDistance(date) : Number.POSITIVE_INFINITY;
@@ -9062,6 +9109,8 @@
     function compareFeedUpcoming(a, b) {
       const bucketDiff = feedUpcomingBucket(a) - feedUpcomingBucket(b);
       if (bucketDiff) return bucketDiff;
+      const noiseDiff = feedNoiseWeight(a) - feedNoiseWeight(b);
+      if (noiseDiff) return noiseDiff;
       const aDate = dropFeedDateSortValue(a);
       const bDate = dropFeedDateSortValue(b);
       const bothPast = feedUpcomingBucket(a) === 1 && feedUpcomingBucket(b) === 1;
@@ -10613,7 +10662,7 @@
     }
 
     function userFacingDrops() {
-      return drops.filter((drop) => !isMonitorPlaceholderDrop(drop) && !isPastDisplayWindow(drop));
+      return drops.filter((drop) => !isMonitorPlaceholderDrop(drop) && !isPastDisplayWindow(drop) && !isLowFitGashaponDrop(drop));
     }
 
     function isPastDisplayWindow(drop) {
