@@ -10772,7 +10772,7 @@
       "ガンプラ": ["ガンプラ", "ガンダム", "GUNDAM", "RG 1/144", "HG 1/144"],
       "プラモデル": ["プラモデル", "プラモ", "模型", "RG", "HG"],
       "トレカ": ["トレカ", "トレーディングカード", "カード", "TCG", "ポケカ", "ワンピカード", "ONE PIECEカードゲーム", "デュエル・マスターズ", "デュエマ", "構築済みデッキ", "カード周辺商品"],
-      "新刊": ["新刊", "単行本", "コミックス", "書籍", "ライトノベル", "原作"],
+      "新刊": ["新刊", "単行本", "コミックス", "書籍", "ライトノベル", "ラノベ", "小説", "ノベル", "novel", "light novel"],
       "フィギュア": ["フィギュア", "figure"],
       "プライズ": ["プライズ", "クレーン", "バンプレスト", "景品"],
       "一番くじ": ["一番くじ", "くじ"],
@@ -10783,8 +10783,24 @@
       "聖地": ["聖地", "聖地イベント", "観光", "観光向け", "遠征"]
     };
 
+    function isBookReleaseDrop(drop) {
+      const tags = Array.isArray(drop?.tags) ? drop.tags : [];
+      const structuredText = [drop?.category, drop?.source, drop?.brand, ...tags].filter(Boolean).join(" ").toLowerCase();
+      const titleText = [drop?.titleJa, drop?.titleEn].filter(Boolean).join(" ").toLowerCase();
+      const allText = `${structuredText} ${titleText}`;
+      const bookSignals = ["新刊", "単行本", "コミックス", "書籍", "ライトノベル", "ラノベ", "小説", "ノベル", "novel", "light novel", "book"];
+      const publisherSignals = ["小学館", "講談社", "集英社", "出版社", "コミック公式", "コミックス", "books", "comics", "kadokawa", "電撃", "ga文庫"];
+      const goodsSignals = ["ガシャポン", "ガチャ", "食玩", "ウエハース", "ウェハース", "プライズ", "一番くじ", "フィギュア", "キャラ雑貨", "チャーム", "マスコット"];
+      const hasBookSignal = bookSignals.some((signal) => structuredText.includes(signal.toLowerCase()));
+      const trustedPublisher = publisherSignals.some((signal) => structuredText.includes(signal.toLowerCase()));
+      const titleBookSignal = ["新刊", "単行本", "コミックス", "ライトノベル", "ラノベ"].some((signal) => titleText.includes(signal.toLowerCase()));
+      const looksLikeGoods = goodsSignals.some((signal) => allText.includes(signal.toLowerCase()));
+      return (hasBookSignal || (trustedPublisher && titleBookSignal)) && !looksLikeGoods;
+    }
+
     function tagMatchesDrop(drop, tag) {
       if (tag === "すべて") return true;
+      if (tag === "新刊") return isBookReleaseDrop(drop);
       const aliases = tagAliases[tag] || [tag];
       const values = [
         state.lang === "ja" ? drop.titleJa : drop.titleEn,
