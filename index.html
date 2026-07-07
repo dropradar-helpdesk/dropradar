@@ -419,7 +419,7 @@
     }
     .feed-sort {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 4px;
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -5429,8 +5429,7 @@
         todayTitle: "新商品",
         sortUpcoming: "近日順",
         sortNewest: "新しい順",
-        sortOldest: "過去から",
-        sortCategory: "カテゴリ",
+        sortOldest: "古い順",
         sortAria: "並び順",
         todayQueueTitle: "今日だけ見る",
         todayQueueSub: "迷いを減らす",
@@ -5725,7 +5724,6 @@
         sortUpcoming: "Upcoming",
         sortNewest: "Newest",
         sortOldest: "Oldest",
-        sortCategory: "Category",
         sortAria: "Sort order",
         todayQueueTitle: "Today only",
         todayQueueSub: "Reduce choices",
@@ -9312,12 +9310,10 @@
       return dropDateVerified(drop, field) ? (field === "deadline" ? drop.deadline : drop.date) : "9999-12-31";
     }
 
-    const feedCategoryOrder = ["限定グッズ", "飲食コラボ", "トレカ", "新刊", "食玩", "フィギュア", "プライズ", "一番くじ", "プラモデル", "ガチャ", "キャラ雑貨"];
     const feedSortOptions = [
       { id: "upcoming", labelKey: "sortUpcoming" },
       { id: "newest", labelKey: "sortNewest" },
-      { id: "oldest", labelKey: "sortOldest" },
-      { id: "category", labelKey: "sortCategory" }
+      { id: "oldest", labelKey: "sortOldest" }
     ];
 
     function dropFeedDateSortValue(drop) {
@@ -9337,10 +9333,8 @@
       return distance >= 0 ? 0 : 1;
     }
 
-    function feedCategoryWeight(drop) {
-      const haystack = `${drop.category || ""} ${(drop.tags || []).join(" ")}`;
-      const index = feedCategoryOrder.findIndex((item) => haystack.includes(item));
-      return index === -1 ? 99 : index;
+    function compareFeedTitle(a, b) {
+      return String(a.titleJa || a.titleEn || "").localeCompare(String(b.titleJa || b.titleEn || ""), "ja");
     }
 
     function compareFeedUpcoming(a, b) {
@@ -9350,24 +9344,17 @@
       const bDate = dropFeedDateSortValue(b);
       const bothPast = feedUpcomingBucket(a) === 1 && feedUpcomingBucket(b) === 1;
       return (bothPast ? bDate.localeCompare(aDate) : aDate.localeCompare(bDate))
-        || feedCategoryWeight(a) - feedCategoryWeight(b)
-        || String(a.titleJa || a.titleEn || "").localeCompare(String(b.titleJa || b.titleEn || ""), "ja");
+        || compareFeedTitle(a, b);
     }
 
     function compareFeedDrops(a, b) {
       if (state.feedSort === "newest") {
         return dropFeedDateSortValue(b).localeCompare(dropFeedDateSortValue(a))
-          || feedCategoryWeight(a) - feedCategoryWeight(b)
-          || String(a.titleJa || a.titleEn || "").localeCompare(String(b.titleJa || b.titleEn || ""), "ja");
+          || compareFeedTitle(a, b);
       }
       if (state.feedSort === "oldest") {
         return dropFeedDateSortValue(a).localeCompare(dropFeedDateSortValue(b))
-          || feedCategoryWeight(a) - feedCategoryWeight(b)
-          || String(a.titleJa || a.titleEn || "").localeCompare(String(b.titleJa || b.titleEn || ""), "ja");
-      }
-      if (state.feedSort === "category") {
-        return feedCategoryWeight(a) - feedCategoryWeight(b)
-          || compareFeedUpcoming(a, b);
+          || compareFeedTitle(a, b);
       }
       return compareFeedUpcoming(a, b);
     }
