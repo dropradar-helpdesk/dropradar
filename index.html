@@ -4652,32 +4652,6 @@
           <div class="budget-cap-control" id="monthlyBudgetControl"></div>
           <div class="my-action-board" id="myActionBoard"></div>
           <div class="budget-review-panel empty" id="budgetReviewPanel"></div>
-          <div class="favorite-list" id="favoriteList"></div>
-        </div>
-        <div class="budget-panel">
-          <div class="mini-section-head">
-            <h3 data-i18n="myBudgetTitle">推し活予算</h3>
-            <span data-i18n="myBudgetSub">コンテンツ別に決める</span>
-          </div>
-          <div class="budget-summary" id="budgetSummary"></div>
-          <div class="budget-list" id="budgetList"></div>
-        </div>
-        <div class="source-panel">
-          <div class="mini-section-head">
-            <h3 data-i18n="sourceTitle">公式監視ソース</h3>
-            <span data-i18n="sourceSub">更新の土台</span>
-          </div>
-          <div class="source-summary" id="sourceSummary"></div>
-          <div class="source-health-panel" id="sourceHealthPanel" hidden></div>
-          <div class="source-list" id="sourceList"></div>
-        </div>
-        <div class="source-panel">
-          <div class="mini-section-head">
-            <h3 data-i18n="intakeTitle">自動取込キュー</h3>
-            <span data-i18n="intakeSub">公式差分とリクエストを軽く確認</span>
-          </div>
-          <div class="source-summary" id="intakeSummary"></div>
-          <div class="intake-list" id="intakeList"></div>
         </div>
         <div class="mode-panel">
           <div class="mini-section-head">
@@ -4707,6 +4681,21 @@
             </div>
           </div>
           <div class="route-list" id="routeList"></div>
+        </div>
+        <div class="budget-panel">
+          <div class="mini-section-head">
+            <h3 data-i18n="myBudgetTitle">推し活予算</h3>
+            <span data-i18n="myBudgetSub">コンテンツ別に決める</span>
+          </div>
+          <div class="budget-summary" id="budgetSummary"></div>
+          <div class="budget-list" id="budgetList"></div>
+        </div>
+        <div class="my-panel favorite-list-panel">
+          <div class="mini-section-head">
+            <h3 data-i18n="favoriteListTitle">お気に入り一覧</h3>
+            <span data-i18n="favoriteListSub">tier・予算・メモ</span>
+          </div>
+          <div class="favorite-list" id="favoriteList"></div>
         </div>
         <div class="mobility-panel">
           <div class="mini-section-head">
@@ -4749,6 +4738,23 @@
             <span data-i18n="savedSub">回収メモに反映</span>
           </div>
           <div class="saved-list compact" id="savedList"></div>
+        </div>
+        <div class="source-panel">
+          <div class="mini-section-head">
+            <h3 data-i18n="intakeTitle">自動取込キュー</h3>
+            <span data-i18n="intakeSub">公式差分とリクエストを軽く確認</span>
+          </div>
+          <div class="source-summary" id="intakeSummary"></div>
+          <div class="intake-list" id="intakeList"></div>
+        </div>
+        <div class="source-panel">
+          <div class="mini-section-head">
+            <h3 data-i18n="sourceTitle">公式監視ソース</h3>
+            <span data-i18n="sourceSub">更新の土台</span>
+          </div>
+          <div class="source-summary" id="sourceSummary"></div>
+          <div class="source-health-panel" id="sourceHealthPanel" hidden></div>
+          <div class="source-list" id="sourceList"></div>
         </div>
       </section>
       <p class="legal-note" data-i18n="legalNote">非公式の情報整理ツールです。各作品名・ブランド名・商標は各権利者に帰属し、掲載内容は公式発表へのリンクと要約を基準にします。情報は追跡していますが、見落とし・遅延・変更の可能性があります。GPSは任意で、現在地は悪用・保存・第三者提供しません。権利者様からの削除依頼、権利侵害の指摘、重要な掲載修正は dropradar.helpdesk@gmail.com へ。一般的な使い勝手、表示の好み、機能要望、個別サポートには原則対応しません。最終確認と推し活管理は各自でお願いします。入手失敗、応募漏れ、予定変更、交通費・購入費等について当方では責任を負いかねます。</p>
@@ -5358,6 +5364,8 @@
         tripSub: "お気に入り・予定・予算",
         myPageTitle: "お気に入り",
         myPageSub: "tier・回収日・予算",
+        favoriteListTitle: "お気に入り一覧",
+        favoriteListSub: "tier・予算・メモ",
         myBudgetTitle: "推し活予算",
         myBudgetSub: "今月の費目内訳",
         doujinTitle: "同人イベント準備",
@@ -5636,6 +5644,8 @@
         tripSub: "Favorites, schedule, and budget",
         myPageTitle: "Favorites",
         myPageSub: "tier, plan date, budget",
+        favoriteListTitle: "Favorite list",
+        favoriteListSub: "tier, budget, and notes",
         myBudgetTitle: "Fan budget",
         myBudgetSub: "This month's breakdown",
         doujinTitle: "Doujin event prep",
@@ -7783,23 +7793,119 @@
     };
     const activeModeProfile = () => modeProfiles[state.tripMode] || modeProfiles.balanced;
 
-    function routeStopsForMode() {
-      const profile = activeModeProfile();
-      const byDropId = new Map(tripPlan.map((stop) => [stop.dropId, stop]));
-      return profile.routeIds
-        .map((dropId, index) => {
-          const base = byDropId.get(dropId);
-          if (!base) return null;
-          const override = profile.stopOverrides?.[dropId] || {};
-          return {
-            ...base,
-            ...override,
-            time: profile.times[index] || override.time || base.time,
-            roleJa: override.roleJa || "回収候補",
-            roleEn: override.roleEn || "Candidate"
-          };
-        })
-        .filter(Boolean);
+    function routeModeLimit() {
+      return {
+        hunt: 8,
+        balanced: 5,
+        companion: 3,
+        rain: 2
+      }[state.tripMode] || 5;
+    }
+
+    function routeModeStepMinutes() {
+      return {
+        hunt: 12,
+        balanced: 18,
+        companion: 25,
+        rain: 15
+      }[state.tripMode] || 18;
+    }
+
+    function routeExtraMinutes(drop) {
+      const text = `${drop?.category || ""} ${drop?.method || ""} ${(drop?.tags || []).join(" ")}`;
+      if (state.tripMode === "hunt") return 0;
+      if (text.includes("飲食コラボ") || text.includes("外食")) return 25;
+      if (text.includes("イベント") || text.includes("展示") || text.includes("聖地")) return 20;
+      if (text.includes("オンライン") || text.includes("抽選")) return 6;
+      return 0;
+    }
+
+    function routeWindowText(items) {
+      if (!items.length) return state.lang === "ja" ? "未設定" : "Unset";
+      const stopMinutes = items.reduce((sum, item) => sum + routeModeStepMinutes() + routeExtraMinutes(item.drop), 0);
+      const breakMinutes = state.tripMode === "balanced" ? Math.floor(items.length / 3) * 10
+        : state.tripMode === "companion" ? Math.max(0, items.length - 1) * 12
+        : 0;
+      const total = Math.max(20, stopMinutes + breakMinutes);
+      const hours = Math.floor(total / 60);
+      const minutes = total % 60;
+      if (!hours) return `${minutes}m`;
+      return minutes ? `${hours}h${String(minutes).padStart(2, "0")}` : `${hours}h`;
+    }
+
+    function minutesToClock(totalMinutes) {
+      const minutesInDay = ((totalMinutes % 1440) + 1440) % 1440;
+      const hour = Math.floor(minutesInDay / 60);
+      const minute = minutesInDay % 60;
+      return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+    }
+
+    function routeTimeForIndex(items, index) {
+      let minutes = 10 * 60 + 30;
+      for (let i = 0; i < index; i += 1) {
+        minutes += routeModeStepMinutes() + routeExtraMinutes(items[i].drop);
+        if (state.tripMode === "balanced" && (i + 1) % 3 === 0) minutes += 10;
+        if (state.tripMode === "companion" && i > 0) minutes += 12;
+      }
+      return minutesToClock(minutes);
+    }
+
+    function routeDateForItems(items) {
+      if (!items.length) return "";
+      const futureDates = [...new Set(items.map((item) => item.plan.date).filter((date) => date >= APP_TODAY))].sort();
+      if (futureDates.length) return futureDates[0];
+      return [...new Set(items.map((item) => item.plan.date))].sort().pop() || "";
+    }
+
+    function routePlanForMode() {
+      const allItems = scheduledFavoriteItems()
+        .filter(({ drop }) => !["bought", "skip"].includes(userStatusFor(drop)));
+      const routeDate = routeDateForItems(allItems);
+      const dayItems = routeDate ? allItems.filter((item) => item.plan.date === routeDate) : [];
+      const sorted = dayItems.slice().sort((a, b) => {
+        if (state.tripMode === "hunt") {
+          const rankDiff = rankSortValue(rankFor(a.drop)) - rankSortValue(rankFor(b.drop));
+          return rankDiff || orderIndex(a.drop.id) - orderIndex(b.drop.id) || planOrderIndex(a.drop.id) - planOrderIndex(b.drop.id);
+        }
+        if (state.tripMode === "companion") {
+          const aSocial = /飲食|外食|展示|イベント|聖地/.test(`${a.drop.category} ${a.drop.tags.join(" ")}`) ? 0 : 1;
+          const bSocial = /飲食|外食|展示|イベント|聖地/.test(`${b.drop.category} ${b.drop.tags.join(" ")}`) ? 0 : 1;
+          return aSocial - bSocial || planOrderIndex(a.drop.id) - planOrderIndex(b.drop.id);
+        }
+        if (state.tripMode === "rain") {
+          const aOnline = /オンライン|通販|抽選/.test(`${a.drop.method} ${a.drop.tags.join(" ")}`) ? 0 : 1;
+          const bOnline = /オンライン|通販|抽選/.test(`${b.drop.method} ${b.drop.tags.join(" ")}`) ? 0 : 1;
+          return aOnline - bOnline || planOrderIndex(a.drop.id) - planOrderIndex(b.drop.id);
+        }
+        return planOrderIndex(a.drop.id) - planOrderIndex(b.drop.id) || rankSortValue(rankFor(a.drop)) - rankSortValue(rankFor(b.drop));
+      });
+      return {
+        date: routeDate,
+        items: sorted.slice(0, routeModeLimit()),
+        totalItems: dayItems.length
+      };
+    }
+
+    function routeStopLabel(drop, plan) {
+      if (dropDateVerified(drop, "date") && drop.date === plan.date) return state.lang === "ja" ? "開始" : "Start";
+      if (dropDateVerified(drop, "deadline") && drop.deadline === plan.date) return state.lang === "ja" ? "締切" : "Due";
+      return state.lang === "ja" ? "予定" : "Plan";
+    }
+
+    function routeMoveText(drop) {
+      const text = `${drop.method} ${drop.category} ${drop.tags.join(" ")}`;
+      if (/オンライン|抽選|通販/.test(text)) return state.lang === "ja" ? "落ち着いて確認" : "Check calmly";
+      if (/飲食|外食/.test(text)) return state.lang === "ja" ? "食事兼回収" : "Food + pickup";
+      if (/イベント|展示|聖地/.test(text)) return state.lang === "ja" ? "会場/現地確認" : "Venue check";
+      if (/店頭|店舗|プライズ|一番くじ|ガシャポン/.test(text)) return state.lang === "ja" ? "店頭確認" : "Store check";
+      return state.lang === "ja" ? "公式確認" : "Official check";
+    }
+
+    function routeNoteText(drop) {
+      const note = targetNoteFor(drop);
+      if (note) return note;
+      if (state.lang === "ja") return `${drop.statusJa}。公式で対象店舗・購入制限・在庫/配布条件を確認。`;
+      return `${drop.statusEn}. Check official store, limit, stock, and bonus rules.`;
     }
 
     function mobilityGuidesForMode() {
@@ -13822,40 +13928,52 @@
       renderMyPage();
       renderBudgetPlan();
       const profile = activeModeProfile();
-      const routeStops = routeStopsForMode();
+      const routePlan = routePlanForMode();
+      const routeItems = routePlan.items;
+      const routeDate = routePlan.date;
+      const hiddenCount = Math.max(0, routePlan.totalItems - routeItems.length);
+      const alertCount = routeItems.filter(({ drop, plan }) => {
+        return userStatusFor(drop) === "unchecked"
+          || (dropDateVerified(drop, "deadline") && drop.deadline === plan.date)
+          || (dropDateVerified(drop, "date") && drop.date === plan.date);
+      }).length;
       $("#tripBadge").textContent = langValue(profile, "badge");
       $("#tripRouteTitle").textContent = langValue(profile, "title");
-      $("#tripRouteCopy").textContent = langValue(profile, "copy");
-      $("#tripStopCount").textContent = routeStops.length;
-      $("#tripWindowValue").textContent = profile.window;
+      $("#tripRouteCopy").textContent = routeItems.length
+        ? (state.lang === "ja"
+          ? `${fmtDate(routeDate)}のマイ予定から作成。並び替えはマイ予定の上/下で変わります${hiddenCount ? `。未表示 ${hiddenCount}件` : ""}。`
+          : `Built from My schedule on ${fmtDate(routeDate)}. Reorder with Up/Down in My schedule${hiddenCount ? `. ${hiddenCount} hidden` : ""}.`)
+        : (state.lang === "ja"
+          ? "お気に入りを保存して回収日を入れると、ここに実際の回収ルートを出します。"
+          : "Save favorites and set plan dates to build an actual route here.");
+      $("#tripStopCount").textContent = routeItems.length;
+      $("#tripWindowValue").textContent = routeWindowText(routeItems);
       $("#tripWindowLabel").textContent = text("tripWindow");
-      $("#tripAlertValue").textContent = profile.alertValue;
+      $("#tripAlertValue").textContent = alertCount;
       $("#tripAlertLabel").textContent = langValue(profile, "alertLabel");
-      $("#routeList").innerHTML = routeStops.map((stop) => {
-        const drop = userFacingDrops().find((item) => item.id === stop.dropId);
-        if (!drop) return "";
+      $("#routeList").innerHTML = routeItems.length ? routeItems.map(({ drop, plan, rankLabel }, index) => {
         const title = state.lang === "ja" ? drop.titleJa : drop.titleEn;
-        const place = state.lang === "ja" ? stop.placeJa : stop.placeEn;
-        const move = state.lang === "ja" ? stop.moveJa : stop.moveEn;
-        const note = state.lang === "ja" ? stop.noteJa : stop.noteEn;
-        const label = state.lang === "ja" ? stop.labelJa : stop.labelEn;
-        const alert = state.lang === "ja" ? stop.alertJa : stop.alertEn;
-        const role = langValue(stop, "role");
-        const access = state.lang === "ja" ? stop.accessJa : stop.accessEn;
-        const fallback = state.lang === "ja" ? stop.fallbackJa : stop.fallbackEn;
+        const area = state.lang === "ja" ? drop.areaJa : drop.areaEn;
+        const label = routeStopLabel(drop, plan);
+        const move = routeMoveText(drop);
+        const alert = userStatusLabel(drop);
+        const tier = tierDisplay(rankLabel).text;
+        const note = routeNoteText(drop);
+        const access = state.lang === "ja" ? `${area} / 予定 ${fmtDate(plan.date)} / 予算 ${yen(plan.total)}` : `${area} / Plan ${fmtDate(plan.date)} / Budget ${yen(plan.total)}`;
+        const fallback = state.lang === "ja" ? "詳細で欲しいものメモ・公式リンク・予算を確認" : "Open details for target notes, official link, and budget";
         return `
           <button class="route-stop" data-open="${drop.id}">
-            <span class="route-time"><strong>${stop.time}</strong><small>${label}</small></span>
+            <span class="route-time"><strong>${routeTimeForIndex(routeItems, index)}</strong><small>${label}</small></span>
             <span class="route-copy">
-              <span class="route-meta"><span class="move-chip">${move}</span><span class="reminder-chip">${alert}</span><span class="mode-role-chip">${role}</span></span>
+              <span class="route-meta"><span class="move-chip">${move}</span><span class="reminder-chip">${alert}</span><span class="mode-role-chip">${tier}</span><span class="mode-role-chip">#${index + 1}</span></span>
               <strong>${title}</strong>
-              <span>${place}</span>
+              <span>${area}</span>
               <span class="route-note">${note}</span>
               <span class="route-access"><span>${access}</span><span>${fallback}</span></span>
             </span>
           </button>
         `;
-      }).join("");
+      }).join("") : `<div class="priority-empty">${state.lang === "ja" ? "まだ回収ルートはありません。新商品から保存して、マイ予定で回収日を入れてください。" : "No route yet. Save items and set plan dates in My schedule."}</div>`;
       $$("[data-open]", $("#routeList")).forEach((button) => button.addEventListener("click", () => openDrawer(button.dataset.open)));
       renderMobility();
       renderTravelerTips();
