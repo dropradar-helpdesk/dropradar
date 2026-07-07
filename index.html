@@ -417,6 +417,32 @@
       font-size: 11px;
       white-space: nowrap;
     }
+    .feed-sort {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 4px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 4px;
+      background: rgba(255,255,255,.72);
+      margin: -2px 0 10px;
+    }
+    .sort-btn {
+      min-width: 0;
+      height: 32px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .sort-btn.active {
+      background: #17191c;
+      color: #fff;
+      box-shadow: 0 6px 15px rgba(23,25,28,.18);
+    }
 
     .feed {
       display: grid;
@@ -651,11 +677,14 @@
     .screen[data-screen="home"].is-searching .section-head {
       order: -30;
     }
-    .screen[data-screen="home"].is-searching #feed {
+    .screen[data-screen="home"].is-searching .feed-sort {
       order: -29;
     }
-    .screen[data-screen="home"].is-searching #emptyState {
+    .screen[data-screen="home"].is-searching #feed {
       order: -28;
+    }
+    .screen[data-screen="home"].is-searching #emptyState {
+      order: -27;
     }
     .calendar-list,
     .event-list,
@@ -4689,6 +4718,7 @@
           <h1 data-i18n="todayTitle">新商品</h1>
           <span id="feedCount" aria-live="polite"></span>
         </div>
+        <div class="feed-sort" id="feedSort" role="group" aria-label="並び順"></div>
         <div class="feed" id="feed"></div>
         <div class="empty" id="emptyState" data-i18n="empty">条件に合う情報がありません。</div>
         <div class="source-panel request-admin-panel">
@@ -5397,6 +5427,11 @@
         tabStore: "店頭",
         tabOnline: "通販",
         todayTitle: "新商品",
+        sortUpcoming: "近日順",
+        sortNewest: "新しい順",
+        sortOldest: "過去から",
+        sortCategory: "カテゴリ",
+        sortAria: "並び順",
         todayQueueTitle: "今日だけ見る",
         todayQueueSub: "迷いを減らす",
         noticeTitle: "通知メモ",
@@ -5687,6 +5722,11 @@
         tabStore: "Store",
         tabOnline: "Online",
         todayTitle: "New items",
+        sortUpcoming: "Upcoming",
+        sortNewest: "Newest",
+        sortOldest: "Oldest",
+        sortCategory: "Category",
+        sortAria: "Sort order",
         todayQueueTitle: "Today only",
         todayQueueSub: "Reduce choices",
         noticeTitle: "Reminder notes",
@@ -6562,6 +6602,7 @@
       viewFilter: "all",
       actionFilter: "none",
       tag: "すべて",
+      feedSort: "upcoming",
       search: "",
       tripMode: loadTripMode(),
       dataLoadFailed: false,
@@ -9272,6 +9313,12 @@
     }
 
     const feedCategoryOrder = ["限定グッズ", "飲食コラボ", "トレカ", "新刊", "食玩", "フィギュア", "プライズ", "一番くじ", "プラモデル", "ガチャ", "キャラ雑貨"];
+    const feedSortOptions = [
+      { id: "upcoming", labelKey: "sortUpcoming" },
+      { id: "newest", labelKey: "sortNewest" },
+      { id: "oldest", labelKey: "sortOldest" },
+      { id: "category", labelKey: "sortCategory" }
+    ];
 
     function dropFeedDateSortValue(drop) {
       if (validDateString(drop?.date)) return drop.date;
@@ -9279,13 +9326,15 @@
       return "9999-12-31";
     }
 
-    function feedDateBucket(drop) {
+    function feedDateDistance(drop) {
       const date = dropFeedDateSortValue(drop);
-      if (!validDateString(date)) return 3;
-      const distance = dayDistance(date);
-      if (distance >= -1) return 0;
-      if (distance >= -14) return 1;
-      return 2;
+      return validDateString(date) ? dayDistance(date) : Number.POSITIVE_INFINITY;
+    }
+
+    function feedUpcomingBucket(drop) {
+      const distance = feedDateDistance(drop);
+      if (!Number.isFinite(distance)) return 2;
+      return distance >= 0 ? 0 : 1;
     }
 
     function feedCategoryWeight(drop) {
@@ -9294,11 +9343,33 @@
       return index === -1 ? 99 : index;
     }
 
-    function compareFeedDrops(a, b) {
-      return feedDateBucket(a) - feedDateBucket(b)
-        || dropFeedDateSortValue(a).localeCompare(dropFeedDateSortValue(b))
+    function compareFeedUpcoming(a, b) {
+      const bucketDiff = feedUpcomingBucket(a) - feedUpcomingBucket(b);
+      if (bucketDiff) return bucketDiff;
+      const aDate = dropFeedDateSortValue(a);
+      const bDate = dropFeedDateSortValue(b);
+      const bothPast = feedUpcomingBucket(a) === 1 && feedUpcomingBucket(b) === 1;
+      return (bothPast ? bDate.localeCompare(aDate) : aDate.localeCompare(bDate))
         || feedCategoryWeight(a) - feedCategoryWeight(b)
         || String(a.titleJa || a.titleEn || "").localeCompare(String(b.titleJa || b.titleEn || ""), "ja");
+    }
+
+    function compareFeedDrops(a, b) {
+      if (state.feedSort === "newest") {
+        return dropFeedDateSortValue(b).localeCompare(dropFeedDateSortValue(a))
+          || feedCategoryWeight(a) - feedCategoryWeight(b)
+          || String(a.titleJa || a.titleEn || "").localeCompare(String(b.titleJa || b.titleEn || ""), "ja");
+      }
+      if (state.feedSort === "oldest") {
+        return dropFeedDateSortValue(a).localeCompare(dropFeedDateSortValue(b))
+          || feedCategoryWeight(a) - feedCategoryWeight(b)
+          || String(a.titleJa || a.titleEn || "").localeCompare(String(b.titleJa || b.titleEn || ""), "ja");
+      }
+      if (state.feedSort === "category") {
+        return feedCategoryWeight(a) - feedCategoryWeight(b)
+          || compareFeedUpcoming(a, b);
+      }
+      return compareFeedUpcoming(a, b);
     }
 
     function dropDatePill(drop, field) {
@@ -11024,6 +11095,20 @@
       $$(".chip").forEach((chip) => chip.addEventListener("click", () => {
         state.tag = chip.dataset.tag;
         state.actionFilter = "none";
+        render();
+      }));
+    }
+
+    function renderFeedSort() {
+      const sortRoot = $("#feedSort");
+      sortRoot.setAttribute("aria-label", text("sortAria"));
+      sortRoot.innerHTML = feedSortOptions.map((option) => `
+        <button class="sort-btn ${state.feedSort === option.id ? "active" : ""}" data-feed-sort="${option.id}" aria-pressed="${state.feedSort === option.id}">
+          ${text(option.labelKey)}
+        </button>
+      `).join("");
+      $$("[data-feed-sort]", sortRoot).forEach((button) => button.addEventListener("click", () => {
+        state.feedSort = button.dataset.feedSort;
         render();
       }));
     }
@@ -14140,6 +14225,7 @@
     function render() {
       paintI18n();
       buildChips();
+      renderFeedSort();
       renderStats();
       renderPriority();
       renderFeed();
