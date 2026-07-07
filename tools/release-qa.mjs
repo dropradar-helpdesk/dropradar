@@ -39,6 +39,7 @@ function checkNoPublicCopyLeaks(files) {
     "Manual sample",
     "tier none",
     "mailto:",
+    "公開前の運用ポリシー草案",
     "coming soon",
     "Coming soon",
     "TODO",
@@ -82,12 +83,12 @@ function checkManifest(manifest) {
   }
 }
 
-function checkContact(indexHtml, legalHtml, contact) {
+function checkContact(indexHtml, legalHtml, privacyHtml, accessibilityHtml, contact) {
   const expectedMail = "dropradar.helpdesk@gmail.com";
   if (!contact || contact.email !== expectedMail) {
     errors.push(`data/contact.json email must be ${expectedMail}`);
   }
-  const combined = `${indexHtml}\n${legalHtml}`;
+  const combined = `${indexHtml}\n${legalHtml}\n${privacyHtml}\n${accessibilityHtml}`;
   const gmailCount = (combined.match(/mail\.google\.com\/mail\/\?view=cm/g) || []).length;
   if (gmailCount < 3) {
     errors.push(`expected Gmail compose contact links in index/legal, found ${gmailCount}`);
@@ -102,6 +103,25 @@ function checkContact(indexHtml, legalHtml, contact) {
     if (!combined.includes(phrase)) {
       errors.push(`public policy/contact copy missing: ${phrase}`);
     }
+  }
+}
+
+function checkPolicyPages(indexHtml, legalHtml, privacyHtml, accessibilityHtml, storeNotes) {
+  const combined = `${indexHtml}\n${legalHtml}\n${privacyHtml}\n${accessibilityHtml}\n${storeNotes}`;
+  for (const [label, token] of [
+    ["privacy link", "privacy.html"],
+    ["accessibility link", "accessibility.html"],
+    ["rights policy link", "legal.html"],
+    ["privacy no GPS storage", "No GPS storage"],
+    ["privacy no ad tracking", "No ad tracking"],
+    ["accessibility WCAG target", "WCAG 2.2 AA"],
+    ["store notes privacy labels", "Privacy Label Draft"],
+    ["store notes unofficial positioning", "unofficial"]
+  ]) {
+    if (!combined.includes(token)) errors.push(`policy/store readiness missing ${label}: ${token}`);
+  }
+  if (!/@media\s*\(pointer:\s*coarse\)[\s\S]*44px/.test(indexHtml)) {
+    errors.push("index.html missing coarse-pointer 44px touch target guard");
   }
 }
 
@@ -180,13 +200,16 @@ function checkServiceWorker(sw) {
   if (!/dropradar-pwa-v\d+/.test(match?.[1] || "")) {
     errors.push(`sw.js CACHE_VERSION is not versioned: ${match?.[1] || "missing"}`);
   }
-  for (const asset of ["index.html", "legal.html", "offline.html", "manifest.webmanifest", "data/drops.json"]) {
+  for (const asset of ["index.html", "legal.html", "privacy.html", "accessibility.html", "offline.html", "manifest.webmanifest", "data/drops.json"]) {
     if (!sw.includes(asset)) warnings.push(`sw.js does not reference ${asset}`);
   }
 }
 
 const indexHtml = requireFile("index.html");
 const legalHtml = requireFile("legal.html");
+const privacyHtml = requireFile("privacy.html");
+const accessibilityHtml = requireFile("accessibility.html");
+const storeNotes = requireFile("store-submission-notes.md");
 const sw = requireFile("sw.js");
 const manifest = readJson(path.join(root, "manifest.webmanifest"));
 const drops = readJson(path.join(root, "data", "drops.json"));
@@ -197,6 +220,9 @@ const publicConfig = readJson(path.join(root, "data", "app-config.public.json"))
 checkNoPublicCopyLeaks([
   "index.html",
   "legal.html",
+  "privacy.html",
+  "accessibility.html",
+  "store-submission-notes.md",
   "offline.html",
   "manifest.webmanifest",
   "data/contact.json",
@@ -204,7 +230,8 @@ checkNoPublicCopyLeaks([
 ]);
 checkScripts(indexHtml);
 checkManifest(manifest);
-checkContact(indexHtml, legalHtml, contact);
+checkContact(indexHtml, legalHtml, privacyHtml, accessibilityHtml, contact);
+checkPolicyPages(indexHtml, legalHtml, privacyHtml, accessibilityHtml, storeNotes);
 checkDrops(drops);
 checkSources(sources);
 checkPublicConfig(publicConfig);

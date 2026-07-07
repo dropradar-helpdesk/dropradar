@@ -90,7 +90,9 @@ This is a product guardrail checklist, not legal advice. Before public launch, h
 
 - Store metadata must accurately describe the app as unofficial.
 - If user-generated content exists, include moderation, reporting, blocking, and contact info.
-- Privacy policy must be linked inside the app and store metadata.
+- Privacy policy must be linked inside the app and store metadata. Current page: `privacy.html`.
+- Accessibility statement must be linked inside the app. Current page: `accessibility.html`.
+- Store review notes and privacy-label draft must be kept in sync with actual SDK/native wrapper behavior. Current draft: `store-submission-notes.md`.
 - Do not use third-party IP in screenshots unless licensed or replaced by neutral mock art.
 
 ## Launch Checklist
@@ -113,3 +115,6 @@ This is a product guardrail checklist, not legal advice. Before public launch, h
 - Japan Copyright Act, Articles 23, 32, and 48: https://www.japaneselawtranslation.go.jp/en/laws/view/3379
 - Japan Patent Office trademark overview: https://www.jpo.go.jp/system/trademark/gaiyo/seidogaiyo/chizai08.html
 - Apple App Review Guidelines: https://developer.apple.com/app-store/review/guidelines/
+- Apple App Privacy Details: https://developer.apple.com/help/app-store-connect/reference/app-privacy-details
+- Google Play User Data policy: https://support.google.com/googleplay/android-developer/answer/10144311
+- W3C WCAG 2.2 Quick Reference: https://www.w3.org/WAI/WCAG22/quickref/

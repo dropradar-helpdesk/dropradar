@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f4ee">
+  <title>DropRadar Accessibility</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, "Segoe UI", "Noto Sans JP", system-ui, sans-serif;
+      --paper: #f7f4ee;
+      --surface: #fffffc;
+      --ink: #17191c;
+      --muted: #64686e;
+      --line: #d7d9d5;
+      --brand: #202022;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); line-height: 1.7; }
+    main { width: min(780px, 100%); margin: 0 auto; padding: 28px 18px 48px; display: grid; gap: 18px; }
+    header { display: grid; gap: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; letter-spacing: 0; }
+    .brand img { width: 38px; height: 38px; border-radius: 8px; }
+    h1, h2, p { margin: 0; }
+    h1 { font-size: clamp(28px, 6vw, 44px); line-height: 1.08; letter-spacing: 0; }
+    h2 { font-size: 18px; line-height: 1.25; }
+    p, li { color: var(--muted); font-size: 14px; }
+    a { color: var(--brand); font-weight: 850; }
+    section { background: var(--surface); border: 1px solid rgba(23,25,28,.1); border-radius: 8px; padding: 16px; display: grid; gap: 10px; }
+    ul { margin: 0; padding-left: 20px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; color: var(--muted); font-size: 12px; }
+    .pill { border: 1px solid rgba(23,25,28,.12); border-radius: 999px; padding: 4px 8px; background: #fff; font-weight: 850; }
+    .page-links { display: flex; flex-wrap: wrap; gap: 8px; }
+    .page-links a { min-height: 44px; display: inline-flex; align-items: center; border: 1px solid rgba(23,25,28,.12); border-radius: 8px; padding: 6px 10px; background: #fff; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="brand">
+        <img src="./icons/icon.svg" alt="" width="38" height="38">
+        <span>DropRadar</span>
+      </div>
+      <h1>アクセシビリティ</h1>
+      <p>DropRadarは、スマホで素早く読めることを重視しながら、キーボード操作、読み上げ、色だけに頼らない状態表示を改善していきます。</p>
+      <div class="meta">
+        <span class="pill">WCAG 2.2 AA target</span>
+        <span class="pill">Keyboard usable</span>
+        <span class="pill">Touch target guard</span>
+        <span>最終更新: 2026-07-07</span>
+      </div>
+      <div class="page-links" aria-label="related policy pages">
+        <a href="./legal.html">ポリシー・権利者窓口</a>
+        <a href="./privacy.html">プライバシー</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>対応方針</h2>
+      <ul>
+        <li>WCAG 2.2 AAを目標に、主要操作をキーボードとスクリーンリーダーで扱えるようにします。</li>
+        <li>検索、フィルタ、保存、詳細、公式リンク、地図リンクにはラベルや視覚以外の手がかりを付けます。</li>
+        <li>スマホなどタッチ操作環境では、主要ボタンやリンクのタップ領域を44px級に広げます。</li>
+        <li>状態は色だけではなく、文字、ラベル、チップでも示します。</li>
+        <li>商品画像や公式ロゴに頼らないため、画像代替テキストの不足で意味が失われにくい構成にします。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>既知の制限</h2>
+      <ul>
+        <li>外部公式ページ、Gmail、Google Maps、Apple Mapsなど、DropRadar外のアクセシビリティは各サービスに依存します。</li>
+        <li>端末、ブラウザ、OSの文字サイズ設定によって、一部の密な管理画面では追加調整が必要になる場合があります。</li>
+        <li>一般的な使い勝手や個別サポートには原則対応しませんが、法令対応や権利者対応に関わる重大な問題は確認します。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>重大な連絡</h2>
+      <p>権利者対応、法令対応、重大なアクセシビリティ上の障壁に関する連絡のみ下記へお願いします。住所、電話番号、身分証など不要な個人情報は送らないでください。</p>
+      <p><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=dropradar.helpdesk%40gmail.com&amp;su=DropRadar%20accessibility%20or%20rights%20desk&amp;body=%E8%A9%B2%E5%BD%93URL%3A%0A%E5%86%85%E5%AE%B9%3A%0A%E3%81%94%E9%80%A3%E7%B5%A1%E5%85%88%3A%0A" target="_blank" rel="noopener noreferrer">dropradar.helpdesk@gmail.com</a></p>
+    </section>
+
+    <section>
+      <h2>English Summary</h2>
+      <p>DropRadar targets WCAG 2.2 AA for the core browsing and planning experience. Main actions should be keyboard usable, labeled for assistive technology, not rely on color alone, and use larger touch targets on coarse pointer devices. External official pages and map/mail services remain outside DropRadar's control.</p>
+    </section>
+  </main>
+</body>
+</html>

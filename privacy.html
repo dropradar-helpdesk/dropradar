@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f4ee">
+  <title>DropRadar Privacy Policy</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, "Segoe UI", "Noto Sans JP", system-ui, sans-serif;
+      --paper: #f7f4ee;
+      --surface: #fffffc;
+      --ink: #17191c;
+      --muted: #64686e;
+      --line: #d7d9d5;
+      --brand: #202022;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); line-height: 1.7; }
+    main { width: min(780px, 100%); margin: 0 auto; padding: 28px 18px 48px; display: grid; gap: 18px; }
+    header { display: grid; gap: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; letter-spacing: 0; }
+    .brand img { width: 38px; height: 38px; border-radius: 8px; }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: clamp(28px, 6vw, 44px); line-height: 1.08; letter-spacing: 0; }
+    h2 { font-size: 18px; line-height: 1.25; }
+    h3 { font-size: 15px; line-height: 1.3; }
+    p, li { color: var(--muted); font-size: 14px; }
+    a { color: var(--brand); font-weight: 850; }
+    section { background: var(--surface); border: 1px solid rgba(23,25,28,.1); border-radius: 8px; padding: 16px; display: grid; gap: 10px; }
+    ul { margin: 0; padding-left: 20px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; color: var(--muted); }
+    th, td { border-top: 1px solid var(--line); padding: 9px 6px; text-align: left; vertical-align: top; }
+    th { color: var(--ink); font-size: 12px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; color: var(--muted); font-size: 12px; }
+    .pill { border: 1px solid rgba(23,25,28,.12); border-radius: 999px; padding: 4px 8px; background: #fff; font-weight: 850; }
+    .page-links { display: flex; flex-wrap: wrap; gap: 8px; }
+    .page-links a { min-height: 44px; display: inline-flex; align-items: center; border: 1px solid rgba(23,25,28,.12); border-radius: 8px; padding: 6px 10px; background: #fff; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="brand">
+        <img src="./icons/icon.svg" alt="" width="38" height="38">
+        <span>DropRadar</span>
+      </div>
+      <h1>プライバシーポリシー</h1>
+      <p>DropRadarは、公式発表へのリンクと短い独自要約を整理する非公式ツールです。個人情報と位置情報の収集を最小限にします。</p>
+      <div class="meta">
+        <span class="pill">No GPS storage</span>
+        <span class="pill">No ad tracking</span>
+        <span class="pill">No sale of data</span>
+        <span>最終更新: 2026-07-07</span>
+      </div>
+      <div class="page-links" aria-label="related policy pages">
+        <a href="./legal.html">ポリシー・権利者窓口</a>
+        <a href="./accessibility.html">アクセシビリティ</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>収集・利用する情報</h2>
+      <table>
+        <thead>
+          <tr><th>情報</th><th>目的</th><th>保存</th><th>共有</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>公開商品・イベント情報</td>
+            <td>公式発表を整理して表示するため</td>
+            <td>公開データとして保存</td>
+            <td>公開ページで表示</td>
+          </tr>
+          <tr>
+            <td>追跡リクエスト、候補票、問題票</td>
+            <td>需要の把握、重複防止、管理確認のため</td>
+            <td>Supabaseに保存する場合があります</td>
+            <td>公開画面には語句、票数、状態など必要最小限のみ表示</td>
+          </tr>
+          <tr>
+            <td>お気に入り、予算、予定、メモ</td>
+            <td>利用者本人の推し活管理のため</td>
+            <td>現段階では端末内保存を基本とします</td>
+            <td>第三者へ販売・提供しません</td>
+          </tr>
+          <tr>
+            <td>現在地</td>
+            <td>近い候補を並べ替えるため</td>
+            <td>サーバーへ保存しません</td>
+            <td>DropRadarから第三者へ提供しません</td>
+          </tr>
+          <tr>
+            <td>管理者ログイン情報</td>
+            <td>管理者だけが採用、却下、隔離を行うため</td>
+            <td>Supabase Authで管理</td>
+            <td>公開表示しません</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>位置情報</h2>
+      <ul>
+        <li>GPSは任意です。拒否しても新商品、検索、日程、マイページなど主要機能は使えます。</li>
+        <li>現在地は、利用者が「現在地を使う」を押した時だけ取得します。</li>
+        <li>現在地は近い順表示など端末内の一時処理に使い、DropRadarのサーバーへ保存しません。</li>
+        <li>外部地図アプリへ移動する時は、原則として目的地だけを渡します。外部地図アプリ側のデータ処理は各サービスのポリシーに従います。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>第三者サービス</h2>
+      <ul>
+        <li>公開ホスティングにGitHub Pagesを使います。</li>
+        <li>公開データ、追跡リクエスト、管理確認にSupabaseを使います。</li>
+        <li>問い合わせにはGmailを使います。</li>
+        <li>地図ボタンからGoogle MapsやApple Mapsなど外部地図を開く場合があります。</li>
+        <li>現時点で広告ネットワーク、行動追跡広告、個人データ販売は行いません。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>問い合わせ・削除</h2>
+      <p>権利者様からの削除依頼、権利侵害の指摘、重要な掲載修正、プライバシー上の重大な連絡は下記へお願いします。一般的な使い勝手、表示の好み、機能要望、個別サポートには原則対応しません。</p>
+      <p><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=dropradar.helpdesk%40gmail.com&amp;su=DropRadar%20privacy%20or%20rights%20desk&amp;body=%E8%A9%B2%E5%BD%93URL%3A%0A%E5%86%85%E5%AE%B9%3A%0A%E3%81%94%E9%80%A3%E7%B5%A1%E5%85%88%3A%0A" target="_blank" rel="noopener noreferrer">dropradar.helpdesk@gmail.com</a></p>
+    </section>
+
+    <section>
+      <h2>English Summary</h2>
+      <p>DropRadar minimizes personal data collection. GPS is optional, requested only after a user action, used temporarily for nearby sorting, and not stored by DropRadar. Favorites, budgets, plans, and notes are treated as personal planning data and are local-first at this stage. Tracking requests and votes may be stored to prevent duplicates and support admin review. DropRadar does not sell personal data or use ad tracking.</p>
+    </section>
+  </main>
+</body>
+</html>

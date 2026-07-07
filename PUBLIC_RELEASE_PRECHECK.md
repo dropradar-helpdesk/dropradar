@@ -6,7 +6,7 @@ Updated: 2026-07-07
 
 DropRadar is close to a public web/PWA preview. It is not ready for App Store submission yet.
 
-Ready enough for a controlled public web preview:
+Ready enough for a controlled public web/PWA preview:
 
 - GitHub Pages deployment is active.
 - GitHub Pages deployment runs `npm run release:qa` before publishing.
@@ -16,18 +16,21 @@ Ready enough for a controlled public web preview:
 - Loginless tracking requests use RPC boundaries.
 - GPS is optional and is not part of the backend storage model.
 - Contact inbox is configured as `dropradar.helpdesk@gmail.com`.
-- Public policy/contact draft is available at `legal.html`.
+- Public policy/contact page is available at `legal.html`.
+- Privacy policy URL is available at `privacy.html`.
+- Accessibility statement is available at `accessibility.html`.
+- Store review notes draft is available at `store-submission-notes.md`.
 - Daily official ingest workflow exists and is scheduled once per day.
 - Approved tracking requests are read by daily ingest, matched against their source lane, and inserted into `intake_candidates` with `request_id`.
 
 ## Do Not Launch as a Store App Until These Are Done
 
 - Lawyer review of copyright, trademark, crawling, privacy, and terms.
-- Final privacy policy wording for App Store metadata.
+- Confirm the final privacy labels in `store-submission-notes.md` match the actual native wrapper / SDK behavior.
 - Store screenshots that avoid third-party copyrighted images/logos.
 - Native wrapper decision, for example PWA only first or Capacitor/TestFlight later.
 - Final app store description clearly saying unofficial.
-- Accessibility pass on keyboard, screen reader labels, contrast, text zoom, and dialog focus.
+- Accessibility pass on keyboard, screen reader labels, contrast, text zoom, dialog focus, and touch target size.
 - Takedown process test using the public Gmail.
 
 ## Operational Boundaries
@@ -35,6 +38,7 @@ Ready enough for a controlled public web preview:
 - Do not rehost official product images or copyrighted visuals.
 - Do not promise stock, lottery success, route success, or schedule accuracy.
 - Do not store GPS history.
+- Do not add analytics, ad SDKs, push notifications, native GPS background use, or login sync without updating `privacy.html`, `store-submission-notes.md`, and App Store / Google Play disclosures.
 - Do not expose service-role keys, admin JWTs, DB passwords, or ingest secrets in public files.
 - Do not enable open chat or user image uploads before moderation/reporting tools exist.
 

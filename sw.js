@@ -1,4 +1,4 @@
-const CACHE_VERSION = "dropradar-pwa-v48";
+const CACHE_VERSION = "dropradar-pwa-v49";
 const APP_CACHE = `${CACHE_VERSION}-app`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 
@@ -6,6 +6,8 @@ const APP_SHELL = [
   "./",
   "./index.html",
   "./legal.html",
+  "./privacy.html",
+  "./accessibility.html",
   "./offline.html",
   "./manifest.webmanifest",
   "./icons/icon.svg",
