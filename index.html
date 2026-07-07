@@ -326,39 +326,6 @@
       color: rgba(255,255,255,.72);
     }
 
-    .tabs {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 4px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 4px;
-      background: rgba(255,255,255,.72);
-      margin: 8px 0 12px;
-    }
-    .tab {
-      min-height: 37px;
-      border: 0;
-      border-radius: 6px;
-      background: transparent;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 750;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2px;
-    }
-    .tab svg {
-      width: 16px;
-      height: 16px;
-    }
-    .tab.active {
-      background: var(--ink);
-      color: #fff;
-    }
-
     .rail {
       display: flex;
       gap: 7px;
@@ -668,9 +635,7 @@
       flex-direction: column;
     }
     body:not([data-screen="home"]) .search-wrap,
-    body:not([data-screen="home"]) .priority-panel,
     body:not([data-screen="home"]) .quick-stats,
-    body:not([data-screen="home"]) .tabs,
     body:not([data-screen="home"]) #chipRail {
       display: none;
     }
@@ -3950,114 +3915,6 @@
       position: relative;
       padding: 14px 14px 88px;
     }
-    .priority-panel {
-      overflow: hidden;
-      border: 1px solid rgba(23,25,28,.12);
-      border-radius: 8px;
-      background:
-        linear-gradient(135deg, #1b2023 0%, #253331 52%, #fdf7e9 52%, #fffdf7 100%);
-      box-shadow: var(--shadow);
-      margin-bottom: 12px;
-    }
-    .priority-hero {
-      padding: 15px 14px 13px;
-      color: #fff;
-      max-width: 62%;
-    }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      height: 22px;
-      padding: 0 8px;
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      font-size: 10px;
-      font-weight: 850;
-      letter-spacing: .06em;
-    }
-    .priority-hero h1 {
-      margin: 9px 0 5px;
-      font-size: 20px;
-      line-height: 1.14;
-      letter-spacing: 0;
-    }
-    .priority-hero p {
-      margin: 0;
-      color: rgba(255,255,255,.72);
-      font-size: 11.5px;
-      line-height: 1.45;
-    }
-    .priority-list {
-      display: grid;
-      gap: 1px;
-      background: rgba(23,25,28,.08);
-      border-top: 1px solid rgba(23,25,28,.1);
-    }
-    .priority-row {
-      width: 100%;
-      border: 0;
-      background: rgba(255,255,252,.92);
-      display: grid;
-      grid-template-columns: 54px 1fr auto;
-      gap: 10px;
-      align-items: center;
-      padding: 10px 11px;
-      text-align: left;
-    }
-    .priority-date {
-      display: grid;
-      place-items: center;
-      min-height: 48px;
-      border-radius: 7px;
-      background: #17191c;
-      color: #fff;
-      text-align: center;
-      box-shadow: inset 0 -12px 20px rgba(255,255,255,.08);
-    }
-    .priority-date small {
-      display: block;
-      font-size: 9px;
-      opacity: .68;
-      font-weight: 850;
-    }
-    .priority-date strong {
-      display: block;
-      margin-top: 2px;
-      font-size: 16px;
-      line-height: 1;
-    }
-    .priority-copy {
-      min-width: 0;
-      display: grid;
-      gap: 3px;
-    }
-    .priority-copy strong {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-size: 13px;
-      line-height: 1.2;
-    }
-    .priority-copy span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      color: var(--muted);
-      font-size: 11px;
-    }
-    .priority-status {
-      height: 24px;
-      padding: 0 8px;
-      border-radius: 999px;
-      background: #eef5f3;
-      color: #007d73;
-      display: inline-flex;
-      align-items: center;
-      font-size: 10px;
-      font-weight: 850;
-      white-space: nowrap;
-    }
     .priority-empty {
       padding: 14px;
       background: rgba(255,255,252,.92);
@@ -4084,15 +3941,6 @@
     }
     .stat strong {
       font-size: 24px;
-    }
-    .tabs {
-      border-color: rgba(23,25,28,.1);
-      background: rgba(255,255,252,.76);
-      box-shadow: 0 8px 18px rgba(23,25,28,.045);
-    }
-    .tab.active {
-      background: #17191c;
-      box-shadow: 0 6px 15px rgba(23,25,28,.18);
     }
     .chip {
       border-color: rgba(23,25,28,.1);
@@ -4668,7 +4516,6 @@
         <div class="top-actions">
           <button class="icon-btn lang-btn" id="langToggle" type="button" title="Language" aria-label="言語を英語に切り替え">EN</button>
           <button class="icon-btn admin-btn" id="adminModeToggle" type="button" aria-pressed="false">管理者</button>
-          <button class="icon-btn" type="button" title="Alerts" aria-label="通知メモ"><svg><use href="#i-bell"/></svg></button>
         </div>
       </div>
       <div class="search-wrap" role="search">
@@ -4679,15 +4526,6 @@
     </header>
 
     <main id="mainContent" tabindex="-1">
-      <section class="priority-panel" aria-label="priority briefing">
-        <div class="priority-hero">
-          <span class="eyebrow" data-i18n="signalEyebrow">公式発表ベース</span>
-          <h1 data-i18n="signalTitle">新商品・限定・コラボを拾う</h1>
-          <p data-i18n="signalCopy">ガンプラ、トレカ、フィギュア、くじ、食玩、飲食コラボを1画面に圧縮。</p>
-        </div>
-        <div class="priority-list" id="priorityList"></div>
-      </section>
-
       <section class="quick-stats" aria-label="summary">
         <button class="stat" type="button" data-summary-filter="open" aria-pressed="false">
           <strong id="countOpen">0</strong>
@@ -4702,14 +4540,6 @@
           <span data-i18n="statLimit">購入制限あり</span>
         </button>
       </section>
-
-      <div class="tabs" aria-label="status filters">
-        <button class="tab active" type="button" data-view-filter="all"><svg><use href="#i-list"/></svg><span data-i18n="tabAll">全部</span></button>
-        <button class="tab" type="button" data-view-filter="deadline"><svg><use href="#i-clock"/></svg><span data-i18n="tabDeadline">締切</span></button>
-        <button class="tab" type="button" data-view-filter="lottery"><svg><use href="#i-ticket"/></svg><span data-i18n="tabLottery">抽選</span></button>
-        <button class="tab" type="button" data-view-filter="store"><svg><use href="#i-pin"/></svg><span data-i18n="tabStore">店頭</span></button>
-        <button class="tab" type="button" data-view-filter="online"><svg><use href="#i-link"/></svg><span data-i18n="tabOnline">通販</span></button>
-      </div>
 
       <div class="rail" id="chipRail"></div>
 
@@ -4730,27 +4560,6 @@
           <div class="request-sync-banner" id="requestSyncBanner" aria-live="polite"></div>
           <div class="request-sensor-panel" id="requestSensorPanel"></div>
           <div class="request-admin-list" id="requestAdminList"></div>
-        </div>
-        <div class="today-panel">
-          <div class="mini-section-head">
-            <h3 data-i18n="todayQueueTitle">今日だけ見る</h3>
-            <span data-i18n="todayQueueSub">迷いを減らす</span>
-          </div>
-          <div class="today-grid" id="todayGrid"></div>
-        </div>
-        <div class="notice-panel">
-          <div class="mini-section-head">
-            <h3 data-i18n="noticeTitle">通知メモ</h3>
-            <span data-i18n="noticeSub">忘れる前提</span>
-          </div>
-          <div class="notice-list" id="noticeList"></div>
-        </div>
-        <div class="creator-panel">
-          <div class="mini-section-head">
-            <h3 data-i18n="creatorTitle">作者/作画で追う</h3>
-            <span data-i18n="creatorSub">絵柄ファンも逃さない</span>
-          </div>
-          <div class="creator-list" id="creatorList"></div>
         </div>
         <div class="source-panel verification-queue-panel" id="verificationQueuePanel" hidden>
           <div class="mini-section-head">
@@ -5415,28 +5224,14 @@
         skipMain: "本文へ移動",
         tagline: "推し活・ホビー・原作を逃がさないサポート",
         searchLabel: "キーワードで探す",
-        signalEyebrow: "公式発表ベース",
-        signalTitle: "新商品・限定・コラボを拾う",
-        signalCopy: "ガンプラ、トレカ、フィギュア、くじ、食玩、飲食コラボを1画面に圧縮。",
         statOpen: "発売中/予約中",
         statWeek: "今週発売/開始",
         statLimit: "購入制限あり",
-        tabAll: "全部",
-        tabDeadline: "締切",
-        tabLottery: "抽選",
-        tabStore: "店頭",
-        tabOnline: "通販",
         todayTitle: "新商品",
         sortUpcoming: "近日順",
         sortNewest: "新しい順",
         sortOldest: "古い順",
         sortAria: "並び順",
-        todayQueueTitle: "今日だけ見る",
-        todayQueueSub: "迷いを減らす",
-        noticeTitle: "通知メモ",
-        noticeSub: "忘れる前提",
-        creatorTitle: "作者/作画で追う",
-        creatorSub: "絵柄ファンも逃さない",
         sourceTitle: "公式監視ソース",
         sourceSub: "更新の土台",
         sourceHealthTitle: "巡回ヘルス",
@@ -5447,8 +5242,6 @@
         sourceHealthUnseen: "未巡回",
         sourceHealthSkipped: "robots未確認",
         sourceHealthNoAdmin: "管理モードで確認できます。",
-        priorityEmptyTitle: "今すぐ対応する確定締切はありません",
-        priorityEmptyCopy: "調査中の告知は新商品一覧で確認できます。",
         intakeTitle: "自動取込キュー",
         intakeSub: "公式差分とリクエストを軽く確認",
         storageTitle: "保存基盤",
@@ -5709,28 +5502,14 @@
         skipMain: "Skip to main content",
         tagline: "Tracking support for hobby, collab, and source news",
         searchLabel: "Search by keyword",
-        signalEyebrow: "OFFICIAL FIRST",
-        signalTitle: "Catch new hobby drops and collabs",
-        signalCopy: "Gunpla, cards, figures, kuji, candy toys, and food collabs in one view.",
         statOpen: "Live/preorder",
         statWeek: "This week",
         statLimit: "With limits",
-        tabAll: "All",
-        tabDeadline: "Due",
-        tabLottery: "Lottery",
-        tabStore: "Store",
-        tabOnline: "Online",
         todayTitle: "New items",
         sortUpcoming: "Upcoming",
         sortNewest: "Newest",
         sortOldest: "Oldest",
         sortAria: "Sort order",
-        todayQueueTitle: "Today only",
-        todayQueueSub: "Reduce choices",
-        noticeTitle: "Reminder notes",
-        noticeSub: "Assume you will forget",
-        creatorTitle: "Track writers and artists",
-        creatorSub: "For art-style fans too",
         sourceTitle: "Official watch sources",
         sourceSub: "Update base",
         sourceHealthTitle: "Ingest health",
@@ -5741,8 +5520,6 @@
         sourceHealthUnseen: "Not checked",
         sourceHealthSkipped: "Robots pending",
         sourceHealthNoAdmin: "Available in admin mode.",
-        priorityEmptyTitle: "No confirmed urgent deadlines",
-        priorityEmptyCopy: "Pending notices stay in the normal new-items list.",
         intakeTitle: "Auto intake queue",
         intakeSub: "Light review for official diffs and requests",
         storageTitle: "Storage base",
@@ -6597,7 +6374,6 @@
 
     const state = {
       lang: "ja",
-      viewFilter: "all",
       actionFilter: "none",
       tag: "すべて",
       feedSort: "upcoming",
@@ -7008,60 +6784,6 @@
         }
       }
     };
-
-    const noticeRules = [
-      {
-        icon: "i-bell",
-        titleJa: "抽選・予約は締切前日と当日朝",
-        titleEn: "Lottery and booking: day before and morning-of",
-        copyJa: "応募条件や会員ログインで詰まりやすいので、現地移動中に初回確認しない。",
-        copyEn: "Eligibility and account login can block you, so do not check for the first time while moving."
-      },
-      {
-        icon: "i-pin",
-        titleJa: "近くに来たら店舗検索を開く",
-        titleEn: "Open store search when nearby",
-        copyJa: "在庫保証ではなく、公式の取扱店舗/整理券/購入制限を確認する導線にする。",
-        copyEn: "Use it as a path to official store lists, entry tickets, and purchase limits, not as a stock guarantee."
-      },
-      {
-        icon: "i-clock",
-        titleJa: "休憩・帰り道も通知対象",
-        titleEn: "Breaks and the way home are reminders too",
-        copyJa: "推し活遠征は疲労で判断が雑になる。休憩、食事、帰りの足を先に守る。",
-        copyEn: "On hobby days, fatigue makes decisions worse. Protect breaks, food, and the route home."
-      }
-    ];
-
-    const creatorTracks = [
-      {
-        icon: "i-book",
-        chipJa: "原作",
-        chipEn: "Writer",
-        titleJa: "原作者の別作品・新連載",
-        titleEn: "Writer's other works and new serializations",
-        copyJa: "作品名だけでなく、原作者名でも追う。別作のアニメ化や新刊も拾う。",
-        copyEn: "Track by writer name, not only series title. Catch other works, adaptations, and volumes."
-      },
-      {
-        icon: "i-star",
-        chipJa: "作画",
-        chipEn: "Artist",
-        titleJa: "作画担当の絵柄買い・画集",
-        titleEn: "Artist-led follows and artbooks",
-        copyJa: "絵が好きな層向けに、作画担当の別連載、画集、表紙仕事、展示を関連表示。",
-        copyEn: "For art-style fans, surface the artist's other series, artbooks, covers, and exhibitions."
-      },
-      {
-        icon: "i-card",
-        chipJa: "分業",
-        chipEn: "Credits",
-        titleJa: "原作/作画/キャラデザを分解",
-        titleEn: "Split writer, artist, and designer credits",
-        copyJa: "原作と作画が違う作品は、別名義・関連作・イラスト仕事を別軸で保存。",
-        copyEn: "When credits are split, save aliases, related works, and illustration roles separately."
-      }
-    ];
 
     const autoIntakeRules = [
       {
@@ -10985,14 +10707,6 @@
       ];
     }
 
-    function todayQueue() {
-      const pool = userFacingDrops();
-      return actionDefinitions().map((definition) => {
-        const matches = pool.filter(definition.match).sort(definition.sort);
-        return { ...definition, count: matches.length, drop: matches[0] };
-      });
-    }
-
     function visualKind(drop) {
       return "signal";
     }
@@ -11043,10 +10757,7 @@
       const queryTerms = q.split(/\s+/).filter(Boolean);
       const bySearch = !queryTerms.length || queryTerms.every((term) => title.includes(term));
       const byTag = tagMatchesDrop(drop, state.tag);
-      const byView = state.viewFilter === "all"
-        || (state.viewFilter === "deadline" && ["lottery", "online"].includes(drop.state))
-        || drop.state === state.viewFilter;
-      return bySearch && byTag && byView && matchesActionFilter(drop);
+      return bySearch && byTag && matchesActionFilter(drop);
     }
 
     function paintI18n() {
@@ -11154,26 +10865,6 @@
       `;
     }
 
-    function renderPriority() {
-      const items = userFacingDrops()
-        .filter(matchesFilter)
-        .filter((drop) => dropDateVerified(drop, "deadline") && !drop.deadlineNotRequired && withinDays(drop.deadline, 0, 14))
-        .sort((a, b) => dropDateSortValue(a, "deadline").localeCompare(dropDateSortValue(b, "deadline")))
-        .slice(0, 3);
-      $("#priorityList").innerHTML = items.length ? items.map((drop) => {
-        const title = state.lang === "ja" ? drop.titleJa : drop.titleEn;
-        const area = state.lang === "ja" ? drop.areaJa : drop.areaEn;
-        const status = state.lang === "ja" ? drop.statusJa : drop.statusEn;
-        return `
-          <button class="priority-row" data-open="${drop.id}">
-            <span class="priority-date"><small>${state.lang === "ja" ? "締切" : "Due"}</small><strong>${dropDateShortText(drop, "deadline")}</strong></span>
-            <span class="priority-copy"><strong>${title}</strong><span>${drop.source} / ${area}</span></span>
-            <span class="priority-status">${status}</span>
-          </button>
-        `;
-      }).join("") : `<div class="priority-empty"><strong>${text("priorityEmptyTitle")}</strong><span>${text("priorityEmptyCopy")}</span></div>`;
-    }
-
     function trackingRequestEmptyHtml(query) {
       const clean = normalizeRequestTerm(query);
       const request = trackingRequestFor(clean);
@@ -11242,62 +10933,6 @@
       $$("[data-request-vote]", emptyState).forEach((button) => button.addEventListener("click", () => {
         castTrackingRequestVote(button.dataset.requestVoteTerm, button.dataset.requestVote);
       }));
-    }
-
-    function renderTodayQueue() {
-      $("#todayGrid").innerHTML = todayQueue().map((item) => {
-        const title = item.drop
-          ? (state.lang === "ja" ? item.drop.titleJa : item.drop.titleEn)
-          : (state.lang === "ja" ? "該当なし" : "No match");
-        return `
-          <button class="today-card ${state.actionFilter === item.id ? "active" : ""}" data-action-filter="${item.id}" aria-pressed="${state.actionFilter === item.id}">
-            <small>${countText(item.count)}</small>
-            <strong>${state.lang === "ja" ? item.labelJa : item.labelEn}</strong>
-            <span>${state.lang === "ja" ? item.copyJa : item.copyEn}</span>
-            <span class="action-lead">${title}</span>
-          </button>
-        `;
-      }).join("");
-      $$("[data-action-filter]", $("#todayGrid")).forEach((button) => button.addEventListener("click", () => {
-        state.actionFilter = state.actionFilter === button.dataset.actionFilter ? "none" : button.dataset.actionFilter;
-        state.viewFilter = "all";
-        state.tag = "すべて";
-        state.search = "";
-        $("#searchInput").value = "";
-        render();
-      }));
-    }
-
-    function renderNotices() {
-      $("#noticeList").innerHTML = noticeRules.map((item, index) => `
-        <article class="notice-card">
-          <span class="notice-icon"><svg><use href="#${item.icon}"/></svg></span>
-          <span class="notice-copy">
-            <span class="notice-row">
-              <span class="notice-chip ${index === 0 ? "risk" : "warn"}">${state.lang === "ja" ? "通知" : "Reminder"}</span>
-              <span class="notice-chip">${index === 0 ? (state.lang === "ja" ? "締切前" : "Before due") : index === 1 ? (state.lang === "ja" ? "近く" : "Nearby") : (state.lang === "ja" ? "休憩" : "Break")}</span>
-            </span>
-            <strong>${state.lang === "ja" ? item.titleJa : item.titleEn}</strong>
-            <span>${state.lang === "ja" ? item.copyJa : item.copyEn}</span>
-          </span>
-        </article>
-      `).join("");
-    }
-
-    function renderCreators() {
-      $("#creatorList").innerHTML = creatorTracks.map((item) => `
-        <article class="creator-card">
-          <span class="creator-icon"><svg><use href="#${item.icon}"/></svg></span>
-          <span class="creator-copy">
-            <span class="notice-row">
-              <span class="notice-chip official">${state.lang === "ja" ? item.chipJa : item.chipEn}</span>
-              <span class="notice-chip">${state.lang === "ja" ? "関連作" : "Related"}</span>
-            </span>
-            <strong>${state.lang === "ja" ? item.titleJa : item.titleEn}</strong>
-            <span>${state.lang === "ja" ? item.copyJa : item.copyEn}</span>
-          </span>
-        </article>
-      `).join("");
     }
 
     function formatCheckTime(value) {
@@ -14214,11 +13849,7 @@
       buildChips();
       renderFeedSort();
       renderStats();
-      renderPriority();
       renderFeed();
-      renderTodayQueue();
-      renderNotices();
-      renderCreators();
       renderSourceRegistry();
       renderAutoIntake();
       renderRequestAdmin();
@@ -14235,24 +13866,14 @@
         button.classList.toggle("active", active);
         button.setAttribute("aria-pressed", String(active));
       });
-      $$(".tab").forEach((button) => button.classList.toggle("active", button.dataset.viewFilter === state.viewFilter));
-      $$(".tab").forEach((button) => button.setAttribute("aria-pressed", button.dataset.viewFilter === state.viewFilter));
       $$("svg").forEach((icon) => {
         icon.setAttribute("aria-hidden", "true");
         icon.setAttribute("focusable", "false");
       });
     }
 
-    $$(".tab").forEach((button) => {
-      button.addEventListener("click", () => {
-        state.viewFilter = button.dataset.viewFilter;
-        state.actionFilter = "none";
-        render();
-      });
-    });
     $$("[data-summary-filter]").forEach((button) => {
       button.addEventListener("click", () => {
-        state.viewFilter = "all";
         state.actionFilter = state.actionFilter === button.dataset.summaryFilter ? "none" : button.dataset.summaryFilter;
         render();
       });
