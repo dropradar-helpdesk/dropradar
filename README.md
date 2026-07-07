@@ -104,7 +104,7 @@ npx cap sync ios
 npx cap open ios
 ```
 
-See `APP_BUILD_NOTES.md` for the current app ID, privacy URLs, and first-submission scope.
+See `APP_BUILD_NOTES.md` for the build path and `APP_STORE_REGISTRATION.md` for App Store Connect copy/paste values.
 
 ## GitHub Pages
 
@@ -170,6 +170,7 @@ Then push to `main`. The Pages workflow publishes the static app to GitHub Pages
 |   `-- supabase-smoke-test.mjs
 |-- legal-and-accessibility-checklist.md
 |-- APP_BUILD_NOTES.md
+|-- APP_STORE_REGISTRATION.md
 |-- store-submission-notes.md
 |-- package.json
 |-- start-local-server.ps1
@@ -484,4 +485,4 @@ Sub value:
 4. Add GitHub repository secrets, run `.github/workflows/dropradar-daily-ingest.yml` manually once with `dry_run=true`, then enable the daily schedule.
 5. Connect spot locations to Supabase reads.
 6. Keep periodic inbox checks for `dropradar.helpdesk@gmail.com`, especially after launch and after source/collab updates.
-7. For the native app path, use `APP_BUILD_NOTES.md`, build `native-www`, then continue the iOS project on macOS/Xcode. Review legal/privacy wording before monetization, US-heavy marketing, ads, chat, uploads, or paid features.
+7. For the native app path, use `APP_BUILD_NOTES.md`, `APP_STORE_REGISTRATION.md`, build `native-www`, then continue the iOS project on macOS/Xcode. Review legal/privacy wording before monetization, US-heavy marketing, ads, chat, uploads, or paid features.

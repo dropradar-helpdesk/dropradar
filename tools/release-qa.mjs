@@ -125,7 +125,7 @@ function checkPolicyPages(indexHtml, legalHtml, privacyHtml, accessibilityHtml, 
   }
 }
 
-function checkNativeWrapper(packageJson, capConfig, appBuildNotes, nativeBuildScript) {
+function checkNativeWrapper(packageJson, capConfig, appBuildNotes, appStoreRegistration, nativeBuildScript) {
   if (!packageJson) return;
   const scripts = packageJson.scripts || {};
   for (const scriptName of ["build:native-web", "native:sync", "native:add:ios", "native:add:android"]) {
@@ -156,6 +156,16 @@ function checkNativeWrapper(packageJson, capConfig, appBuildNotes, nativeBuildSc
   }
   for (const token of ["ads", "analytics"]) {
     if (!appBuildNotesLower.includes(token)) errors.push(`APP_BUILD_NOTES.md missing native exclusion note: ${token}`);
+  }
+  for (const token of [
+    "Bundle ID: com.dropradar.app",
+    "SKU: dropradar-ios-20260707",
+    "Privacy Policy URL",
+    "Support URL",
+    "Tracking: No",
+    "Primary category: Entertainment"
+  ]) {
+    if (!appStoreRegistration.includes(token)) errors.push(`APP_STORE_REGISTRATION.md missing registration value: ${token}`);
   }
   for (const token of ["native-www", "app-config.json", "data"]) {
     if (!nativeBuildScript.includes(token)) errors.push(`tools/build-native-web.mjs missing expected native copy guard: ${token}`);
@@ -248,6 +258,7 @@ const privacyHtml = requireFile("privacy.html");
 const accessibilityHtml = requireFile("accessibility.html");
 const storeNotes = requireFile("store-submission-notes.md");
 const appBuildNotes = requireFile("APP_BUILD_NOTES.md");
+const appStoreRegistration = requireFile("APP_STORE_REGISTRATION.md");
 const nativeBuildScript = requireFile("tools/build-native-web.mjs");
 const sw = requireFile("sw.js");
 const packageJson = readJson(path.join(root, "package.json"));
@@ -273,7 +284,7 @@ checkScripts(indexHtml);
 checkManifest(manifest);
 checkContact(indexHtml, legalHtml, privacyHtml, accessibilityHtml, contact);
 checkPolicyPages(indexHtml, legalHtml, privacyHtml, accessibilityHtml, storeNotes);
-checkNativeWrapper(packageJson, capConfig, appBuildNotes, nativeBuildScript);
+checkNativeWrapper(packageJson, capConfig, appBuildNotes, appStoreRegistration, nativeBuildScript);
 checkDrops(drops);
 checkSources(sources);
 checkPublicConfig(publicConfig);
